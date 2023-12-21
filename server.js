@@ -15,6 +15,6 @@ app.post()
 const PORTA = process.env.PORT || 8888
 
 app.listen(PORTA, () => {
-    console.log(`O servidor está a ouvir na porta ${PORTA}`)
+    console.log(`O servidor está a ouvir na porta http://localhost:${PORTA}`)
 })
 
