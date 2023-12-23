@@ -29,6 +29,7 @@ a{
 }
 
 #login{
+    display: none;
     background-color: gray;
 }
 
