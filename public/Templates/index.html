@@ -14,13 +14,25 @@
             <ul id="home">
                 <img src="../Images/logo.png" id="home" onclick="goHome()" href="#"></img>
             </ul>
-            <ul class="nav">
-                <button onclick="post()" href="#">Post</button>
-                <button onclick="signup()" href="#">Signup</button>
-                <button onclick="login()" href="#">Login</button>
-                <button onclick="editProfile()" href="#">Edit Profile</button>
-                <button>Logout</button>
-            </ul> 
+            <div id="hamburger-menu">
+                <button id="dropMenu" onclick="showMenu('.nav-responsive')">&#9776;</button>  
+
+                <ul class="nav"> 
+                    <button onclick="post()">Post</button>
+                    <button onclick="signin()">Sign in</button>
+                    <button onclick="login()">Login</button>
+                    <button onclick="editProfile()">Profile</button>
+                    <button id="signout">Signout</button>
+                </ul> 
+
+                <ul class="nav-responsive">
+                    <ul><button onclick="post()">Post</button></ul>
+                    <ul><button onclick="signin()">Sign in</button></ul>
+                    <ul><button onclick="login()">Login</button></ul>
+                    <ul><button onclick="editProfile()">Profile</button></ul>                    
+                    <ul><button id="signout">Signout</button></ul>
+                </ul>
+            </div>
 
             <!-- <p><label for="menu">Menu:</label>
                 <select name="menu" id="menu-input">
@@ -32,18 +44,6 @@
             </p> -->
         </div>
     </header>
-    <div id="Consult" style="display:none;">
-        <h3>You are consulting the database now</h3>
-    </div>
-    <div id="Insert" style="display:none;">
-        <h3>You are inserting the database now</h3>
-    </div>
-    <div id="Update" style="display:none;">
-        <h3>You are updating the database now</h3>
-    </div>
-    <div id="Delete" style="display:none;">
-        <h3>You are deleting the database now</h3>
-    </div>
 <footer class="footer-container">
     <div class="footer-content">
         <p>Duarte Rodrigues - 30009658</p> 

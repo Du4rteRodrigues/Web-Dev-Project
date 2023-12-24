@@ -18,6 +18,26 @@ section {
   align-items: center;   
 }
 
+button{
+  border-radius: 5px;
+  font-size: large;
+  color: white;
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+button:hover{
+  background-color: lightgray;
+  color: black;
+  -webkit-transition: background-color 100ms linear;
+  -webkit-transition: color 100ms linear;
+}
+
+img{
+  cursor: pointer;
+}
+
 h2{
   color: white;
   text-align: center;
@@ -50,13 +70,43 @@ a{
   float:left
 }
 
+#signout{
+  color: red;
+}
+
+#dropMenu{
+  margin-top: 30px;
+  position: absolute;
+  top: 0;
+  right: 0;
+  display: inline-block;
+  margin-right: 5vw;
+  display: none;
+}
+
+#dropMenu:hover{
+  background-color: lightgray;
+  color: black;
+  -webkit-transition: background-color 100ms linear;
+  -webkit-transition: color 200ms linear;
+}
+
 .nav{
   margin-top: 30px;
   position: absolute;
   top: 0;
   right: 0;
   display: inline-block;
-  
+}
+
+.nav-responsive{
+  display: none;
+  margin-top: 30px;
+  position: absolute;
+  top: 0;
+  right: 0;
+  margin-top: 4vh;
+  margin-right: 10vw;
 }
 
 .footer-container{
@@ -88,4 +138,19 @@ a{
 
 .header-content {
   color: white;
+}
+
+@media only screen and (max-width: 600px) {
+
+  .nav{
+    display: none;
+  }
+
+  .nav-responsive{
+    display: none;
+  }
+
+  #dropMenu{
+    display: block;
+  }
 }
