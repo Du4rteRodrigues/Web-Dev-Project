@@ -15,15 +15,36 @@
                 <img src="../Images/logo.png" id="home" onclick="goHome()" href="#"></img>
             </ul>
             <div id="hamburger-menu">
-                <button id="dropMenu" onclick="showMenu('.nav-responsive')">&#9776;</button>  
+                <button id="dropMenu" onclick="showMenu('.nav-responsive-container')">&#9776;</button> 
 
                 <ul class="nav"> 
                     <button onclick="post()">Post</button>
-                    <button onclick="profile()">Profile</button>
-                    <button onclick ="logout()">Logout</button>
+
+                    <button onclick="signin()">Sign in</button>
+                    <button onclick="login()">Login</button>
+                    <button onclick="editProfile()">Profile</button>
+                    <button id="signout">Signout</button>
+                </ul> 
+
+                <ul class="nav-responsive">
+                    <div class = "nav-responsive-container">
+                        <ul><button onclick="post()">Post</button></ul>
+                        <ul><button onclick="signin()">Sign in</button></ul>
+                        <ul><button onclick="login()">Login</button></ul>
+                        <ul><button onclick="editProfile()">Profile</button></ul>                    
+                        <ul><button id="signout">Signout</button></ul>
+                    </div>
+                </ul>
+
             </div>
         </div>
     </header>
+    <br>
+    <br>
+    <br>
+    <br>
+    <section id="posts">
+    </section>
 <footer class="footer-container">
     <div class="footer-content">
         <p>Duarte Rodrigues - 30009658</p> 

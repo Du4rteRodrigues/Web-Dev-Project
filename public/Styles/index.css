@@ -52,18 +52,77 @@ a{
   color: blue;
 }
 
-#login{
-  background-color: gray;
+.post{
+  background-color: lightgray;
+  border-radius: 10px;
+  width: 700px;
+  height: 450px;
 }
 
+
+.post-content{
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  border-radius: 10px;
+  resize: none;
+}
 #signup{
   display: none;
   background-color: gray;
 }
 
-#recover{
-  display: none;
-  background-color: gray;
+#post-user{
+  font-size: xx-large;
+  margin-top: 10px;
+  margin-left: 2%;
+  float: left;
+  width: 30%;
+  height: 35px;
+  overflow: hidden;
+}
+
+#post-title{
+  font-size: x-large;
+  margin-top: 5px;
+  margin-right: 2%;
+  float: right;
+  width: 64%;  
+  height: 45px;
+  overflow: hidden;
+}
+
+#post-content{
+  width: 95%;
+  height: 75%;
+  font-size: x-large;
+  overflow: hidden;
+}
+
+.post-engagment{
+  margin-top: 7px;
+  background: none;
+  border: none;
+  font-size: xx-large;
+  border-radius: 10px;
+  float: right;
+  resize: none;
+  text-align: center;
+}
+
+.post-engagment-img{
+  float: right;
+}
+
+#post-likes{
+  margin-right: 15px;
+  width:100px;
+}
+
+#post-dislike-img{
+}
+
+#post-like-img{
 }
 
 #home{
@@ -71,12 +130,13 @@ a{
 }
 
 #signout{
-  display: none;
-  background-color: red;
+  color: red;
+  margin-right: 15px;
 }
 
 #dropMenu{
-  margin-top: 30px;
+  font-size: xx-large;
+  margin-top: 10px;
   position: absolute;
   top: 0;
   right: 0;
@@ -100,7 +160,7 @@ a{
   display: inline-block;
 }
 
-.nav-responsive{
+.nav-responsive-container{
   display: none;
   margin-top: 30px;
   position: absolute;
@@ -128,6 +188,7 @@ a{
 }
 
 .header-container{
+  top: 0;
   position: fixed;
   width: 100vw;
   height: 10vh;
@@ -143,15 +204,61 @@ a{
 
 @media only screen and (max-width: 600px) {
 
+
+  .header-container{
+    top: 0;
+    width: 100%;
+  }
+
+  .footer-container{
+    bottom: 0;
+    width: 100%;
+  }
+
+  ul{
+  }
+
   .nav{
     display: none;
   }
 
-  .nav-responsive{
+  .nav-responsive-container{
+    background-color: lightblue;
     display: none;
+    width: 200px;
+    text-align: center;
   }
+
+  .nav-responsive-container button{
+    background-color: yellow;
+    font-size: xx-large;
+    color: black;
+    display: flex;
+    margin-left: auto;
+    margin-right: auto;
+    
+  }
+
+  #home{background: none;}
 
   #dropMenu{
     display: block;
+  }
+
+  .post{
+    width: 100vw;
+    height: 550px;
+  }
+
+  #post-user{
+    margin-top: 25px;
+    font-size: xx-large;
+    width: 35%;
+    height: 30px;
+  }
+
+  #post-title{
+    width: 58%;
+    height: 70px;
   }
 }
