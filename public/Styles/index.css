@@ -56,7 +56,7 @@ a{
   background-color: gray;
 }
 
-#signin{
+#signup{
   display: none;
   background-color: gray;
 }
@@ -71,7 +71,8 @@ a{
 }
 
 #signout{
-  color: red;
+  display: none;
+  background-color: red;
 }
 
 #dropMenu{

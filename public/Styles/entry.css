@@ -29,11 +29,10 @@ a{
 }
 
 #login{
-    display: none;
     background-color: gray;
 }
 
-#signin{
+#signup{
     display: none;
     background-color: gray;
 }
@@ -42,6 +41,11 @@ a{
     display: none;
     background-color: gray;
 }
+
+#signout{
+    display: none;
+    background-color: red;
+  }
 
 .footer-container{
     position: fixed;
