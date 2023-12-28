@@ -1,21 +1,19 @@
 function goHome(){
-    window.location.replace("http://127.0.0.1:5500/public/Templates/index.html")
+    window.location.replace("http://localhost:8888/home")
 }
 function post(){
-    window.location.replace("http://127.0.0.1:5500/public/Templates/post.html")
+    window.location.replace("http://localhost:8888/post")
 }
 
-function signin(){
-    window.location.replace("http://127.0.0.1:5500/public/Templates/entry.html")
-    showForm(signin)
+function logout(){
+    window.location.replace("http://localhost:8888/logout")
+  
 }
 
-function login(){
-    window.location.replace("http://127.0.0.1:5500/public/Templates/entry.html")
+function profile(){
+    window.location.replace("http://localhost:8888/profile")
 }
 
-function editProfile(){
-}
 
 function showMenu(nav){
     elements = document.querySelectorAll(nav);
