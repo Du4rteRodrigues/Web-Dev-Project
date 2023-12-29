@@ -85,11 +85,10 @@ app.post("/post", (req, res) => {
 
 //Route that handles signup logic
 app.post("/signup", (req, res) => {
-    const fullname = req.body.fullname;
     const username = req.body.username;
     const password = req.body.password;
     const email = req.body.email;
-    const user = { fullname: fullname, username: username, password: password, email: email};
+    const user = { username: username, password: password, email: email};
     users.push(user);
     console.log(users);
     res.end("Registo recebido");
