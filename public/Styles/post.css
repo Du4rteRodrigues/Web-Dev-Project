@@ -4,25 +4,242 @@ body{
     display: flex;
     flex-direction: column;
     min-height: 100vh;
-}
-
-section {
+  }
+  
+  section {
     padding: 20px;
     border: hidden;
-    border-radius: 10px;
+    border-radius: 5px;
     margin: auto;
     width: 500px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;   
   }
-
-h2{
+  
+  button{
+    border-radius: 5px;
+    font-size: large;
+    color: white;
+    background: none;
+    border: none;
+    cursor: pointer;
+  }
+  
+  button:hover{
+    background-color: lightgray;
+    color: black;
+    -webkit-transition: background-color 100ms linear;
+    -webkit-transition: color 100ms linear;
+  }
+  
+  img{
+    cursor: pointer;
+  }
+  
+  h2{
     color: white;
     text-align: center;
-}
-
-a{
+  }
+  
+  h3{
+    color: white;
+  }
+  
+  a{
     font-size: small;
     color: blue;
+  }
+  #createPost{
+    background-color: gray;
 }
+
+#titleDiv{
+    align-items: start;
+}
+
+#postTitle{
+    font-size: large;
+    border-radius: 8px;
+    align-content: start;
+}
+
+#postContent{
+    font-size: large;
+    border-radius: 18px;
+    width: 100%;
+    height: 200px;
+    resize: none;
+}
+
+#createBtn{
+    border: none;
+    border-radius: 18px;
+    font-size: large;
+    width: 40%;
+    height: 50px;
+    transition: 0.2s ease-out;
+}
+
+#createBtn:hover{
+    background-color: lightblue;
+}
+S
+  #signup{
+    display: none;
+    background-color: gray;
+  }
+    
+  #user-profile{
+    margin-top: 20px;
+    background-color: white;
+    border-radius: 100%;
+  }
+  
+  #username{
+    font-size: larger;
+  }
+  
+  #home{
+    float:left
+  }
+  
+  #signout{
+    color: red;
+    margin-right: 15px;
+  }
+  
+  #dropMenu{
+    font-size: xx-large;
+    margin-top: 10px;
+    position: absolute;
+    top: 0;
+    right: 0;
+    display: inline-block;
+    margin-right: 5vw;
+    display: none;
+  }
+  
+  #dropMenu:hover{
+    background-color: lightgray;
+    color: black;
+    -webkit-transition: background-color 100ms linear;
+    -webkit-transition: color 200ms linear;
+  }
+  
+  .nav{
+    margin-top: 30px;
+    position: absolute;
+    top: 0;
+    right: 0;
+    display: inline-block;
+  }
+  
+  .nav-responsive-container{
+    display: none;
+    margin-top: 30px;
+    position: absolute;
+    top: 0;
+    right: 0;
+    margin-top: 4vh;
+    margin-right: 10vw;
+  }
+  
+  .footer-container{
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100vw;
+    height: 10vh;
+    margin-top: auto;
+    display: flex;
+    justify-content: center;
+    text-align: center;
+    background-color: rgb(46, 44, 44);
+  }
+  
+  .footer-content {
+    color: white;
+  }
+  
+  .header-container{
+    top: 0;
+    position: fixed;
+    width: 100vw;
+    height: 10vh;
+    display: flex;
+    align-items: center;
+    text-align: center;
+    background-color: rgb(46, 44, 44);
+  }
+  
+  .header-content {
+    color: white;
+  }
+  
+  @media only screen and (max-width: 600px) {
+  
+  
+    .header-container{
+      top: 0;
+      width: 100%;
+    }
+  
+    .footer-container{
+      bottom: 0;
+      width: 100%;
+    }
+  
+    ul{
+    }
+  
+    .nav{
+      display: none;
+    }
+  
+    .nav-responsive-container{
+      background-color: lightblue;
+      display: none;
+      width: 200px;
+      text-align: center;
+    }
+  
+    .nav-responsive-container button{
+      background-color: yellow;
+      font-size: xx-large;
+      color: black;
+      display: flex;
+      margin-left: auto;
+      margin-right: auto;
+      
+    }
+  
+    #home{background: none;}
+  
+    #dropMenu{
+      display: block;
+    }
+  
+    .post{
+      width: 100vw;
+      height: 550px;
+    }
+  
+    #post-user{
+      margin-top: 25px;
+      font-size: xx-large;
+      width: 35%;
+      height: 30px;
+    }
+  
+    #post-title{
+      width: 58%;
+      height: 70px;
+    }
+  }
+  
+/*
 
 #createPost{
     background-color: gray;
@@ -90,3 +307,4 @@ a{
 .header-content {
     color: white;
   }
+  */

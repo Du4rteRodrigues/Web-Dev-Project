@@ -13,6 +13,8 @@
         <div class="header-content">
             <ul id="home">
                 <img src="../Images/logo.png" id="home" onclick="goHome()" href="#"></img>
+                <img src="../Images/user-profile.png" ondblclick="editProfile()" id="user-profile" onclick="goHome()" href="#"></img>
+                <label id = "username"></label>
             </ul>
             <div id="hamburger-menu">
                 <button id="dropMenu" onclick="showMenu('.nav-responsive-container')">&#9776;</button> 
@@ -22,7 +24,6 @@
 
                     <button onclick="signin()">Sign in</button>
                     <button onclick="login()">Login</button>
-                    <button onclick="editProfile()">Profile</button>
                     <button id="signout">Signout</button>
                 </ul> 
 

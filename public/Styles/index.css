@@ -110,6 +110,16 @@ a{
   text-align: center;
 }
 
+#user-profile{
+  margin-top: 20px;
+  background-color: white;
+  border-radius: 100%;
+}
+
+#username{
+  font-size: larger;
+}
+
 .post-engagment-img{
   float: right;
 }
@@ -117,6 +127,7 @@ a{
 #post-likes{
   margin-right: 15px;
   width:100px;
+  color: black;
 }
 
 #post-dislike-img{

@@ -3,6 +3,7 @@ const cookieParser = require('cookie-parser')
 const bodyParser = require('body-parser');
 const cors = require("cors");
 const app = express()
+//const path = require('path')
 
 app.use(cookieParser())
 app.use(express.json())
@@ -26,8 +27,21 @@ app.use(cors());
 
 //You can use this to check if your server is working
 app.get("/", (req, res) => {
-  res.send("Welcome to your server");
+  res.sendFile(__dirname + '/public/Templates/index.html');
 });
+
+app.get("/signup", (req, res) => {
+  res.sendFile(__dirname + '/public/Templates/signup.html');
+});
+
+app.get("/login", (req, res) => {
+  res.sendFile(__dirname + '/public/Templates/login.html');
+});
+
+app.get("/post", (req, res) => {
+  res.sendFile(__dirname + '/public/Templates/post.html');
+});
+
 
 app.get("/chat", (req, res) => {
     if (userGlobal == "?"){
@@ -38,6 +52,7 @@ app.get("/chat", (req, res) => {
 });
 
 let users = [];
+let posts = [];
 
 
 app.post("/login", (req, res) => {
@@ -56,6 +71,16 @@ app.post("/login", (req, res) => {
     }
   }
   res.end("Utilizador não encontrado!");
+});
+
+app.post("/post", (req, res) => {
+  const username = "username"
+  const title = req.body.title;
+  const content = req.body.content
+  const post = { username: username, title: title, content: content};
+  posts.push(post);
+  console.log(posts);
+  res.end("recebidoo")
 });
 
 //Route that handles signup logic
