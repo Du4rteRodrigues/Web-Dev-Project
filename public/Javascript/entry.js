@@ -21,7 +21,7 @@ function signup(){
 }
 
 function login(){
-    window.location.replace("http://127.0.0.1:5501/public/Templates/login.html")
+    window.location.replace("http://localhost:8888/login")
 }
 
 function recover(){

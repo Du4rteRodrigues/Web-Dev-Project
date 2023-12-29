@@ -1,5 +1,5 @@
 function goHome(){
-    window.location.replace("http://localhost:8888/home")
+    window.location.replace("http://localhost:8888/")
 }
 function post(){
     window.location.replace("http://localhost:8888/post")
@@ -12,6 +12,10 @@ function logout(){
 
 function profile(){
     window.location.replace("http://localhost:8888/profile")
+}
+
+function signin(){
+    window.location.replace("http://localhost:8888/signup")
 }
 
 function createPost(){
@@ -94,6 +98,11 @@ function showMenu(nav){
     }
 }
 
+function getUser(){
+    var prefix = "@"
+    document.getElementById('username').innerHTML = prefix+"user";
+}
+
 function changeLikes(type){
     var likes = document.getElementById('post-likes');
     var upBtn = document.getElementById('post-like-img');
@@ -104,17 +113,20 @@ function changeLikes(type){
         if(upBtn.getAttribute('src') == '../Images/up.png' && downBtn.getAttribute('src') == '../Images/down.png'){
             upBtn.src = '../Images/up-clicked.png'
             likes.stepUp(1)
+            likes.style.color = "green"
         }
 
         else if(upBtn.getAttribute('src') == '../Images/up-clicked.png'){
             upBtn.src = '../Images/up.png'
             likes.stepDown(1)
+            likes.style.color = "black"
         }
 
         else if(downBtn.getAttribute('src') == '../Images/down-clicked.png' && upBtn.getAttribute('src') == '../Images/up.png'){
             downBtn.src = '../Images/down.png'
             upBtn.src = '../Images/up-clicked.png'
             likes.stepUp(2)
+            likes.style.color = "green"
         }
 
         }
@@ -123,20 +135,27 @@ function changeLikes(type){
         if(downBtn.getAttribute('src') == '../Images/down.png' && upBtn.getAttribute('src') == '../Images/up.png'){
             downBtn.src = '../Images/down-clicked.png'
             likes.stepDown(1)
+            likes.style.color = "red"
         }
 
         else if(downBtn.getAttribute('src') == '../Images/down-clicked.png'){
             downBtn.src = '../Images/down.png'
             likes.stepUp(1)
+            likes.style.color = "black"
         }
 
         else if(upBtn.getAttribute('src') == '../Images/up-clicked.png' && downBtn.getAttribute('src') == '../Images/down.png'){
             downBtn.src = '../Images/down-clicked.png'
             upBtn.src = '../Images/up.png'
             likes.stepDown(2)
+            likes.style.color = "red"
         }
         }
     }
 
+    function myInit(){
+        createPost()
+        getUser()
+    } 
 
-window.onload = createPost
+    window.addEventListener("load", myInit, true); 
