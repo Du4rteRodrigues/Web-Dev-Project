@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">~
+    <link rel="stylesheet" href="../Styles/about.css">
+    <script src="../Javascript/about.js"></script>
+    <title>Home</title>
+</head>
+<body>
+    <header class="header-container">
+        <div class="header-content">
+            <ul id="home">
+                <img src="../Images/logo.png" id="home" onclick="goHome()" href="#"></img>
+                <label id = "username"></label>
+            </ul>
+            <div id="hamburger-menu">
+                <button id="dropMenu" onclick="showMenu('.nav-responsive-container')">&#9776;</button> 
+
+                <ul class="nav"> 
+                    <button onclick="post()">Post</button>
+                    <button onclick="signin()">Sign in</button>
+                    <button onclick="login()">Login</button>
+                    <button id="signout">Signout</button>
+                </ul> 
+
+                <ul class="nav-responsive">
+                    <div class = "nav-responsive-container">
+                        <ul><button onclick="post()">Post</button></ul>
+                        <ul><button onclick="signin()">Sign in</button></ul>
+                        <ul><button onclick="login()">Login</button></ul>
+                        <ul><button onclick="editProfile()">Profile</button></ul>                    
+                        <ul><button id="signout">Signout</button></ul>
+                    </div>
+                </ul>
+            </div>
+        </div>
+    </header>
+    <section>
+        <div class = "founders">
+            <img src="../Images/Duarte.jpg" class= "founder-img">
+            <h2>Duarte Rodrigues</h2>
+            <h3>duarte.m.rodrigues@sapo.pt</h3>
+            <h3>nº 30009658</h3>
+            <label class = "founder-info">
+                Lorem ipsum dolor sit amet consectetur adipisicing elit. Quam totam autem beatae est dolores itaque corrupti optio veniam amet! Ducimus eligendi perspiciatis autem facere odit pariatur omnis fuga ex! Iure in esse voluptas aliquid illum. Laudantium autem sed quod fuga molestiae nihil consequatur in, reiciendis eaque optio voluptatem! Voluptatibus, non!
+            </label>
+        </div>
+        <br>
+        <div class = "founders">
+            <img src="../Images/Jorge.jpg" class = "founder-img">
+            <h2>Jorge Chaves</h2>
+            <h3>jonelchaves@iCloud.com</h3>
+            <h3>nº 30008541</h3>
+            <label class = "founder-info">
+                Lorem ipsum dolor sit amet consectetur adipisicing elit. Quam totam autem beatae est dolores itaque corrupti optio veniam amet! Ducimus eligendi perspiciatis autem facere odit pariatur omnis fuga ex! Iure in esse voluptas aliquid illum. Laudantium autem sed quod fuga molestiae nihil consequatur in, reiciendis eaque optio voluptatem! Voluptatibus, non!
+            </label>
+        </div>
+        <br>
+        <div class = "founders">
+            <img src="../Images/user-placeholder.png" class = "founder-img">
+            <h2>Guatama Bay</h2>
+            <h3>mail</h3>
+            <h3>número</h3>
+            <label class = "founder-info">
+                Lorem ipsum dolor sit amet consectetur adipisicing elit. Quam totam autem beatae est dolores itaque corrupti optio veniam amet! Ducimus eligendi perspiciatis autem facere odit pariatur omnis fuga ex! Iure in esse voluptas aliquid illum. Laudantium autem sed quod fuga molestiae nihil consequatur in, reiciendis eaque optio voluptatem! Voluptatibus, non!
+            </label>
+        </div>
+    </section>
+<footer class="footer-container">
+    <div class="footer-content">
+        <h1 onclick="aboutUs()">About Us</h1> 
+    </div>
+</footer>
+</body>
+</html>

@@ -38,6 +38,10 @@ img{
   cursor: pointer;
 }
 
+h1{
+  cursor: pointer;
+}
+
 h2{
   color: white;
   text-align: center;
@@ -224,9 +228,6 @@ a{
   .footer-container{
     bottom: 0;
     width: 100%;
-  }
-
-  ul{
   }
 
   .nav{

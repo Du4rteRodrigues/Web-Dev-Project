@@ -7,7 +7,6 @@ function post(){
 
 function logout(){
     window.location.replace("http://localhost:8888/logout")
-  
 }
 
 function profile(){
@@ -16,6 +15,10 @@ function profile(){
 
 function signin(){
     window.location.replace("http://localhost:8888/signup")
+}
+
+function aboutUs(){
+    window.location.replace("http://localhost:8888/about")
 }
 
 function createPost(){
