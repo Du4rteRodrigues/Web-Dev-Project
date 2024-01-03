@@ -13,7 +13,7 @@
             <ul id="home">
                 <img src="../Images/logo.png" id="home" onclick="goHome()" href="#"></img>
                 <img src="../Images/user-profile.png" ondblclick="editProfile()" id="user-profile" onclick="goHome()" href="#"></img>
-                <label id = "username"></label>
+                <label name = "user" id ="userName">Hellooo</label>
             </ul>
             <div id="hamburger-menu">
                 <button id="dropMenu" onclick="showMenu('.nav-responsive-container')">&#9776;</button> 
@@ -44,11 +44,13 @@
 <!-- Post From -->
     <section id="createPost">
         <h2>New Post</h>
-        <form action="http://localhost:8888/post" method="post">
+        <form action="http://localhost:8888/post" id="post-form" method="post">
+
+        <input id = "input-user"name = "username" style="display: none;">
+
 
         <div class="form-group" id="titleDiv">
-            <input type="text" name="title" class="form-control" placeholder="Title" id="postTitle" name="title" required>
-            <!-- <label for="error" class="form-error-message" id="error-subjects">Please try again.</label> -->
+            <input type="text" name="title" class="form-control" placeholder="Title" id="postTitle" required>
         </div>
 
         <div class="form-group">

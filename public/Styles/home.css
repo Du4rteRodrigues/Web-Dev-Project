@@ -1,5 +1,5 @@
 body{
-    background-image: url('/public/Images/background.png');
+    background-image: url('../Images/background.png');
     flex-direction: column;
     min-height: 100vh;
     display: grid;
