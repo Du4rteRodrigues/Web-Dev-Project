@@ -48,7 +48,7 @@ pool.query(`UPDATE users
                   console.log(`User modified with ID: `, results.insertId); 
 });
 
-// //delete
+//delete
  pool.query(`DELETE FROM users
              WHERE user_name = $1`,
               ['john_doe'],
@@ -71,6 +71,7 @@ app.use(
 app.use(cors());
 
 //You can use this to check if your server is working
+
 app.get("/home", (req, res) => {
   res.sendFile(__dirname + '/public/Templates/index.html');
 });
@@ -83,8 +84,12 @@ app.get("/login", (req, res) => {
   res.sendFile(__dirname + '/public/Templates/login.html');
 });
 
-app.get("/post", (req, res) => {
-  res.sendFile(__dirname + '/public/Templates/post.html');
+app.get("/home", (req, res) => {
+  res.sendFile(__dirname + '/public/Templates/home.html');
+});
+
+app.get("/poster", (req, res) => {
+  res.sendFile(__dirname + '/public/Templates/poster.html');
 });
 
 app.get("/about", (req, res) => {
@@ -112,7 +117,8 @@ app.post("/login", (req, res) => {
     if (username === user.username) {
       if (password === user.password) {
         userGlobal = user;
-        res.end("Login bem sucedido!");
+        res.sendFile(__dirname + '/public/Templates/home.html');
+
       } else {
         res.end("Password não corresponde!");
       }
@@ -129,7 +135,11 @@ app.post("/post", (req, res) => {
   const post = { username: username, title: title, content: content};
   posts.push(post);
   console.log(posts);
+
+  res.sendFile(__dirname + '/public/Templates/home.html');
+
   res.sendFile(__dirname + '/public/Templates/index.html');
+
 });
 
 //Route that handles signup logic
@@ -140,8 +150,11 @@ app.post("/signup", (req, res) => {
     const user = { username: username, password: password, email: email};
     users.push(user);
     console.log(users);
+
     res.sendFile(__dirname + '/public/Templates/index.html');
   });
+
+
 
 const PORTA = process.env.PORT || 8888
 
