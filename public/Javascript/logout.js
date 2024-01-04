@@ -19,7 +19,7 @@ document.addEventListener('DOMContentLoaded', function () {
     logoutBtn.addEventListener('click', function () {
       // Adicione aqui a lógica de logout
       alert('Logout realizado com sucesso!');
-      window.location.href = "/public/Templates/login.html"
+      window.location.href = "../Templates/login.html"
       popup.style.display = 'none';
     });
   

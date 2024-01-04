@@ -26,11 +26,8 @@ app.use(
 app.use(cors());
 
 //You can use this to check if your server is working
-app.get("/", (req, res) => {
-  res.sendFile(__dirname + '/public/Templates/index.html');
-});
 
-app.get("/signup", (req, res) => {
+app.get("/", (req, res) => {
   res.sendFile(__dirname + '/public/Templates/signup.html');
 });
 
@@ -38,8 +35,12 @@ app.get("/login", (req, res) => {
   res.sendFile(__dirname + '/public/Templates/login.html');
 });
 
-app.get("/post", (req, res) => {
-  res.sendFile(__dirname + '/public/Templates/post.html');
+app.get("/home", (req, res) => {
+  res.sendFile(__dirname + '/public/Templates/home.html');
+});
+
+app.get("/poster", (req, res) => {
+  res.sendFile(__dirname + '/public/Templates/poster.html');
 });
 
 
@@ -63,7 +64,8 @@ app.post("/login", (req, res) => {
     if (username === user.username) {
       if (password === user.password) {
         userGlobal = user;
-        res.end("Login bem sucedido!");
+        res.sendFile(__dirname + '/public/Templates/home.html');
+
       } else {
         res.end("Password não corresponde!");
       }
@@ -80,7 +82,7 @@ app.post("/post", (req, res) => {
   const post = { username: username, title: title, content: content};
   posts.push(post);
   console.log(posts);
-  res.end("recebidoo")
+  res.sendFile(__dirname + '/public/Templates/home.html');
 });
 
 //Route that handles signup logic
@@ -91,8 +93,10 @@ app.post("/signup", (req, res) => {
     const user = { username: username, password: password, email: email};
     users.push(user);
     console.log(users);
-    res.end("Registo recebido");
+    res.sendFile(__dirname + '/public/Templates/home.html');
   });
+
+
 
 const PORTA = process.env.PORT || 8888
 
