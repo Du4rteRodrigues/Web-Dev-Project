@@ -5,6 +5,24 @@ document.addEventListener("DOMContentLoaded", function () {
     var closePostPopupBtn = document.getElementById("closePostPopupBtn");
     var postPopup = document.getElementById("postPopup");
 
+function updateInput(){
+    var input = document.getElementById("input-user")
+    input.value = document.getElementById("userName").textContent
+}
+
+// var form =document.getElementById("post-form") 
+
+// form.addEventListener("submit", (e) => {
+//     e.preventDefault();
+//     console.log("made it")
+//     var userInput = document.getElementById("input-user");
+//     userInput.value = document.getElementsByName("user").textContent;
+// });
+
+function myInit(){
+    updateInput()
+} 
+
 
     // Adiciona um evento de clique ao botão "Create Post"
     createPostBtn.addEventListener("click", function () {
@@ -51,3 +69,6 @@ document.addEventListener("DOMContentLoaded", function () {
         }
         return null;
     }
+
+window.addEventListener("load", myInit, true); 
+
