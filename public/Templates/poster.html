@@ -7,8 +7,7 @@
     <link rel="stylesheet" href="../Styles/popupLogout.css">
     <link rel="stylesheet" href="../Javascript/logout.js">
     <link rel="stylesheet" href="../Javascript/post.js">
-    <link rel="stylesheet" href="../Javascript/home.js">
-    <title>Profile</title>
+    <title>Home</title>
 </head>
 <body class="container">
     <header>
@@ -25,9 +24,8 @@
             <script src="../Javascript/home.js"></script>
 
             <div class="user">
-                <img src="../Images/licensed-image.jpeg" alt="">
-                <h3>Name Surname</h3>
-                <h4>@User</h1>
+                <img src="/public/Images/licensed-image.jpeg" alt="">
+                <h4>@username</h1>
                 <button id="openPopupBtn">...</button>
             </div>
 
@@ -45,7 +43,21 @@
         </nav>
     </header>
     <section>
-        Futebol Clube do Porto, também conhecido como FC Porto ou simplesmente Porto, é um clube multidesportivo português sedeado na cidade do Porto. É mais conhecido pela sua equipa de futebol profissional, que joga atualmente na Primeira Liga, a competição mais importante do futebol português.
+        <h2>New Post</h>
+            <form action="http://localhost:8888/post" method="post">
+    
+                <div class="post">
+                    <h4>@username</h1>
+                    <input type="text" name="title" class="form-control" placeholder="Title" id="postTitle" name="title" required>
+                    <!-- <label for="error" class="form-error-message" id="error-subjects">Please try again.</label> -->
+                </div>
+    
+            <div class="form-group">
+                <input type= "text" class="form-control" id="postContent" name="content" required></input>
+            </div>
+    
+            <button type="submit" id="createBtn">Create Post</button>
+            </form>
     </section>
     <aside>
         <div class="search-bar">

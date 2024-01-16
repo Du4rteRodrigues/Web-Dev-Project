@@ -51,6 +51,7 @@ pool.query(`UPDATE users
                   if (error) { throw error; }
                   console.log(`User modified with ID: `, results.insertId); 
 });
+
 */
 /*
 //delete
@@ -77,6 +78,7 @@ app.use(
 app.use(cors());
 
 //You can use this to check if your server is working
+
 app.get("/home", (req, res) => {
   res.sendFile(__dirname + '/public/Templates/home.html');
 });
@@ -89,8 +91,12 @@ app.get("/login", (req, res) => {
   res.sendFile(__dirname + '/public/Templates/login.html');
 });
 
-app.get("/post", (req, res) => {
-  res.sendFile(__dirname + '/public/Templates/post.html');
+app.get("/home", (req, res) => {
+  res.sendFile(__dirname + '/public/Templates/home.html');
+});
+
+app.get("/poster", (req, res) => {
+  res.sendFile(__dirname + '/public/Templates/poster.html');
 });
 
 app.get("/about", (req, res) => {
@@ -111,21 +117,23 @@ let posts = [];
 
 
 app.post("/login", (req, res) => {
-   const username = req.body.username;
-   const password = req.body.password;
-   let user = {};
-   for (user of users) {
-     if (username === user.username) {
-       if (password === user.password) {
-         userGlobal = user;
-         res.end("Login bem sucedido!");
-       } else {
-         res.end("Password não corresponde!");
-       }
-       return;
-     }
-   }
-   res.end("Utilizador não encontrado!");
+
+  const username = req.body.username;
+  const password = req.body.password;
+  let user = {};
+  for (user of users) {
+    if (username === user.username) {
+      if (password === user.password) {
+        userGlobal = user;
+        res.sendFile(__dirname + '/public/Templates/home.html');
+
+      } else {
+        res.end("Password não corresponde!");
+      }
+      return;
+    }
+  }
+  res.end("Utilizador não encontrado!");
 });
 
 app.post("/post", (req, res) => {
@@ -142,7 +150,9 @@ app.post("/post", (req, res) => {
               if (error) { throw error;}
                   console.log('User added with ID: ', results.insertId); 
 });
-  res.sendFile(__dirname + '/public/Templates/index.html');
+
+  res.sendFile(__dirname + '/public/Templates/home.html');
+
 });
 
 //Route that handles signup logic
@@ -150,6 +160,7 @@ app.post("/signup", (req, res) => {
     const username = req.body.username;
     const password = req.body.password;
     const email = req.body.email;
+
     // const user = { username: username, password: password, email: email};
     // users.push(user);
     pool.query(`INSERT INTO users (user_name, user_email, user_password_hash, active, role) 
@@ -160,8 +171,11 @@ app.post("/signup", (req, res) => {
                     console.log('User added with ID: ', results.insertId); 
 });
     // console.log(users);
+
     res.sendFile(__dirname + '/public/Templates/index.html');
 });
+
+
 
 const PORTA = process.env.PORT || 8888
 

@@ -23,13 +23,23 @@
     <section class = "entry-section">
         <h2>Signup</h>  
             <form action="http://localhost:8888/signup" method="post">
-                <input type="text" name="username" id="username" placeholder="Username">
-                <input type="password" name="password" id="password" placeholder="Senha">
-                <input type="email" name="email" id="email" placeholder="Email">
+                <input type="text" name="username" id="username" placeholder="Username" required>
+                <input type="password" name="password" id="password" placeholder="Senha" required>
+                <input type="email" name="email" id="email" placeholder="Email" required>
                 <button type="submit">Signup</button>
+                <button class="btn" onclick="login('login')">Login</button>
             </form>
         </form>
     </section>
+
+<header class="header-container">
+    <div class="header-content">
+        <ul>
+            <img src="../Images/logo.png" id="home" onclick="goHome()" alt="Logo" />
+        </ul>
+    </div>
+</header>
+
 <hr>
 <footer class="footer-container">
     <div class="footer-content">
