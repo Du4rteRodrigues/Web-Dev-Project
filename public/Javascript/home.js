@@ -30,4 +30,7 @@ document.addEventListener('DOMContentLoaded', function () {
       popup.style.display = 'none';
     });
   });
-  
+
+function aboutUs(){
+  window.location.replace("http://localhost:8888/about")
+}

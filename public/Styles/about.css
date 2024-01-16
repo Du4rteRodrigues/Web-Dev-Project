@@ -20,7 +20,8 @@ body{
   }
   
 .founders{
-  height: 80vh;
+  text-align: center;
+  height: fit-content;
   margin-left: 10px;
   border-radius: 10px;
   background-color: grey;

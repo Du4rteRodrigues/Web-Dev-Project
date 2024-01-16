@@ -5,6 +5,8 @@ const cors = require("cors");
 const {Pool} = require('pg')
 const app = express()
 
+// import {createPosts} from './public/Javascript/index.js'
+
 app.use(cookieParser())
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
@@ -14,30 +16,32 @@ app.use(express.static('public'))
 
 const pool = new Pool({ 
   user: 'postgres',
-  host: 'localhost',
+  host: 'localhost', 
   database: 'postgres',
   password: 'postgres',
   port: 5432, 
 });
-
+/*
 //create
 const insertQuery = `INSERT INTO users (user_name, user_email, user_password_hash, active, role) 
                       VALUES ($1, $2, $3, $4, $5) RETURNING *`
-const values = ['john_doe', 'john@example.com', '123', 'true', 'normal']
+const values = ['admin', 'admin@gmail.com', 'admin', 'false', 'admin']
 
  pool.query(insertQuery,values,
            (error, results) => {
                  if (error) { throw error; }
                  console.log('User added with ID: ', results.insertId); 
  });
-
+*/
+/*
 //read
  pool.query('SELECT * FROM users',
             (error, results) => {
                   if (error) { throw error; }
                   console.log('Retrieved users: ', results.rows); 
 });
-
+*/
+/*
 //update
 pool.query(`UPDATE users
             SET user_email = $1
@@ -47,15 +51,17 @@ pool.query(`UPDATE users
                   if (error) { throw error; }
                   console.log(`User modified with ID: `, results.insertId); 
 });
-
-// //delete
+*/
+/*
+//delete
  pool.query(`DELETE FROM users
              WHERE user_name = $1`,
-              ['john_doe'],
+              ['hello'],
              (error, results) => {
                    if (error) { throw error; }
                    console.log(`User deleted with ID: `, results.insertId); 
 });
+*/
 
  let userGlobal = "?";
 
@@ -72,7 +78,7 @@ app.use(cors());
 
 //You can use this to check if your server is working
 app.get("/home", (req, res) => {
-  res.sendFile(__dirname + '/public/Templates/index.html');
+  res.sendFile(__dirname + '/public/Templates/home.html');
 });
 
 app.get("/signup", (req, res) => {
@@ -99,36 +105,43 @@ app.get("/chat", (req, res) => {
     }
   res.send("Welcome to the chat server");
 });
-
+ 
 let users = [];
 let posts = [];
 
 
 app.post("/login", (req, res) => {
-  const username = req.body.username;
-  const password = req.body.password;
-  let user = {};
-  for (user of users) {
-    if (username === user.username) {
-      if (password === user.password) {
-        userGlobal = user;
-        res.end("Login bem sucedido!");
-      } else {
-        res.end("Password não corresponde!");
-      }
-      return;
-    }
-  }
-  res.end("Utilizador não encontrado!");
+   const username = req.body.username;
+   const password = req.body.password;
+   let user = {};
+   for (user of users) {
+     if (username === user.username) {
+       if (password === user.password) {
+         userGlobal = user;
+         res.end("Login bem sucedido!");
+       } else {
+         res.end("Password não corresponde!");
+       }
+       return;
+     }
+   }
+   res.end("Utilizador não encontrado!");
 });
 
 app.post("/post", (req, res) => {
   const username = req.body.username;
+  // const user_id = pool.query(`SELECT user_id FROM users WHERE user_name = $1`, [username]);
+  const user_id = 10
   const title = req.body.title;
   const content = req.body.content
-  const post = { username: username, title: title, content: content};
-  posts.push(post);
-  console.log(posts);
+
+  pool.query(`INSERT INTO posts (user_id, post_title, post_content, post_likes) 
+              VALUES ($1, $2, $3, $4) RETURNING *`,
+              [user_id, title, content, 0],
+              (error, results) => {
+              if (error) { throw error;}
+                  console.log('User added with ID: ', results.insertId); 
+});
   res.sendFile(__dirname + '/public/Templates/index.html');
 });
 
@@ -137,11 +150,18 @@ app.post("/signup", (req, res) => {
     const username = req.body.username;
     const password = req.body.password;
     const email = req.body.email;
-    const user = { username: username, password: password, email: email};
-    users.push(user);
-    console.log(users);
+    // const user = { username: username, password: password, email: email};
+    // users.push(user);
+    pool.query(`INSERT INTO users (user_name, user_email, user_password_hash, active, role) 
+                VALUES ($1, $2, $3, $4, $5) RETURNING *`,
+                [username, email, password, 'true', 'normal'],
+                (error, results) => {
+                if (error) { throw error; }
+                    console.log('User added with ID: ', results.insertId); 
+});
+    // console.log(users);
     res.sendFile(__dirname + '/public/Templates/index.html');
-  });
+});
 
 const PORTA = process.env.PORT || 8888
 
