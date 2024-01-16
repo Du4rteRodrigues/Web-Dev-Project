@@ -3,15 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../Styles/home.css">
-    <link rel="stylesheet" href="../Styles/popupLogout.css">
-
-    <link rel="stylesheet" href="../Javascript/logout.js">
-    <link rel="stylesheet" href="../Javascript/post.js">
-    <link rel="stylesheet" href="../Javascript/home.js">
-
-    <script src="../Javascript/logout.js"></script>
-
+    <link rel="stylesheet" href="../Styles/style.css">
+    <!-- <link rel="stylesheet" href="../Styles/popupLogout.css"> -->
+    <script src="../Javascript/home.js"></script>
     <title>Home</title>
 </head>
 <body class="container">
@@ -58,9 +52,10 @@
         <div class="search-bar">
             <input type="text" placeholder="Search..." onkeyup="filterFunction()"/>
         </div>
-        <footer class="footer-content">
-            <p>Duarte Rodrigues - 30009658</p> 
-            <p>Jorge Chaves - 30008541 </p>
+        <footer class="footer-container">
+            <div class="footer-content">
+                <h1 onclick="aboutUs()">About Us</h1> 
+            </div>
         </footer>
     </aside>
 </body>

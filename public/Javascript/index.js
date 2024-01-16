@@ -21,7 +21,7 @@ function aboutUs(){
     window.location.replace("http://localhost:8888/about")
 }
 
-function createPost(){
+export function createPost(){
     const posts = document.getElementById('posts')
 
     for(var i=0; i<6;i++){
@@ -41,17 +41,17 @@ function createPost(){
     
         title.className = 'post-content'
         title.id = 'post-title'
-
+        title.readOnly = true
         title.placeholder = '80 chars'
 
         user.className = 'post-content'
         user.id = 'post-user'
-
+        user.readOnly = true
         user.placeholder = '14 chars'
 
         content.id = 'post-content'
         content.className = 'post-content'
-
+        content.readOnly = true
         content.placeholder='900 chars'
 
         likes.id = 'post-likes'
@@ -161,4 +161,4 @@ function changeLikes(type){
         getUser()
     } 
 
-    window.addEventListener("load", myInit, true); 
+    //window.addEventListener("load", myInit, true); 
