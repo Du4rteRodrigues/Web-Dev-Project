@@ -2,25 +2,17 @@ const express = require('express')
 const cookieParser = require('cookie-parser')
 const bodyParser = require('body-parser');
 const cors = require("cors");
-const {Pool} = require('pg')
+const pool = require('./public/Javascript/database')
+const bcrypt = require('bcrypt')
 const app = express()
 
-// import {createPosts} from './public/Javascript/index.js'
+const PORT = process.env.PORT || 8888
 
 app.use(cookieParser())
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
-
-
 app.use(express.static('public'))
 
-const pool = new Pool({ 
-  user: 'postgres',
-  host: 'localhost', 
-  database: 'postgres',
-  password: 'postgres',
-  port: 5432, 
-});
 /*
 //create
 const insertQuery = `INSERT INTO users (user_name, user_email, user_password_hash, active, role) 
@@ -33,16 +25,18 @@ const values = ['admin', 'admin@gmail.com', 'admin', 'false', 'admin']
                  console.log('User added with ID: ', results.insertId); 
  });
 */
-/*
+
 //read
+/*
  pool.query('SELECT * FROM users',
             (error, results) => {
                   if (error) { throw error; }
                   console.log('Retrieved users: ', results.rows); 
 });
 */
-/*
+
 //update
+/*
 pool.query(`UPDATE users
             SET user_email = $1
             WHERE user_name = $2`,
@@ -64,7 +58,7 @@ pool.query(`UPDATE users
 });
 */
 
- let userGlobal = "?";
+let userGlobal = "?";
 
 // We are using our packages here
 app.use(bodyParser.json()); // to support JSON-encoded bodies
@@ -79,7 +73,7 @@ app.use(cors());
 
 //You can use this to check if your server is working
 
-app.get("/home", (req, res) => {
+app.get("/home", async (req, res) => {
   res.sendFile(__dirname + '/public/Templates/home.html');
 });
 
@@ -112,12 +106,40 @@ app.get("/chat", (req, res) => {
   res.send("Welcome to the chat server");
 });
  
-let users = [];
-let posts = [];
+app.post("/login", async (req, res) => {
+  const username = req.body.username;
+  const password = req.body.password;
+ 
+  pool.query('SELECT * FROM users WHERE user_name = $1'
+              ,[username], async (error, results) => {
+    if (error) {
+      console.error('Error executing query', error);
+      res.status(500).send('Internal Server Error');
+      return;
+    }
 
+    if (results.rows.length === 0) {
+      console.log("User not found");
+      return;
+    }
 
-app.post("/login", (req, res) => {
+    const user = results.rows[0];
+    const passwordMatch = await bcrypt.compare(password, user.user_password_hash);
 
+    if (passwordMatch) {
+      userGlobal = user;
+      res.sendFile(__dirname + '/public/Templates/home.html');
+    } else {
+      console.log("Password does not match");
+      return;
+    }
+  });
+});
+  
+  /*
+  const username = req.body.username;
+  const password = req.body.password;
+  
   const username = req.body.username;
   const password = req.body.password;
   let user = {};
@@ -134,7 +156,9 @@ app.post("/login", (req, res) => {
     }
   }
   res.end("Utilizador não encontrado!");
+  
 });
+*/
 
 app.post("/post", (req, res) => {
   const username = req.body.username;
@@ -148,7 +172,7 @@ app.post("/post", (req, res) => {
               [user_id, title, content, 0],
               (error, results) => {
               if (error) { throw error;}
-                  console.log('User added with ID: ', results.insertId); 
+                  console.log('Post saved'); 
 });
 
   res.sendFile(__dirname + '/public/Templates/home.html');
@@ -156,30 +180,33 @@ app.post("/post", (req, res) => {
 });
 
 //Route that handles signup logic
-app.post("/signup", (req, res) => {
+app.post("/signup", async (req, res) => {
+  try{
+    const salt = await bcrypt.genSalt(10);
     const username = req.body.username;
     const password = req.body.password;
     const email = req.body.email;
 
-    // const user = { username: username, password: password, email: email};
-    // users.push(user);
+    const hashedPassword = await bcrypt.hash(password, salt)
+    console.log(hashedPassword)
+
+
     pool.query(`INSERT INTO users (user_name, user_email, user_password_hash, active, role) 
                 VALUES ($1, $2, $3, $4, $5) RETURNING *`,
-                [username, email, password, 'true', 'normal'],
+                [username, email, hashedPassword, 'true', 'normal'],
                 (error, results) => {
                 if (error) { throw error; }
-                    console.log('User added with ID: ', results.insertId); 
+                    console.log('User added with ID: ', results.insertId); });
+
+    res.sendFile(__dirname + '/public/Templates/home.html');
+  } catch{
+    res.status(500).send()
+  }
+
 });
-    // console.log(users);
-
-    res.sendFile(__dirname + '/public/Templates/index.html');
-});
 
 
-
-const PORTA = process.env.PORT || 8888
-
-app.listen(PORTA, () => {
-    console.log(`O servidor está a ouvir na porta http://localhost:${PORTA}/home`)
+app.listen(PORT, () => {
+    console.log(`Listening on: http://localhost:${PORT}/login`)
 })
 
