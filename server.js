@@ -13,8 +13,8 @@ app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 app.use(express.static('public'))
 
-/*
 //create
+/*
 const insertQuery = `INSERT INTO users (user_name, user_email, user_password_hash, active, role) 
                       VALUES ($1, $2, $3, $4, $5) RETURNING *`
 const values = ['admin', 'admin@gmail.com', 'admin', 'false', 'admin']
@@ -47,8 +47,8 @@ pool.query(`UPDATE users
 });
 
 */
-/*
 //delete
+/*
  pool.query(`DELETE FROM users
              WHERE user_name = $1`,
               ['hello'],
@@ -97,6 +97,9 @@ app.get("/about", (req, res) => {
   res.sendFile(__dirname + '/public/Templates/about.html');
 });
 
+app.get("/moderation", (req, res) => {
+  res.sendFile(__dirname + '/public/Templates/moderation.html');
+});
 
 app.get("/chat", (req, res) => {
     if (userGlobal == "?"){
@@ -136,29 +139,6 @@ app.post("/login", async (req, res) => {
   });
 });
   
-  /*
-  const username = req.body.username;
-  const password = req.body.password;
-  
-  const username = req.body.username;
-  const password = req.body.password;
-  let user = {};
-  for (user of users) {
-    if (username === user.username) {
-      if (password === user.password) {
-        userGlobal = user;
-        res.sendFile(__dirname + '/public/Templates/home.html');
-
-      } else {
-        res.end("Password não corresponde!");
-      }
-      return;
-    }
-  }
-  res.end("Utilizador não encontrado!");
-  
-});
-*/
 
 app.post("/post", (req, res) => {
   const username = req.body.username;
@@ -205,8 +185,7 @@ app.post("/signup", async (req, res) => {
 
 });
 
-
 app.listen(PORT, () => {
-    console.log(`Listening on: http://localhost:${PORT}/login`)
+    console.log(`Listening on: http://localhost:${PORT}/home`)
 })
 
