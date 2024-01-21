@@ -14,6 +14,10 @@ function signup() {
     window.location.replace("../Templates/signup.html")
   }
 
+function aboutUs(){
+    window.location.replace("../Templates/about.html")
+}
+
   document.addEventListener('DOMContentLoaded', function() {
     // Adicione um evento ao formulário de signup
     document.querySelector('form').addEventListener('submit', function(event) {

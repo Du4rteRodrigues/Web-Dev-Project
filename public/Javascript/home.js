@@ -1,9 +1,26 @@
+function post(){
+  window.location.replace("../Templates/poster.html")
+}
+
+function aboutUs(){
+  window.location.replace("../Templates/about.html")
+}
+
 document.addEventListener('DOMContentLoaded', function () {
   var openPopupBtn = document.getElementById('openPopupBtn');
   var closePopupBtn = document.getElementById('closePopupBtn');
   var logoutBtn = document.getElementById('logoutBtn');
   var profileBtn = document.getElementById('profileBtn');
   var popup = document.getElementById('popup');
+
+  var userElement = document.querySelector('.user');
+  var postBtnElement = document.getElementById('postBtn');
+
+  window.addEventListener('scroll', function() {
+    userElement.classList.add('follow')
+    postBtnElement .classList.add('follow')
+  });
+
 
   window.onload= createPost
 
@@ -34,7 +51,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
 
 function createPost(){
-  for(var i=0; i<3;i++){
+  for(var i=0; i<10;i++){
       var post = document.createElement('div');
       var infoDiv = document.createElement('div')
       var contentDiv = document.createElement('div')
@@ -160,10 +177,13 @@ function changeLikes(type, element){
       }
       }
 }
+          // Obtenha o username da sessionStorage
+        var username = sessionStorage.getItem('username');
 
+        // Verifique se o username está definido
+        if (username) {
+            // Atualize o conteúdo da div com o username
+            document.querySelector('.user h4').textContent = '@' + username;
+        }
+    });
 
-
-function aboutUs(){
-window.location.replace("http://localhost:8888/about")
-}
-});
