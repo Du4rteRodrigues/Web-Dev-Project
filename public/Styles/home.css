@@ -158,6 +158,11 @@ position: fixed;
 transition: margin-top 0.3s ease; /* Add smooth transition for better visual effect */
 }
 
+.user.follow {
+  position: fixed;
+  transition: margin-top 0.3s ease; /* Add smooth transition for better visual effect */
+}
+
 .user img{
     width: 40px;
     border-radius: 50px;
@@ -169,9 +174,9 @@ transition: margin-top 0.3s ease; /* Add smooth transition for better visual eff
 }
 
 .post{
-    background-color: lightgray;
+    background-color:dimgrey;
     border-radius: 10px;
-    width:600px;
+    width:100%;
   }
 
 #postBtn{
@@ -194,6 +199,9 @@ transition: margin-top 0.3s ease; /* Add smooth transition for better visual eff
   }
   
  .post-content{
+    background:none;
+    /* border: none; */
+    color: white;
     display: block;
     margin-left: auto;
     margin-right: auto;
@@ -204,6 +212,10 @@ transition: margin-top 0.3s ease; /* Add smooth transition for better visual eff
     overflow: hidden;
     height: 69px;
 } 
+
+.post-content:focus {
+  outline: none;
+}
 
 .post-info-div{
     height: 55px;
@@ -221,6 +233,9 @@ transition: margin-top 0.3s ease; /* Add smooth transition for better visual eff
 }
 
 .post-user{
+    background:none;
+    /* border: none; */
+    color: white;
     resize: none;
     border-radius: 10px;
     font-size: xx-large;
@@ -231,18 +246,26 @@ transition: margin-top 0.3s ease; /* Add smooth transition for better visual eff
     height: 35px;
     overflow: hidden;
   }
+
+  .post-user:focus {
+    outline: none;
+ }
   
-  .post-title{
+  .post-title{ 
+    background:none;
+    /* border: none; */
+    color: white;
     resize: none;
     border-radius: 10px;
     font-size: x-large;
     margin-top: 5px;
     margin-right: 2%;
     float: right;
-    width: 64%;  
-    height: 100;
-    overflow: hidden;
+    width: 64%;
   }
+  .post-title:focus {
+    outline: none;
+ }
     
   .post-engagment{
     -webkit-user-drag: none;
@@ -255,7 +278,7 @@ transition: margin-top 0.3s ease; /* Add smooth transition for better visual eff
     resize: none;
     text-align: center;
     margin-right: 15px;
-    width:100px;
+    width:35px;
     color: black;
   }
 
@@ -281,6 +304,35 @@ transition: margin-top 0.3s ease; /* Add smooth transition for better visual eff
     font-size: xx-large;
     border-radius: 10px;
     float: right;
+    resize: none;
+    text-align: center;
+    cursor:pointer
+  }
+
+  .post-comments{
+    -webkit-user-drag: none;
+    margin-top: 7px;
+    background: none;
+    border: none;
+    font-size: xx-large;
+    border-radius: 10px;
+    float: left;
+    resize: none;
+    text-align: center;
+    margin-right: 15px;
+    width:40px;
+    color: black;
+  }
+
+  .post-comments-img{
+    -webkit-user-drag: none;
+    margin-top: 7px;
+    margin-left: 2%;
+    background: none;
+    border: none;
+    font-size: xx-large;
+    border-radius: 10px;
+    float: left;
     resize: none;
     text-align: center;
     cursor:pointer
@@ -314,7 +366,7 @@ transition: margin-top 0.3s ease; /* Add smooth transition for better visual eff
 
 section{
     grid-column: 2 / 3; /* Segunda coluna */
-    border-right: 1px solid #9AA0A6;
+    /* border-right: 1px solid #9AA0A6; */
 }
 
 
@@ -344,9 +396,113 @@ aside{
     cursor: pointer;
   }
 
-@media screen and (min-width: 500px) {
+  /* Screen adjustment */
+  @media only screen and (max-width: 1215px) {
+
+        .post{
+            width: 100;
+            height: fit-content;
+          }
   
-  .container ul{
-    grid-auto-flow: column;
-  }
-}
+          .post-info-div{
+              background-color: none;
+          }
+          
+          .post-user{
+              margin-left: 35%;
+              z-index: 1;
+          }
+          .post-title{
+            width: 95%;
+            margin-bottom: 5px;
+            z-index: 2;
+          }
+  
+          .post-engagment{
+              width: 10%;
+          }
+  
+          .post-comments{
+              width: 10%;
+          }
+    }
+
+    @media only screen and (max-width: 800px) {
+
+        body{
+            grid-template-columns:none
+        }
+
+       .about-section{
+        padding: 20px;
+        border: hidden;
+        border-radius: 5px;
+        margin-top: 70px;
+        margin-bottom: 80px;
+        width: 500px;
+        display: flex;
+        flex-direction:column;
+        justify-content: center;
+        align-items: center; 
+        font-family: arial;
+       }
+
+       aside{
+        border-left: none;
+        display: none;
+       }
+
+       header{
+        border-right: none;
+        display: none;
+       }
+
+        .nav{
+          display: none;
+        }
+
+        section{
+            border-right: none;
+        }
+        .nav-responsive-container{
+          background-color: lightblue;
+          display: none;
+          width: 200px;
+          text-align: center;
+        }
+      
+        .nav-responsive-container button{
+          font-size: xx-large;
+          color: black;
+          display: flex;
+          margin-left: auto;
+          margin-right: auto;
+          
+        }
+        
+        .post{
+          width: 100%;
+          height: fit-content;
+        }
+
+        .post-info-div{
+            background-color: none;
+        }
+        
+        .post-user{
+            margin-left: 35%;
+            z-index: 1;
+        }
+        .post-title{
+            z-index: 2;
+        }
+
+        .post-engagment{
+            width: 5%;
+        }
+
+        .post-comments{
+            width: 5%;
+        }
+    }
+
