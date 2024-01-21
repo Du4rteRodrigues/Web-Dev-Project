@@ -1,37 +1,161 @@
+* {
+  box-sizing: border-box;
+}
+
 body{
-    background-image: url('../Images/background.png');
-    flex-direction: column;
-    min-height: 100vh; 
-    display: grid;
-    grid-template-columns: 1fr 2fr 1fr; /* Três colunas com larguras proporcionais */  
-    color: white;
+  background-color: #d9d9d9;
+  font-family: Arial, Helvetica, sans-serif;
+  min-height: 100vh; /* Garante que o conteúdo estenda a altura mínima da viewport */
+  bottom: 0;
 }
 
-.nav{
-  transition: top 0.3s ease;
+body, html {
+  margin: 0;
+  padding: 0;
 }
 
-header{
-  /* background-color: black;
-  opacity: 0.5; */
-    grid-column: 1 / 2; /* Primeira coluna */
-    /* border-right: 1px solid #9AA0A6;  */
+
+/*Container*/
+.container{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  background-color: #797D7B;
+  margin: 0px;
 }
+
+.container ul{
+  display: inline-grid;
+  grid-auto-flow: row;
+  grid-gap: 30px;
+  margin: auto;
+  margin-left: 400px;
+  list-style-type: none;
+  align-items: center;
+}
+
+.container a{
+  text-decoration: none;
+  color: black;
+}
+
+.container img{
+  padding-left: 50px;
+}
+
+.search-bar{
+  margin-left: 440px;
+  position: relative;
+  outline: none;
+}
+
+.search-bar form{
+  position: relative;
+  display: flex;
+  font-size: 1rem;
+  height: 30px;
+  outline: 0;
+  width: 100%;
+}
+
+.search-bar button{
+  border-bottom-left-radius: 8px;
+  border-top-left-radius: 8px;
+  border-width: 0px;
+  cursor: pointer;
+  display: inline-block;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 20px;
+  list-style: none;
+  margin: 0;
+  padding: 5px 10px;
+  text-align: center;
+  transition: all 200ms;
+  vertical-align: baseline;
+  white-space: nowrap;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+  background-color: transparent;
+  border: 1px solid black;
+  border-right: none;
+  color: black;
+}
+
+.search-bar input{
+  width: 100%;
+    padding: 10px 12px;
+    z-index: 3;
+    border-top-right-radius: 8px;
+    border-bottom-right-radius: 8px;
+    border-width: 0;
+    display: inline-block;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 20px;
+    list-style: none;
+    margin: 0;
+    padding: 10px 12px;
+    transition: all 200ms;
+    vertical-align: baseline;
+    white-space: nowrap;
+    user-select: none;
+    -webkit-user-select: none;
+    touch-action: manipulation;
+    background-color: #d9d9d9;
+    color: black;
+    border: 1px solid black;
+    border-left: none;
+}
+
+/*--------------------------*/
+.content{
+  flex-direction: column;
+  display: grid;
+  grid-template-columns: 1fr 2fr 1fr; /* Três colunas com larguras proporcionais */  
+}
+
+.user-container{
+  grid-column: 1 / 2; /* Primeira coluna */
+  border-right: 1px solid black; 
+  padding-top: 30px;
+  background-color: #a6a6a6;
+}
+
+.view-posts{
+  grid-column: 2 / 3; /* Segunda coluna */
+  border-right: 1px solid black;
+  padding-top: 30px;
+}
+
+.create-post{
+  grid-column: 3 / 4; /* Terceira coluna */
+  padding-top: 30px;
+}
+
 
 .hearder-buttons{
     display: block;
 }
 
 .user{
-    display: flex;
-    flex-wrap: wrap;
-    position: sticky;
-    background-color: rgb(46, 44, 44);
-    border-radius: 15px;
-    border: black;
-    max-width: 300px;
-    align-items: center;
-    justify-content: space-around;
+  display: flex;
+  flex-wrap: wrap;
+  position: sticky;
+  background-color: rgb(46, 44, 44);
+  border-radius: 15px;
+  border: black;
+  max-width: 300px;
+  align-items: center;
+  justify-content: space-around;
+}
+
+.user.follow {
+position: fixed;
+transition: margin-top 0.3s ease; /* Add smooth transition for better visual effect */
 }
 
 .user.follow {
@@ -53,6 +177,25 @@ header{
     background-color:dimgrey;
     border-radius: 10px;
     width:100%;
+  }
+
+#postBtn{
+    display: flex;
+    flex-wrap: wrap;
+    background-color:#797D7B;
+    border-radius: 15px;
+    margin-top: 160%;
+    border: black;
+    max-width: 300px;
+    align-items: center;
+    justify-content: space-around;
+    position: sticky;
+}
+
+#postBtn.follow {
+  position: fixed;
+  margin-top: 0;
+  transition: margin-top 0.3s ease; /* Add smooth transition for better visual effect */
   }
   
  .post-content{
@@ -229,23 +372,27 @@ section{
 
 aside{
     grid-column: 3 / 4; /* Terceira coluna */
+    background-color: #a6a6a6;
+    height: 100%;
 }
 
-footer{
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    width: 100vw;
-    height: 10vh;
-    margin-top: auto;
-    display: block;
-    justify-content: center;
-    text-align: center;
-    background-color: rgb(46, 44, 44);
+.footer-container{
+  position: fixed;
+  align-items: center;
+  bottom: 0;
+  left: 0;
+  width: 100vw;
+  height: 10vh;
+  margin-top: auto;
+  display: flex;
+  justify-content: center;
+  text-align: center;
+  background-color: #797D7B;
 }
+
 
 .footer-content {
-    color: white;
+    color: black;
     cursor: pointer;
   }
 
@@ -358,3 +505,4 @@ footer{
             width: 5%;
         }
     }
+

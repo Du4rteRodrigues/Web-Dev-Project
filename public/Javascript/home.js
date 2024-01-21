@@ -1,4 +1,12 @@
-//const db = require('./database')
+
+function post(){
+  window.location.replace("../Templates/poster.html")
+}
+
+function aboutUs(){
+  window.location.replace("../Templates/about.html")
+}
+
 
 document.addEventListener('DOMContentLoaded', function () {
   var openPopupBtn = document.getElementById('openPopupBtn');
@@ -7,12 +15,22 @@ document.addEventListener('DOMContentLoaded', function () {
   var profileBtn = document.getElementById('profileBtn');
   var popup = document.getElementById('popup');
 
+
   window.onload= onLoad
 
   function onLoad(){
     createPosts()
     updateContentHeight()
   }
+
+  var userElement = document.querySelector('.user');
+  var postBtnElement = document.getElementById('postBtn');
+
+  window.addEventListener('scroll', function() {
+    userElement.classList.add('follow')
+    postBtnElement .classList.add('follow')
+  });
+
 
   // Abrir o pop-up
   openPopupBtn.addEventListener('click', function () {
@@ -54,6 +72,7 @@ function changeNumberSize(num){
 }
 
 function createPosts(){
+
   for(var i=0; i<10;i++){
       var post = document.createElement('div');
       var infoDiv = document.createElement('div')
@@ -230,6 +249,8 @@ function changeLikes(type, element){
       }
       }
 }
+          // Obtenha o username da sessionStorage
+        var username = sessionStorage.getItem('username');
 
 function updateContentHeight(){
   var allPosts = document.querySelectorAll('.post');
@@ -245,10 +266,4 @@ function updateSize(elements) {
       element.style.height = element.scrollHeight+ 'px'
     });
 }
-
-
-function aboutUs(){
-window.location.replace("http://localhost:8888/about")
-}
-});
 
