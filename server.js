@@ -73,9 +73,6 @@ app.use(cors());
 
 //You can use this to check if your server is working
 
-app.get("/home", async (req, res) => {
-  res.sendFile(__dirname + '/public/Templates/home.html');
-});
 
 app.get("/signup", (req, res) => {
   res.sendFile(__dirname + '/public/Templates/signup.html');
