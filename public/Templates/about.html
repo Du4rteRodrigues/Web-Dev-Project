@@ -3,75 +3,72 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">~
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="../Styles/about.css">
     <script src="../Javascript/about.js"></script>
-    <title>Home</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
+    <script src="../../server.js"></script>
+    <title>AboutUs</title>
 </head>
 <body>
-    <header class="header-container">
-        <div class="header-content">
-            <ul id="home">
-                <a href="/home"><img src="../Images/logo.png" id="home" onclick="goHome()" alt="Logo" /></a> 
-                <label id = "username"></label>
-            </ul>
-            <div id="hamburger-menu">
-                <button id="dropMenu" onclick="showMenu('.nav-responsive-container')">&#9776;</button> 
+    <header>
+        <div class="container">
 
-                <ul class="nav"> 
-                    <button onclick="post()">Post</button>
-                    <button onclick="signin()">Sign in</button>
-                    <button onclick="login()">Login</button>
-                    <button id="signout">Signout</button>
-                </ul> 
+            <a href="/home"><img src="../Images/logo.png" id="home" onclick="goHome()" alt="Logo" /></a>
 
-                <ul class="nav-responsive">
-                    <div class = "nav-responsive-container">
-                        <ul><button onclick="post()">Post</button></ul>
-                        <ul><button onclick="signin()">Sign in</button></ul>
-                        <ul><button onclick="login()">Login</button></ul>
-                        <ul><button onclick="editProfile()">Profile</button></ul>                    
-                        <ul><button id="signout">Signout</button></ul>
-                    </div>
-                </ul>
+            <div class="search-bar" id="search-bar">
+                <form action="">
+                    <button type="submit">
+                        <i class="fa fa-search material-symbols-outlined">search</i>
+                    </button>
+                    <input type="text" placeholder="Search ...">
+                </form>
             </div>
+
+            <ul>
+                <li><a href="#Notifications" class="material-symbols-outlined">notifications</a></li>
+                <li><a href="#Blog">Blog</a></li>
+                <li><a href="#" class="material-symbols-outlined" >settings</a></li>
+            </ul>
+
         </div>
     </header>
-    
-    <section class = "about-section">
-        <div class = "founders">
-            <img src="../Images/Duarte.jpg" class= "founder-img">
-            <h2>Duarte Rodrigues</h2>
-            <h3>duarte.m.rodrigues@sapo.pt</h3>
-            <h3>nº 30009658</h3>
-            <label class = "founder-info">
+    <main class = "aboutUs" >
+        <div class="founders">
+            <div class="founder">
+              <img src="../Images/Duarte.jpg" class="founder-img">
+              <h2>Duarte Rodrigues</h2>
+              <h3>duarte.m.rodrigues@sapo.pt</h3>
+              <h3>nº 30009658</h3>
+              <label class="founder-info">
                 Lorem, ipsum dolor sit amet consectetur adipisicing elit. Tempora maiores voluptate nemo ea consectetur repellendus earum doloremque accusamus vel doloribus.
-            </label>
-        </div>
-        <br>
-        <div class = "founders">
-            <img src="../Images/Jorge.jpg" class = "founder-img">
-            <h2>Jorge Chaves</h2>
-            <h3>jonelchaves@iCloud.com</h3>
-            <h3>nº 30008541</h3>
-            <label class = "founder-info">
+              </label>
+            </div>
+          
+            <div class="founder">
+              <img src="../Images/Jorge.jpg" class="founder-img">
+              <h2>Jorge Chaves</h2>
+              <h3>jonelchaves@iCloud.com</h3>
+              <h3>nº 30008541</h3>
+              <label class="founder-info">
                 Lorem, ipsum dolor sit amet consectetur adipisicing elit. Tempora maiores voluptate nemo ea consectetur repellendus earum doloremque accusamus vel doloribus.
-            </label>
-        </div>
-        <br>
-        <div class = "founders">
-            <img src="../Images/user-placeholder.png" class = "founder-img">
-            <h2>Guatama Bay</h2>
-            <h3>mail</h3>
-            <h3>número</h3>
-            <label class = "founder-info">
+              </label>
+            </div>
+          
+            <div class="founder">
+              <img src="../Images/user-placeholder.png" class="founder-img">
+              <h2>Guatama Bay</h2>
+              <h3>mail</h3>
+              <h3>número</h3>
+              <label class="founder-info">
                 Lorem, ipsum dolor sit amet consectetur adipisicing elit. Tempora maiores voluptate nemo ea consectetur repellendus earum doloremque accusamus vel doloribus.
-            </label>
-        </div>
-    </section>
+              </label>
+            </div>
+          </div>          
+    </main>
 <footer class="footer-container">
     <div class="footer-content">
-        <h1 onclick="aboutUs()">About Us</h1> 
+        <span onclick="aboutUs()" class="material-symbols-outlined">groups</span> 
     </div>
 </footer>
 </body>
