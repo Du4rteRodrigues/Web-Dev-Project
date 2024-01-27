@@ -1,21 +1,21 @@
 function goHome(){
-    window.location.replace("http://localhost:8888/home")
+    window.location.href = '/home';
 }
 
 function login(){
-    window.location.replace("../Templates/login.html")
+    window.location.href = '/login';
 }
 
 function recover(){
-    window.location.replace("../Templates/recover.html")
+    window.location.href = '/login';
 }
 
 function signup() {
-    window.location.replace("../Templates/signup.html")
+    window.location.href = '/signup';
   }
 
 function aboutUs(){
-    window.location.replace("../Templates/about.html")
+    window.location.href = '/about';
 }
 
   document.addEventListener('DOMContentLoaded', function() {
@@ -26,5 +26,7 @@ function aboutUs(){
 
         // Armazene o username na sessionStorage
         sessionStorage.setItem('username', username);
+
     });
+
 });

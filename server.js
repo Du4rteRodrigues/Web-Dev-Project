@@ -15,9 +15,21 @@ app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 app.use(express.static('public'))
 
-
 app.get('/home', async (req, res) => {
-  //deleteAllDataInJson('data.json')
+
+  pool.query('SELECT * FROM users', (error, results) => {
+    if (error) { throw error; }
+    //console.log('Retrieved users: ', results.rowCount);
+    console.log('Retrieved users: ', results.rows);
+
+    //fs.writeFile('data.json', JSON.stringify({ rowsCount: results.rowCount }), (writeError) => {
+      fs.writeFile('user-data.json', JSON.stringify({ users: results.rows, userCount: results.rowCount}), (writeError) => {
+        if (writeError) {
+            console.error('Error writing to data.json:', writeError);
+            res.status(500).send('Internal Server Error');
+        }
+    });
+});
 
   pool.query('SELECT * FROM posts WHERE verified = true', (error, results) => {
       if (error) { throw error; }
@@ -25,22 +37,34 @@ app.get('/home', async (req, res) => {
       console.log('Retrieved posts: ', results.rows);
 
       //fs.writeFile('data.json', JSON.stringify({ rowsCount: results.rowCount }), (writeError) => {
-        fs.writeFile('data.json', JSON.stringify({ posts: results.rows, postCount: results.rowCount}), (writeError) => {
+        fs.writeFile('post-data.json', JSON.stringify({ posts: results.rows, postCount: results.rowCount}), (writeError) => {
           if (writeError) {
               console.error('Error writing to data.json:', writeError);
               res.status(500).send('Internal Server Error');
-          } else {
-              // Send a success message to the client
-              //res.sendFile(__dirname + '/public/Templates/home.html');
-              
           }
       });
   });
+  
   res.sendFile(__dirname + '/public/Templates/home.html');
 });
 
-app.get('/data-json', (req, res) => {
-  const filePath = path.join(__dirname, 'data.json');
+
+app.get('/user-data-json', (req, res) => {
+  const filePath = path.join(__dirname, 'user-data.json');
+  
+  fs.readFile(filePath, 'utf8', (readError, data) => {
+     if (readError) {
+        console.error('Error reading data.json:', readError);
+        res.status(500).send('Internal Server Error');
+     } else {
+        res.setHeader('Content-Type', 'application/json');
+        res.send(data);
+     }
+  });
+});
+
+app.get('/post-data-json', (req, res) => {
+  const filePath = path.join(__dirname, 'post-data.json');
   
   fs.readFile(filePath, 'utf8', (readError, data) => {
      if (readError) {
@@ -160,11 +184,6 @@ app.get("/signup", (req, res) => {
 app.get("/login", (req, res) => {
   res.sendFile(__dirname + '/public/Templates/login.html');
 });
-/*
-app.get("/home", async (req, res) => {
-  res.sendFile(__dirname + '/public/Templates/home.html');
-});
-*/
 
 app.get("/poster", (req, res) => {
   res.sendFile(__dirname + '/public/Templates/poster.html');
@@ -175,7 +194,7 @@ app.get("/about", (req, res) => {
 });
 
 app.get("/moderation", (req, res) => {
-  //deleteAllDataInJson('data.json')
+  //deleteAllDataInJson('post-data.json')
 
   pool.query('SELECT * FROM posts WHERE verified = false', (error, results) => {
       if (error) { throw error; }
@@ -183,7 +202,7 @@ app.get("/moderation", (req, res) => {
       console.log('Retrieved posts: ', results.rows);
 
       //fs.writeFile('data.json', JSON.stringify({ rowsCount: results.rowCount }), (writeError) => {
-        fs.writeFile('data.json', JSON.stringify({ posts: results.rows, postCount: results.rowCount}), (writeError) => {
+        fs.writeFile('post-data.json', JSON.stringify({ posts: results.rows, postCount: results.rowCount}), (writeError) => {
           if (writeError) {
               console.error('Error writing to data.json:', writeError);
               res.status(500).send('Internal Server Error');
@@ -303,6 +322,6 @@ app.post("/signup", async (req, res) => {
 });
 
 app.listen(PORT, () => {
-    console.log(`Server running at http://localhost:${PORT}/moderation`)
+    console.log(`Server running at http://localhost:${PORT}/home`)
 })
 

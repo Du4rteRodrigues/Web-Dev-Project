@@ -2,6 +2,7 @@ document.addEventListener('DOMContentLoaded', function () {
   var openPopupBtn = document.getElementById('openPopupBtn');
   var closePopupBtn = document.getElementById('closePopupBtn');
   var logoutBtn = document.getElementById('logoutBtn');
+  var management = document.getElementById('moderation-btn');
   var profileBtn = document.getElementById('profileBtn');
   var popup = document.getElementById('popup');
 
@@ -16,20 +17,32 @@ document.addEventListener('DOMContentLoaded', function () {
 window.onload= onLoad
 
 async function onLoad() {
+
   try {
-     const response = await fetch('/data-json');
+     const response = await fetch('/post-data-json');
      if (!response.ok) {
         throw new Error(`Failed to fetch data: ${response.statusText}`);
      }
      const data = await response.json();
+     getUserCard()
      createPosts(data);
      updateContentHeight();
      return data;
   } catch (error) {
      console.error('Error fetching data:', error);
   }
-}
 
+  try {
+    const response = await fetch('/user-data-json');
+    if (!response.ok) {
+       throw new Error(`Failed to fetch data: ${response.statusText}`);
+    }
+    const data = await response.json();
+    return data;
+ } catch (error) {
+    console.error('Error fetching data:', error);
+ }
+}
 var userElement = document.querySelector('.user');
 var postBtnElement = document.getElementById('postBtn');
 
@@ -37,7 +50,6 @@ var postBtnElement = document.getElementById('postBtn');
     userElement.classList.add('follow')
     postBtnElement .classList.add('follow')
   });
-
 
   // Abrir o pop-up
   openPopupBtn.addEventListener('click', function () {
@@ -63,6 +75,70 @@ var postBtnElement = document.getElementById('postBtn');
     alert('Outra opção realizada com sucesso!');
     popup.style.display = 'none';
   });
+
+management.addEventListener('click',async function () {
+  window.location.href = '/moderation';
+  /*
+  var storedUsername = sessionStorage.getItem('username');
+  try {
+    // Fetch the JSON file
+    const response = await fetch('/user-data-json');
+    if (!response.ok) {
+      throw new Error(`Failed to fetch JSON: ${response.statusText}`);
+    }
+
+    // Parse the JSON response
+    const data = await response.json();
+
+    // Check if the username exists in the JSON data
+    const user = data.users.find(user => user.user_name === storedUsername);
+
+    if (user) {
+      // Check if the user is verified
+      if (user.verified) {
+        alert("here")
+      } else {
+        console.log(`User "${storedUsername}" exists in the JSON but is not verified.`);
+      }
+    } else {
+      console.log(`User "${storedUsername}" not found in JSON.`);
+    }
+  } catch (error) {
+    console.error('Error:', error);
+  }
+  
+  const response = await fetch('/user-data-json');
+  if (!response.ok) {
+     throw new Error(`Failed to fetch data: ${response.statusText}`);
+  }
+  const data = await response.json();
+  const currentUser = document.getElementById('current-user')
+  */
+});
+
+function getUserCard(){
+  var storedUsername = sessionStorage.getItem('username');
+  const userCard = document.querySelector(".user")
+  const currentUser = document.getElementById('current-user')
+  const modBtn = document.getElementById('moderation-btn')
+
+  // Checking if the username exists
+  if (storedUsername) {
+    currentUser.textContent= `@${storedUsername}`
+    userCard.style.display = 'flex'
+    modBtn.style.display = 'flex'
+    }else{
+    userCard.style.display = 'none'
+    return
+    }
+  }
+
+/*    for (const postData of data.posts) {
+      if (postData.user_id == user && postData.post_title == title && postData.post_content == content) {
+        return postData.post_id; // Assuming there is a post_id in your data
+      }
+    }
+    return null; // Return null if no match is found*/ 
 
 function changeNumberSize(num){
   if(num.value == 0){
@@ -154,7 +230,7 @@ function createPosts(data){
       dislikeImg.id = `post-dislike-img-${i}`
       dislikeImg.className ='post-down'
       dislikeImg.addEventListener("click", function() { changeLikes('down', this.id);});
-
+/*
       commentNum.id = `post-comments-${i}`
       commentNum.className= 'post-comments'
       commentNum.value = 0
@@ -176,15 +252,15 @@ function createPosts(data){
       commentsImg.id = `post-comments-img-${i}`
       commentsImg.className ='post-comments-img'
       commentsImg.addEventListener("click", function() { changeComments('up', this.parentNode.id);});
-
+*/
       infoDiv.appendChild(user)
       infoDiv.appendChild(title)
       contentDiv.appendChild(content)
       engagmentDiv.appendChild(likes)
       engagmentDiv.appendChild(dislikeImg)
       engagmentDiv.appendChild(likeImg)
-      engagmentDiv.appendChild(commentsImg)
-      engagmentDiv.appendChild(commentNum)
+      //engagmentDiv.appendChild(commentsImg)
+      //engagmentDiv.appendChild(commentNum)
       post.appendChild(infoDiv)
       post.appendChild(contentDiv)
       post.appendChild(engagmentDiv)
@@ -194,15 +270,26 @@ function createPosts(data){
 }
 
 function changeComments(type, element){
+  const currentUser = document.getElementById('current-user')
+  if(currentUser.textContent == "@"){
+    window.location.href = '/login';
+    return;
+  }
   const btn = document.getElementById(element)
   const post = document.getElementById(btn.parentNode.id)
   const commentsNum = post.querySelector('.post-comments')
   commentsNum.stepUp(1)
 }
 
-function changeLikes(type, element){
+function changeLikes(type, element){  
   const btn = document.getElementById(element)
   const post = document.getElementById(btn.parentNode.id)
+  const currentUser = document.getElementById('current-user')
+
+  if(currentUser.textContent == "@"){
+    window.location.href = '/login';
+    return;
+  }
 
   const likes = post.querySelector('.post-engagment')
   const upBtn = post.querySelector('.post-up')
