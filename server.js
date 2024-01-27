@@ -17,9 +17,9 @@ app.use(express.static('public'))
 
 
 app.get('/home', async (req, res) => {
-  deleteAllDataInJson('data.json')
+  //deleteAllDataInJson('data.json')
 
-  pool.query('SELECT * FROM posts', (error, results) => {
+  pool.query('SELECT * FROM posts WHERE verified = true', (error, results) => {
       if (error) { throw error; }
       //console.log('Retrieved users: ', results.rowCount);
       console.log('Retrieved posts: ', results.rows);
@@ -93,10 +93,10 @@ const values = ['admin', 'admin@gmail.com', 'admin', 'false', 'admin']
                  if (error) { throw error; }
                  console.log('User added with ID: ', results.insertId); 
  });
-
+/*
 const insertQuery = `INSERT INTO posts (user_id, post_title, post_content, post_likes, verified) 
                       VALUES ($1, $2, $3, $4, $5) RETURNING *`
-const values = ['30', '2nd title', '2nd content', 0, 'false']
+const values = ['40', 'to-validate', 'this content should be validated', 10, 'true']
 
  pool.query(insertQuery,values,
            (error, results) => {
@@ -175,7 +175,48 @@ app.get("/about", (req, res) => {
 });
 
 app.get("/moderation", (req, res) => {
+  //deleteAllDataInJson('data.json')
+
+  pool.query('SELECT * FROM posts WHERE verified = false', (error, results) => {
+      if (error) { throw error; }
+      //console.log('Retrieved users: ', results.rowCount);
+      console.log('Retrieved posts: ', results.rows);
+
+      //fs.writeFile('data.json', JSON.stringify({ rowsCount: results.rowCount }), (writeError) => {
+        fs.writeFile('data.json', JSON.stringify({ posts: results.rows, postCount: results.rowCount}), (writeError) => {
+          if (writeError) {
+              console.error('Error writing to data.json:', writeError);
+              res.status(500).send('Internal Server Error');
+          } else {
+              // Send a success message to the client
+              //res.sendFile(__dirname + '/public/Templates/home.html');
+              
+          }
+      });
+  });
   res.sendFile(__dirname + '/public/Templates/moderation.html');
+});
+
+app.post("/moderation", (req, res) => {
+  const postToVerify = req.body.postId;
+  const type = req.body.action
+  if(type == "verify"){
+  pool.query(`UPDATE posts
+              SET verified = true
+              WHERE post_id = $1`,
+  [postToVerify],
+  (error, results) => {
+        if (error) { throw error; }
+        console.log(`Post modified with ID: `, results.insertId); 
+  });
+  }else{
+    pool.query(`DELETE FROM posts
+    WHERE post_id = $1`,
+     [postToVerify],
+    (error, results) => {
+          if (error) { throw error; }
+          console.log(`User deleted with ID: `, results.insertId); });
+  }
 });
 
 app.get("/chat", (req, res) => {
@@ -262,6 +303,6 @@ app.post("/signup", async (req, res) => {
 });
 
 app.listen(PORT, () => {
-    console.log(`Server running at http://localhost:${PORT}/home`)
+    console.log(`Server running at http://localhost:${PORT}/moderation`)
 })
 

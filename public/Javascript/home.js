@@ -30,21 +30,8 @@ async function onLoad() {
   }
 }
 
-/*
-async function onLoad(){
-  const fetchData = fetch('../../data.json')
-  .then(response => response.json())
-  .then(data => {
-      createPosts(data);
-      updateContentHeight()
-      
-      return data;
-  })
-}
-*/
-
-  var userElement = document.querySelector('.user');
-  var postBtnElement = document.getElementById('postBtn');
+var userElement = document.querySelector('.user');
+var postBtnElement = document.getElementById('postBtn');
 
   window.addEventListener('scroll', function() {
     userElement.classList.add('follow')
