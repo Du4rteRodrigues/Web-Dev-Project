@@ -2,9 +2,11 @@ const express = require('express')
 const cookieParser = require('cookie-parser')
 const bodyParser = require('body-parser');
 const cors = require("cors");
-const pool = require('./public/Javascript/database')
+const {pool} = require('./database')
+const fs = require('fs');  // Include the fs module
 const bcrypt = require('bcrypt')
 const app = express()
+const path = require('path');
 
 const PORT = process.env.PORT || 8888
 
@@ -12,6 +14,73 @@ app.use(cookieParser())
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 app.use(express.static('public'))
+
+
+app.get('/home', async (req, res) => {
+  deleteAllDataInJson('data.json')
+
+  pool.query('SELECT * FROM posts', (error, results) => {
+      if (error) { throw error; }
+      //console.log('Retrieved users: ', results.rowCount);
+      console.log('Retrieved posts: ', results.rows);
+
+      //fs.writeFile('data.json', JSON.stringify({ rowsCount: results.rowCount }), (writeError) => {
+        fs.writeFile('data.json', JSON.stringify({ posts: results.rows, postCount: results.rowCount}), (writeError) => {
+          if (writeError) {
+              console.error('Error writing to data.json:', writeError);
+              res.status(500).send('Internal Server Error');
+          } else {
+              // Send a success message to the client
+              //res.sendFile(__dirname + '/public/Templates/home.html');
+              
+          }
+      });
+  });
+  res.sendFile(__dirname + '/public/Templates/home.html');
+});
+
+app.get('/data-json', (req, res) => {
+  const filePath = path.join(__dirname, 'data.json');
+  
+  fs.readFile(filePath, 'utf8', (readError, data) => {
+     if (readError) {
+        console.error('Error reading data.json:', readError);
+        res.status(500).send('Internal Server Error');
+     } else {
+        res.setHeader('Content-Type', 'application/json');
+        res.send(data);
+     }
+  });
+});
+
+function deleteAllDataInJson(filePath) {
+  // Read the current content of the JSON file
+  fs.readFile(filePath, 'utf8', (readError, data) => {
+    if (readError) {
+      console.error('Error reading file:', readError);
+    } else {
+      try {
+        // Parse the JSON data
+        const jsonData = JSON.parse(data);
+
+        // Modify the JSON data as needed
+        // In this case, setting an empty object
+        const newData = {};
+
+        // Write the modified data back to the file
+        fs.writeFile(filePath, JSON.stringify(newData), 'utf8', (writeError) => {
+          if (writeError) {
+            console.error('Error writing to file:', writeError);
+          } else {
+            console.log('Data in the file has been deleted.');
+          }
+        });
+      } catch (parseError) {
+        console.error('Error parsing JSON:', parseError);
+      }
+    }
+  });
+}
 
 //create
 /*
@@ -23,6 +92,16 @@ const values = ['admin', 'admin@gmail.com', 'admin', 'false', 'admin']
            (error, results) => {
                  if (error) { throw error; }
                  console.log('User added with ID: ', results.insertId); 
+ });
+
+const insertQuery = `INSERT INTO posts (user_id, post_title, post_content, post_likes, verified) 
+                      VALUES ($1, $2, $3, $4, $5) RETURNING *`
+const values = ['30', '2nd title', '2nd content', 0, 'false']
+
+ pool.query(insertQuery,values,
+           (error, results) => {
+                 if (error) { throw error; }
+                 console.log('Post logged: ', results.insertId); 
  });
 */
 
@@ -81,10 +160,11 @@ app.get("/signup", (req, res) => {
 app.get("/login", (req, res) => {
   res.sendFile(__dirname + '/public/Templates/login.html');
 });
-
-app.get("/home", (req, res) => {
+/*
+app.get("/home", async (req, res) => {
   res.sendFile(__dirname + '/public/Templates/home.html');
 });
+*/
 
 app.get("/poster", (req, res) => {
   res.sendFile(__dirname + '/public/Templates/poster.html');
@@ -139,8 +219,7 @@ app.post("/login", async (req, res) => {
 
 app.post("/post", (req, res) => {
   const username = req.body.username;
-  // const user_id = pool.query(`SELECT user_id FROM users WHERE user_name = $1`, [username]);
-  const user_id = 10
+  const user_id = pool.query(`SELECT user_id FROM users WHERE user_name = $1`, [username]);
   const title = req.body.title;
   const content = req.body.content
 
@@ -183,6 +262,6 @@ app.post("/signup", async (req, res) => {
 });
 
 app.listen(PORT, () => {
-    console.log(`Listening on: http://localhost:${PORT}/home`)
+    console.log(`Server running at http://localhost:${PORT}/home`)
 })
 

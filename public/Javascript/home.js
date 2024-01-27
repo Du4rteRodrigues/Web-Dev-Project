@@ -1,13 +1,3 @@
-
-function post(){
-  window.location.replace("../Templates/poster.html")
-}
-
-function aboutUs(){
-  window.location.replace("../Templates/about.html")
-}
-
-
 document.addEventListener('DOMContentLoaded', function () {
   var openPopupBtn = document.getElementById('openPopupBtn');
   var closePopupBtn = document.getElementById('closePopupBtn');
@@ -15,13 +5,43 @@ document.addEventListener('DOMContentLoaded', function () {
   var profileBtn = document.getElementById('profileBtn');
   var popup = document.getElementById('popup');
 
-
-  window.onload= onLoad
-
-  function onLoad(){
-    createPosts()
-    updateContentHeight()
+  // function post(){
+  //   window.location.replace("../Templates/poster.html")
+  // }
+  
+  function aboutUs(){
+    window.location.replace("../Templates/about.html")
   }
+
+window.onload= onLoad
+
+async function onLoad() {
+  try {
+     const response = await fetch('/data-json');
+     if (!response.ok) {
+        throw new Error(`Failed to fetch data: ${response.statusText}`);
+     }
+     const data = await response.json();
+     createPosts(data);
+     updateContentHeight();
+     return data;
+  } catch (error) {
+     console.error('Error fetching data:', error);
+  }
+}
+
+/*
+async function onLoad(){
+  const fetchData = fetch('../../data.json')
+  .then(response => response.json())
+  .then(data => {
+      createPosts(data);
+      updateContentHeight()
+      
+      return data;
+  })
+}
+*/
 
   var userElement = document.querySelector('.user');
   var postBtnElement = document.getElementById('postBtn');
@@ -71,9 +91,10 @@ function changeNumberSize(num){
   return num.style.width
 }
 
-function createPosts(){
+function createPosts(data){
+  const num = data.postCount
 
-  for(var i=0; i<10;i++){
+  for(var i=0; i<num;i++){
       var post = document.createElement('div');
       var infoDiv = document.createElement('div')
       var contentDiv = document.createElement('div')
@@ -105,19 +126,19 @@ function createPosts(){
       title.className = 'post-title'
       title.id = `post-title-${i}`
       title.readOnly = true
-      title.value = ''
+      title.value = data.posts[i].post_title
       //80 chars
 
       user.className = 'post-user'
       user.id = `post-user-${i}`
       user.readOnly = true
-      user.value= ''
+      user.value= data.posts[i].user_id
       //17 chars
 
       content.id = `post-content-${i}`
       content.className = 'post-content'
       content.readOnly = true
-      content.value = ''
+      content.value = data.posts[i].post_content
       
       likes.id = `post-likes-${i}`
       likes.className= 'post-engagment'
@@ -266,4 +287,6 @@ function updateSize(elements) {
       element.style.height = element.scrollHeight+ 'px'
     });
 }
+
 });
+
