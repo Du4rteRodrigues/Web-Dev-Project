@@ -24,14 +24,14 @@ body, html {
   margin: 0px;
 }
 
-.container ul{
-  display: inline-grid;
-  grid-auto-flow: row;
-  grid-gap: 30px;
+.container ul {
+  display: flex;
+  flex-direction: row;
+  gap: 30px;
   margin: auto;
-  margin-left: 400px;
   list-style-type: none;
   align-items: center;
+  justify-content: flex-end; /* Ajuste para flex-end para alinhar à direita */
 }
 
 .container a{
@@ -158,10 +158,6 @@ position: fixed;
 transition: margin-top 0.3s ease; /* Add smooth transition for better visual effect */
 }
 
-.user.follow {
-  position: fixed;
-  transition: margin-top 0.3s ease; /* Add smooth transition for better visual effect */
-}
 
 .user img{
     width: 40px;
@@ -366,7 +362,7 @@ transition: margin-top 0.3s ease; /* Add smooth transition for better visual eff
 
 section{
     grid-column: 2 / 3; /* Segunda coluna */
-    /* border-right: 1px solid #9AA0A6; */
+    border-right: 1px solid #9AA0A6;/* border-right: 1px solid #9AA0A6; */
 }
 
 
@@ -396,36 +392,6 @@ aside{
     cursor: pointer;
   }
 
-  /* Screen adjustment */
-  @media only screen and (max-width: 1215px) {
-
-        .post{
-            width: 100;
-            height: fit-content;
-          }
-  
-          .post-info-div{
-              background-color: none;
-          }
-          
-          .post-user{
-              margin-left: 35%;
-              z-index: 1;
-          }
-          .post-title{
-            width: 95%;
-            margin-bottom: 5px;
-            z-index: 2;
-          }
-  
-          .post-engagment{
-              width: 10%;
-          }
-  
-          .post-comments{
-              width: 10%;
-          }
-    }
 
     @media only screen and (max-width: 800px) {
 
