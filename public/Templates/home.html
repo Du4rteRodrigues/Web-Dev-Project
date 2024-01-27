@@ -9,7 +9,6 @@
     <link rel="stylesheet" href="../Javascript/logout.js">
     <link rel="stylesheet" href="../Javascript/post.js"> -->
     <script  src="../Javascript/home.js"></script>
-    <script  src="../Javascript/test.js"></script>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
     <title>Home</title>
 </head>
@@ -29,9 +28,9 @@
             </div>
 
             <ul>
-                <li><a href="#Notifications" class="material-symbols-outlined">notifications</a></li>
-                <li><a href="#Blog">Blog</a></li>
-                <li><a href="#" class="material-symbols-outlined" >settings</a></li>
+                <!-- <li><a href="#Notifications" class="material-symbols-outlined">notifications</a></li> -->
+                <li><a id = "moderation-btn">manage</a></li>
+                <li><a id = "settings-btn" class="material-symbols-outlined" >settings</a></li>
             </ul>
 
         </div>
@@ -41,8 +40,8 @@
             <script src="../Javascript/home.js"></script>
     
             <div class="user">
-                <img src="../Images/licensed-image.jpeg" alt="">
-                <h4>@User</h1>
+                <!-- <img src="../Images/licensed-image.jpeg" alt=""> -->
+                <h4 id = "current-user">@</h4>
     
                 <button id="openPopupBtn">...</button>
             </div>
@@ -58,6 +57,9 @@
         </nav>
 
         <section class="view-posts">
+            <br>
+            <br>
+            <br>
         </section>
         <aside class="create-post">
             <button id="postBtn" onclick="post('post')" class="material-symbols-outlined">draw</button>

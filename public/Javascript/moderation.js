@@ -14,10 +14,10 @@ document.addEventListener('DOMContentLoaded', function () {
     }
   
   window.onload= onLoad
-  
+
   async function onLoad() {
     try {
-       const response = await fetch('/data-json');
+       const response = await fetch('/post-data-json');
        if (!response.ok) {
           throw new Error(`Failed to fetch data: ${response.statusText}`);
        }

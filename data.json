@@ -1,1 +1,1 @@
-{"posts":[{"post_id":3,"user_id":40,"post_title":"to-validate","post_content":"this content should be validated","post_likes":"10","verified":true},{"post_id":2,"user_id":30,"post_title":"2nd title","post_content":"2nd content","post_likes":"0","verified":true}],"postCount":2}
+{"posts":[{"post_id":2,"user_id":30,"post_title":"2nd title","post_content":"2nd content","post_likes":"0","verified":false}],"postCount":1}
