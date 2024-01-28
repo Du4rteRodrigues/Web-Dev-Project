@@ -31,6 +31,7 @@ app.get('/home', async (req, res) => {
     });
 });
 
+
   pool.query('SELECT * FROM posts WHERE verified = true', (error, results) => {
       if (error) { throw error; }
       //console.log('Retrieved users: ', results.rowCount);
@@ -46,6 +47,40 @@ app.get('/home', async (req, res) => {
   });
   
   res.sendFile(__dirname + '/public/Templates/home.html');
+});
+
+app.get('/profile', async (req, res) => {
+
+  pool.query('SELECT * FROM users', (error, results) => {
+    if (error) { throw error; }
+    //console.log('Retrieved users: ', results.rowCount);
+    console.log('Retrieved users: ', results.rows);
+
+    //fs.writeFile('data.json', JSON.stringify({ rowsCount: results.rowCount }), (writeError) => {
+      fs.writeFile('user-data.json', JSON.stringify({ users: results.rows, userCount: results.rowCount}), (writeError) => {
+        if (writeError) {
+            console.error('Error writing to data.json:', writeError);
+            res.status(500).send('Internal Server Error');
+        }
+    });
+});
+
+
+  pool.query('SELECT * FROM posts WHERE verified = true', (error, results) => {
+      if (error) { throw error; }
+      //console.log('Retrieved users: ', results.rowCount);
+      console.log('Retrieved posts: ', results.rows);
+
+      //fs.writeFile('data.json', JSON.stringify({ rowsCount: results.rowCount }), (writeError) => {
+        fs.writeFile('post-data.json', JSON.stringify({ posts: results.rows, postCount: results.rowCount}), (writeError) => {
+          if (writeError) {
+              console.error('Error writing to data.json:', writeError);
+              res.status(500).send('Internal Server Error');
+          }
+      });
+  });
+  
+  res.sendFile(__dirname + '/public/Templates/profile.html');
 });
 
 
@@ -185,8 +220,8 @@ app.get("/login", (req, res) => {
   res.sendFile(__dirname + '/public/Templates/login.html');
 });
 
-app.get("/poster", (req, res) => {
-  res.sendFile(__dirname + '/public/Templates/poster.html');
+app.get("/post", (req, res) => {
+  res.sendFile(__dirname + '/public/Templates/post.html');
 });
 
 app.get("/about", (req, res) => {
@@ -238,13 +273,6 @@ app.post("/moderation", (req, res) => {
   }
 });
 
-app.get("/chat", (req, res) => {
-    if (userGlobal == "?"){
-        res.send("Utilizador não autenticado!");
-        return;
-    }
-  res.send("Welcome to the chat server");
-});
  
 app.post("/login", async (req, res) => {
   const username = req.body.username;
@@ -277,22 +305,23 @@ app.post("/login", async (req, res) => {
 });
   
 
-app.post("/post", (req, res) => {
+app.post("/post", async(req, res) => {
+
   const username = req.body.username;
-  const user_id = pool.query(`SELECT user_id FROM users WHERE user_name = $1`, [username]);
+  const userResult = await pool.query(`SELECT user_id FROM users WHERE user_name = $1`, [username]);
+  const user_id = userResult.rows[0].user_id;
   const title = req.body.title;
   const content = req.body.content
 
-  pool.query(`INSERT INTO posts (user_id, post_title, post_content, post_likes) 
-              VALUES ($1, $2, $3, $4) RETURNING *`,
-              [user_id, title, content, 0],
+  pool.query(`INSERT INTO posts (user_id, post_title, post_content, post_likes, verified) 
+              VALUES ($1, $2, $3, $4, $5) RETURNING *`,
+              [user_id, title, content, 0, 'false'],
               (error, results) => {
               if (error) { throw error;}
                   console.log('Post saved'); 
 });
 
   res.sendFile(__dirname + '/public/Templates/home.html');
-
 });
 
 //Route that handles signup logic

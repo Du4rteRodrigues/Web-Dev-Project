@@ -17,6 +17,8 @@ body, html {
 
 /*Container*/
 .container{
+  width: 100vw;
+  position: fixed;
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -141,33 +143,6 @@ body, html {
     display: block;
 }
 
-.user{
-  display: flex;
-  flex-wrap: wrap;
-  position: sticky;
-  background-color: rgb(46, 44, 44);
-  border-radius: 15px;
-  border: black;
-  max-width: 300px;
-  align-items: center;
-  justify-content: space-around;
-}
-
-.user.follow {
-position: fixed;
-transition: margin-top 0.3s ease; /* Add smooth transition for better visual effect */
-}
-
-
-.user img{
-    width: 40px;
-    border-radius: 50px;
-    height: 40px;
-}
-
-.user button{
-    text-align: center; /* Centralizar o texto no botão */
-}
 
 .post{
     background-color:dimgrey;
@@ -315,7 +290,7 @@ section{
 aside{
     grid-column: 3 / 4; /* Terceira coluna */
     background-color: #a6a6a6;
-    height: 100%;
+    height: 100vh;
 }
 
 .footer-container{
