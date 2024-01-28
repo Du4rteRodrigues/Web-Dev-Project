@@ -5,10 +5,10 @@ document.addEventListener('DOMContentLoaded', function () {
   var management = document.getElementById('moderation-btn');
   var profileBtn = document.getElementById('profileBtn');
   var popup = document.getElementById('popup');
+  var postBtn = document.getElementById('postBtn')
+  var userElement = document.querySelector('.user');
+  var postBtnElement = document.getElementById('postBtn');
 
-  // function post(){
-  //   window.location.replace("../Templates/poster.html")
-  // }
   
   function aboutUs(){
     window.location.replace("../Templates/about.html")
@@ -17,34 +17,41 @@ document.addEventListener('DOMContentLoaded', function () {
 window.onload= onLoad
 
 async function onLoad() {
-
   try {
-     const response = await fetch('/post-data-json');
-     if (!response.ok) {
+     const postResponse = await fetch('/post-data-json');
+     if (!postResponse.ok) {
         throw new Error(`Failed to fetch data: ${response.statusText}`);
      }
-     const data = await response.json();
+     const postData = await postResponse.json();
+
+     const userResponse = await fetch('/user-data-json');
+     if (!userResponse.ok) {
+        throw new Error(`Failed to fetch data: ${response.statusText}`);
+     }
+     const userData = await userResponse.json();
+
      getUserCard()
-     createPosts(data);
+     createPosts(postData, userData);
      updateContentHeight();
      return data;
   } catch (error) {
      console.error('Error fetching data:', error);
   }
-
+/*
   try {
-    const response = await fetch('/user-data-json');
-    if (!response.ok) {
+    const userResponse = await fetch('/user-data-json');
+    if (!userResponse.ok) {
        throw new Error(`Failed to fetch data: ${response.statusText}`);
     }
-    const data = await response.json();
-    return data;
+    const userData = await userResponse.json();
+    return userData;
  } catch (error) {
     console.error('Error fetching data:', error);
  }
+ */
+ 
 }
-var userElement = document.querySelector('.user');
-var postBtnElement = document.getElementById('postBtn');
+
 
   window.addEventListener('scroll', function() {
     userElement.classList.add('follow')
@@ -124,7 +131,7 @@ function getUserCard(){
 
   // Checking if the username exists
   if (storedUsername) {
-    currentUser.textContent= `@${storedUsername}`
+    currentUser.textContent= `${storedUsername}`
     userCard.style.display = 'flex'
     modBtn.style.display = 'flex'
     }else{
@@ -133,29 +140,26 @@ function getUserCard(){
     }
   }
 
-/*    for (const postData of data.posts) {
-      if (postData.user_id == user && postData.post_title == title && postData.post_content == content) {
-        return postData.post_id; // Assuming there is a post_id in your data
-      }
-    }
-    return null; // Return null if no match is found*/ 
+  postBtn.addEventListener('click',async function () {
+    window.location.href = '/post';
+})
 
 function changeNumberSize(num){
   if(num.value == 0){
     num.style.width = '35px'
-  }else if (num.value/10 <= 1){
-    num.style.width = `50px`
+  }else if (num.value/10 <= 5){
+    num.style.width = `55px`
   }
   else if (num.value/10 <= 10){
-    num.style.width = `70px`
-  }else if (num.value/10 >= 100){
-    num.style.width = `100px`
+    num.style.width = `75px`
+  }else if (num.value/10 >= 99){
+    num.style.width = `110px`
   }
   return num.style.width
 }
 
-function createPosts(data){
-  const num = data.postCount
+function createPosts(postData, userData){
+  const num = postData.postCount
 
   for(var i=0; i<num;i++){
       var post = document.createElement('div');
@@ -167,11 +171,10 @@ function createPosts(data){
       var user = document.createElement('textarea')
       var content = document.createElement('textarea')
       var likes = document.createElement('input')
-      var commentNum = document.createElement('input')
+
 
       var likeImg = document.createElement('img')
       var dislikeImg = document.createElement('img')
-      var commentsImg = document.createElement('img')
       var br = document.createElement("br")
 
       post.className='post';
@@ -189,23 +192,27 @@ function createPosts(data){
       title.className = 'post-title'
       title.id = `post-title-${i}`
       title.readOnly = true
-      title.value = data.posts[i].post_title
+      title.value = postData.posts[i].post_title
       //80 chars
 
       user.className = 'post-user'
       user.id = `post-user-${i}`
       user.readOnly = true
-      user.value= data.posts[i].user_id
+      //user.value= postData.posts[i].user_id
+      const postUserId = postData.posts[i].user_id;
+      const userDataForPost = userData.users.find(users => users.user_id === postUserId);
+      user.value = userDataForPost.user_name;
+
       //17 chars
 
       content.id = `post-content-${i}`
       content.className = 'post-content'
       content.readOnly = true
-      content.value = data.posts[i].post_content
+      content.value = postData.posts[i].post_content
       
       likes.id = `post-likes-${i}`
       likes.className= 'post-engagment'
-      likes.value = 0
+      likes.value = postData.posts[i].post_likes
       likes.readOnly = true
       likes.disabled= "yes"
       likes.type = 'number'
@@ -213,12 +220,12 @@ function createPosts(data){
       if(likes.value == 0){
         likes.style.width = '35px'
       }else if (likes.value/10 <= 1){
-        likes.style.width = `50px`
+        likes.style.width = `55px`
       }
       else if (likes.value/10 <= 10){
-        likes.style.width = `70px`
+        likes.style.width = `75px`
       }else if (likes.value/10 >= 99){
-        likes.style.width = `100px`
+        likes.style.width = `110px`
       }
 
       likeImg.src ='../Images/up.png'
@@ -230,37 +237,14 @@ function createPosts(data){
       dislikeImg.id = `post-dislike-img-${i}`
       dislikeImg.className ='post-down'
       dislikeImg.addEventListener("click", function() { changeLikes('down', this.id);});
-/*
-      commentNum.id = `post-comments-${i}`
-      commentNum.className= 'post-comments'
-      commentNum.value = 0
-      commentNum.readOnly = true
-      commentNum.disabled= "yes"
-      commentNum.type = 'number'
-      if(commentNum.value == 0){
-        commentNum.style.width = '35px'
-      }else if (commentNum.value/10 <= 1){
-        commentNum.style.width = `50px`
-      }
-      else if (commentNum.value/10 <= 10){
-        commentNum.style.width = `70px`
-      }else if (commentNum.value/10 >= 100){
-        commentNum.style.width = `100px`
-      }
 
-      commentsImg.src ='../Images/comments.png'
-      commentsImg.id = `post-comments-img-${i}`
-      commentsImg.className ='post-comments-img'
-      commentsImg.addEventListener("click", function() { changeComments('up', this.parentNode.id);});
-*/
       infoDiv.appendChild(user)
       infoDiv.appendChild(title)
       contentDiv.appendChild(content)
       engagmentDiv.appendChild(likes)
       engagmentDiv.appendChild(dislikeImg)
       engagmentDiv.appendChild(likeImg)
-      //engagmentDiv.appendChild(commentsImg)
-      //engagmentDiv.appendChild(commentNum)
+
       post.appendChild(infoDiv)
       post.appendChild(contentDiv)
       post.appendChild(engagmentDiv)
@@ -269,24 +253,12 @@ function createPosts(data){
   }
 }
 
-function changeComments(type, element){
-  const currentUser = document.getElementById('current-user')
-  if(currentUser.textContent == "@"){
-    window.location.href = '/login';
-    return;
-  }
-  const btn = document.getElementById(element)
-  const post = document.getElementById(btn.parentNode.id)
-  const commentsNum = post.querySelector('.post-comments')
-  commentsNum.stepUp(1)
-}
-
 function changeLikes(type, element){  
   const btn = document.getElementById(element)
   const post = document.getElementById(btn.parentNode.id)
   const currentUser = document.getElementById('current-user')
 
-  if(currentUser.textContent == "@"){
+  if(currentUser.textContent == ""){
     window.location.href = '/login';
     return;
   }

@@ -3,58 +3,51 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../Styles/home.css">
-    <link rel="stylesheet" href="../Styles/popupLogout.css">
-    <link rel="stylesheet" href="../Javascript/logout.js">
-    <link rel="stylesheet" href="../Javascript/post.js">
-    <link rel="stylesheet" href="../Javascript/home.js">
-    <title>Profile</title>
+    <link rel="stylesheet" href="../Styles/profile.css">
+    <script  src="../Javascript/profile.js"></script>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
+    <title>Home</title>
 </head>
-<body class="container">
+<body>
     <header>
-        <img src="../Images/logo.png" id="home" onclick="goHome()" alt="Logo" />
-        <nav>
-            <div class="hearder-nav">
-                <ul>
-                    <li><a href="#Notifications">Notifications</a></li>
-                    <li><a href="#Blog">Blog</a></li>
-                </ul>
-                <button class="postBtn" onclick="post('post')">Post</button>
+        <div class="container">
+
+            <a href="/home"><img src="../Images/logo.png" id="home" onclick="goHome()" alt="Logo" /></a>
+
+            <div class="search-bar" id="search-bar">
+                <form action="">
+                    <button type="submit">
+                        <i class="fa fa-search material-symbols-outlined">search</i>
+                    </button>
+                    <input type="text" placeholder="Search ...">
+                </form>
             </div>
 
-            <script src="../Javascript/home.js"></script>
+            <ul>
+                <!-- <li><a href="#Notifications" class="material-symbols-outlined">notifications</a></li> -->
+                <li><a id = "moderation-btn">manage</a></li>
+                <li><a id = "settings-btn" class="material-symbols-outlined" >settings</a></li>
+            </ul>
 
-            <div class="user">
-                <img src="../Images/licensed-image.jpeg" alt="">
-                <h3>Name Surname</h3>
-                <h4>@User</h1>
-                <button id="openPopupBtn">...</button>
-            </div>
-
-            <!-- Pop-up container -->
-            <div id="popup" class="popup">
-                <div class="popup-content">
-                <span class="close" id="closePopupBtn">&times;</span>
-                <button id="logoutBtn">Logout</button>
-                <button id="profileBtn">View Profile</button>
-                </div>
-            </div>
-
-            <script src="../Javascript/logout.js"></script>
-            
-        </nav>
-    </header>
-    <section>
-        Futebol Clube do Porto, também conhecido como FC Porto ou simplesmente Porto, é um clube multidesportivo português sedeado na cidade do Porto. É mais conhecido pela sua equipa de futebol profissional, que joga atualmente na Primeira Liga, a competição mais importante do futebol português.
-    </section>
-    <aside>
-        <div class="search-bar">
-            <input type="text" placeholder="Search..." onkeyup="filterFunction()"/>
         </div>
-        <footer class="footer-content">
-            <p>Duarte Rodrigues - 30009658</p> 
-            <p>Jorge Chaves - 30008541 </p>
-        </footer>
-    </aside>
+    </header>
+    <div class="content">
+        <nav class="user-container">
+        </nav>
+
+        <section class="view-posts">
+            <br>
+            <br>
+            <br>
+        </section>
+        <aside class="create-post">
+
+        </aside>
+    </div>
+    <footer class="footer-container">
+        <div class="footer-content">
+            <span onclick="aboutUs()" class="material-symbols-outlined">groups</span> 
+        </div>
+    </footer>
 </body>
 </html>

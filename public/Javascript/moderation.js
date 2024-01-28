@@ -78,12 +78,6 @@ document.addEventListener('DOMContentLoaded', function () {
         var content = document.createElement('textarea')
         var verifyBtn = document.createElement('button')
         var denyBtn = document.createElement('button')
-        //var likes = document.createElement('input')
-        //var commentNum = document.createElement('input')
-  
-        //var likeImg = document.createElement('img')
-        //var dislikeImg = document.createElement('img')
-        //var commentsImg = document.createElement('img')
         var br = document.createElement("br")
   
         post.className='post';

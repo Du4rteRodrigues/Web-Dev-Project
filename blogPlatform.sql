@@ -15,9 +15,3 @@ CREATE TABLE posts(
     post_likes NUMERIC(6),
 	verified BOOLEAN NOT NULL DEFAULT false
 );
-
-CREATE TABLE comments(
-    post_id INTEGER NOT NULL,
-    user_id INTEGER NOT NULL,
-    comment_content VARCHAR(255) NOT NULL
-);
