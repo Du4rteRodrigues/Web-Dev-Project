@@ -1,10 +1,5 @@
 document.addEventListener('DOMContentLoaded', function () {
-    var openPopupBtn = document.getElementById('openPopupBtn');
-    var closePopupBtn = document.getElementById('closePopupBtn');
-    var logoutBtn = document.getElementById('logoutBtn');
     var management = document.getElementById('moderation-btn');
-    var profileBtn = document.getElementById('profileBtn');
-    var popup = document.getElementById('popup');
     var userElement = document.querySelector('.user');
     var postBtnElement = document.getElementById('postBtn');
   
@@ -17,13 +12,19 @@ document.addEventListener('DOMContentLoaded', function () {
   
   async function onLoad() {
     try {
-       const response = await fetch('/post-data-json');
-       if (!response.ok) {
-          throw new Error(`Failed to fetch data: ${response.statusText}`);
-       }
-       const data = await response.json();
-       //getUserCard()
-       createPosts(data);
+      const postResponse = await fetch('/post-data-json');
+      if (!postResponse.ok) {
+         throw new Error(`Failed to fetch data: ${response.statusText}`);
+      }
+      const postData = await postResponse.json();
+ 
+      const userResponse = await fetch('/user-data-json');
+      if (!userResponse.ok) {
+         throw new Error(`Failed to fetch data: ${response.statusText}`);
+      }
+      const userData = await userResponse.json();
+
+       createPosts(postData, userData);
        updateContentHeight();
        return data;
     } catch (error) {
@@ -41,7 +42,7 @@ document.addEventListener('DOMContentLoaded', function () {
       console.error('Error fetching data:', error);
    }
   }
-  
+
   
     window.addEventListener('scroll', function() {
       userElement.classList.add('follow')
@@ -120,23 +121,31 @@ document.addEventListener('DOMContentLoaded', function () {
     return num.style.width
   }
   
-  function createPosts(data){
-    const num = data.postCount
-  
+  function createPosts(postData, userData){
+    const num = postData.postCount
     for(var i=0; i<num;i++){
+
+      const postUserId = postData.posts[i].user_id;
+      const userDataForPost = userData.users.find(users => users.user_id === postUserId);
+      const storedUsername = sessionStorage.getItem('username');
+
+      if (storedUsername != userDataForPost.user_name) {
+          // Skip to the next iteration if the usernames don't match
+          continue;
+      }
+
         var post = document.createElement('div');
         var infoDiv = document.createElement('div')
         var contentDiv = document.createElement('div')
         var engagmentDiv = document.createElement('div')
   
         var title = document.createElement('textarea');
-        var user = document.createElement('textarea')
+        
         var content = document.createElement('textarea')
+        var editBtn = document.createElement('button')
+        var deleteBtn = document.createElement('button')
         var likes = document.createElement('input')
-  
-  
-        var likeImg = document.createElement('img')
-        var dislikeImg = document.createElement('img')
+
         var br = document.createElement("br")
   
         post.className='post';
@@ -153,24 +162,32 @@ document.addEventListener('DOMContentLoaded', function () {
     
         title.className = 'post-title'
         title.id = `post-title-${i}`
-        title.readOnly = true
-        title.value = data.posts[i].post_title
+        title.readOnly = false
+        title.value = postData.posts[i].post_title
         //80 chars
-  
-        user.className = 'post-user'
-        user.id = `post-user-${i}`
-        user.readOnly = true
-        user.value= data.posts[i].user_id
-        //17 chars
-  
+
         content.id = `post-content-${i}`
         content.className = 'post-content'
-        content.readOnly = true
-        content.value = data.posts[i].post_content
+        content.readOnly = false
+        content.value = postData.posts[i].post_content
+
+        var postId = postData.posts[i].post_id
+
+        deleteBtn.id = `post-delete-${i}`
+        deleteBtn.className= 'post-delete'
+        deleteBtn.innerHTML = "Delete"
+        deleteBtn.onclick = function() {
+            handlePost('delete', this.id, postData, postId);};
+
+        editBtn.id = `post-edit-${i}`
+        editBtn.className= 'post-edit'
+        editBtn.innerHTML = "Edit"
+        editBtn.onclick = function() {
+          handlePost('edit', this.id, postData, postId)};
         
         likes.id = `post-likes-${i}`
         likes.className= 'post-engagment'
-        likes.value = data.posts[i].post_likes
+        likes.value = postData.posts[i].post_likes
         likes.readOnly = true
         likes.disabled= "yes"
         likes.type = 'number'
@@ -186,22 +203,11 @@ document.addEventListener('DOMContentLoaded', function () {
           likes.style.width = `110px`
         }
   
-        likeImg.src ='../Images/up.png'
-        likeImg.id = `post-like-img-${i}`
-        likeImg.className ='post-up'
-        likeImg.addEventListener("click", function() { changeLikes('up', this.parentNode.id);});
-        
-        dislikeImg.src ='../Images/down.png'
-        dislikeImg.id = `post-dislike-img-${i}`
-        dislikeImg.className ='post-down'
-        dislikeImg.addEventListener("click", function() { changeLikes('down', this.id);});
-  
-        infoDiv.appendChild(user)
         infoDiv.appendChild(title)
         contentDiv.appendChild(content)
+        engagmentDiv.appendChild(editBtn)
+        engagmentDiv.appendChild(deleteBtn)
         engagmentDiv.appendChild(likes)
-        engagmentDiv.appendChild(dislikeImg)
-        engagmentDiv.appendChild(likeImg)
   
         post.appendChild(infoDiv)
         post.appendChild(contentDiv)
@@ -210,72 +216,89 @@ document.addEventListener('DOMContentLoaded', function () {
         document.getElementsByTagName('section')[0].appendChild(br);
     }
   }
-  
-  function changeLikes(type, element){  
-    const btn = document.getElementById(element)
-    const post = document.getElementById(btn.parentNode.id)
-    const currentUser = document.getElementById('current-user')
-  
-    if(currentUser.textContent == "@"){
-      window.location.href = '/login';
-      return;
+
+  function getPostId(user, title, content, data) {
+    for (const postData of data.posts) {
+      if (postData.user_id == user && postData.post_title == title && postData.post_content == content) {
+        return postData.post_id; // Assuming there is a post_id in your data
+      }
     }
-  
-    const likes = post.querySelector('.post-engagment')
-    const upBtn = post.querySelector('.post-up')
-    const downBtn = post.querySelector('.post-down')
-  
-    if(type == 'up'){
-        if(upBtn.getAttribute('src') == '../Images/up.png' && downBtn.getAttribute('src') == '../Images/down.png'){
-            upBtn.src = '../Images/up-clicked.png'
-            likes.stepUp(1)
-          likes.style.width = changeNumberSize(likes)
-          likes.style.color = "#22B14C"
-        }
-  
-        else if(upBtn.getAttribute('src') == '../Images/up-clicked.png'){
-            upBtn.src = '../Images/up.png'
-            likes.stepDown(1)
-            likes.style.width = changeNumberSize(likes)
-            likes.style.color = "black"
-        }
-  
-        else if(downBtn.getAttribute('src') == '../Images/down-clicked.png' && upBtn.getAttribute('src') == '../Images/up.png'){
-            downBtn.src = '../Images/down.png'
-            upBtn.src = '../Images/up-clicked.png'
-            likes.stepUp(2)
-            likes.style.width = changeNumberSize(likes)
-            likes.style.color = "#22B14C"
-        }
-  
-        }
-  
-    else{
-        if(downBtn.getAttribute('src') == '../Images/down.png' && upBtn.getAttribute('src') == '../Images/up.png'){
-            downBtn.src = '../Images/down-clicked.png'
-            likes.stepDown(1)
-            likes.style.width = changeNumberSize(likes)
-            likes.style.color = "red"
-        }
-  
-        else if(downBtn.getAttribute('src') == '../Images/down-clicked.png'){
-            downBtn.src = '../Images/down.png'
-            likes.stepUp(1)
-            likes.style.width = changeNumberSize(likes)
-            likes.style.color = "black"
-        }
-  
-        else if(upBtn.getAttribute('src') == '../Images/up-clicked.png' && downBtn.getAttribute('src') == '../Images/down.png'){
-            downBtn.src = '../Images/down-clicked.png'
-            upBtn.src = '../Images/up.png'
-            likes.stepDown(2)
-            likes.style.width = changeNumberSize(likes)
-            likes.style.color = "red"
-        }
-        }
+    return null; // Return null if no match is found
   }
-            // Obtenha o username da sessionStorage
-          var username = sessionStorage.getItem('username');
+
+  /*
+  async function deletePost(element, postData, user, type) { 
+    const btn = document.getElementById(element);
+    const modDiv = document.getElementById(btn.parentNode.id);
+    const post = document.getElementById(modDiv.parentNode.id);
+
+    const titleElement = post.querySelector('.post-title');
+    const contentElement = post.querySelector('.post-content');
+
+    // Get title and content from HTML elements
+    const title = titleElement.value;
+    const content = contentElement.value;
+    const postId = getPostId(user, title, content, postData);
+    post.style.display = 'none';
+    try {const response = await fetch('/profile', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          type:type,
+            postId: postId,
+          }),
+      });
+      if (!response.ok) {
+        throw new Error(`Failed to verify post: ${response.statusText}`);
+      }
+      // Optionally, you can update the UI or perform additional actions after a successful verification
+    } catch (error) {
+      console.error('Error verifying post:', error);
+    }
+  }
+  */
+
+  async function handlePost(type, element, postData, post_id) {
+    const btn = document.getElementById(element);
+    const modDiv = document.getElementById(btn.parentNode.id);
+    const post = document.getElementById(modDiv.parentNode.id);
+
+    //const userElement = post.querySelector('.post-user');
+    const titleElement = post.querySelector('.post-title');
+    const contentElement = post.querySelector('.post-content');
+
+    // Get title and content from HTML elements
+    //const storedUsername = sessionStorage.getItem('username');
+
+    //const user = userData.users.find(user => user.user_name === storedUsername);
+    //const userId = user.user_id
+    const title = titleElement.value;
+    const content = contentElement.value;
+
+    //const postId = getPostId(userId, title, content, postData);
+    if(type== "delete"){post.style.display = 'none';}
+    try {const response = await fetch('/profile', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+            postId: post_id,
+            action: type,
+            title:title,
+            content:content,
+          }),
+      });
+      if (!response.ok) {
+        throw new Error(`Failed to verify post: ${response.statusText}`);
+      }
+      // Optionally, you can update the UI or perform additional actions after a successful verification
+    } catch (error) {
+      console.error('Error verifying post:', error);
+    }
+  }
   
   function updateContentHeight(){
     var allPosts = document.querySelectorAll('.post');

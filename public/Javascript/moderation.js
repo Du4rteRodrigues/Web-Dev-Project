@@ -17,12 +17,19 @@ document.addEventListener('DOMContentLoaded', function () {
 
   async function onLoad() {
     try {
-       const response = await fetch('/post-data-json');
-       if (!response.ok) {
-          throw new Error(`Failed to fetch data: ${response.statusText}`);
-       }
-       const data = await response.json();
-       createUnverifiedPosts(data);
+      const postResponse = await fetch('/post-data-json');
+      if (!postResponse.ok) {
+         throw new Error(`Failed to fetch data: ${response.statusText}`);
+      }
+      const postData = await postResponse.json();
+ 
+      const userResponse = await fetch('/user-data-json');
+      if (!userResponse.ok) {
+         throw new Error(`Failed to fetch data: ${response.statusText}`);
+      }
+      const userData = await userResponse.json();
+ 
+      createUnverifiedPosts(postData, userData);
        updateContentHeight();
        return data;
     } catch (error) {
@@ -64,9 +71,8 @@ document.addEventListener('DOMContentLoaded', function () {
       popup.style.display = 'none';
     });
   
-  function createUnverifiedPosts(data){
-    const num = data.postCount
-  
+  function createUnverifiedPosts(postData, userData){
+    const num = postData.postCount
     for(var i=0; i<num;i++){
         var post = document.createElement('div');
         var infoDiv = document.createElement('div')
@@ -76,9 +82,13 @@ document.addEventListener('DOMContentLoaded', function () {
         var title = document.createElement('textarea');
         var user = document.createElement('textarea')
         var content = document.createElement('textarea')
+        var likes = document.createElement('input')
         var verifyBtn = document.createElement('button')
         var denyBtn = document.createElement('button')
         var br = document.createElement("br")
+
+        var userId = postData.posts[i].user_id
+        var status = postData.posts[i].verified
   
         post.className='post';
         post.id = `post-${i}`
@@ -95,37 +105,59 @@ document.addEventListener('DOMContentLoaded', function () {
         title.className = 'post-title'
         title.id = `post-title-${i}`
         title.readOnly = true
-        title.value = data.posts[i].post_title
+        title.value = postData.posts[i].post_title
         //80 chars
   
         user.className = 'post-user'
         user.id = `post-user-${i}`
         user.readOnly = true
-        user.value= data.posts[i].user_id
+        const postUserId = postData.posts[i].user_id;
+        const userDataForPost = userData.users.find(users => users.user_id === postUserId);
+        user.value = userDataForPost.user_name;
         //17 chars
   
         content.id = `post-content-${i}`
         content.className = 'post-content'
         content.readOnly = true
-        content.value = data.posts[i].post_content
+        content.value = postData.posts[i].post_content
+
+        likes.id = `post-likes-${i}`
+        likes.className= 'post-engagment'
+        likes.value = postData.posts[i].post_likes
+        likes.readOnly = true
+        likes.disabled= "yes"
+        likes.type = 'number'
+
+        const id = postData.posts[i].post_id
 
         verifyBtn.id = `post-verify-${i}`
         verifyBtn.className= 'post-verify'
-        verifyBtn.innerHTML = "Verify"
         verifyBtn.onclick = function() {
-            evaluatePost('verify', this.id, data);};
+            //evaluatePost('verify', this.id, postData, userId, status
+            evaluatePost('verify', this.id, id, userId, status);};
 
         denyBtn.id = `post-verify-${i}`
         denyBtn.className= 'post-deny'
         denyBtn.innerHTML = "Deny"
         denyBtn.onclick = function() {
-            evaluatePost('deny', this.id, data);};
+            //evaluatePost('deny', this.id, postData, userId, status);
+            evaluatePost('deny', this.id, id, userId, status);
+          };
+
+        if(status == true){
+          post.style.backgroundColor = "#27b331"
+          verifyBtn.innerHTML = "Unverify"
+          }else{
+            post.style.backgroundColor = "#e03d34"
+            verifyBtn.innerHTML = "Verify"
+          }
         
         infoDiv.appendChild(user)
         infoDiv.appendChild(title)
         contentDiv.appendChild(content)
         moderationDiv.appendChild(verifyBtn)
         moderationDiv.appendChild(denyBtn)
+        moderationDiv.appendChild(likes)
         post.appendChild(infoDiv)
         post.appendChild(contentDiv)
         post.appendChild(moderationDiv)
@@ -146,21 +178,24 @@ function getPostId(user, title, content, data) {
     return null; // Return null if no match is found
   }
 
-async function evaluatePost(type, element, data) { 
+async function evaluatePost(type, element, id, userId, status) { 
     const btn = document.getElementById(element);
     const modDiv = document.getElementById(btn.parentNode.id);
     const post = document.getElementById(modDiv.parentNode.id);
 
-    const userElement = post.querySelector('.post-user');
+    //const userElement = post.querySelector('.post-user');
     const titleElement = post.querySelector('.post-title');
     const contentElement = post.querySelector('.post-content');
 
     // Get title and content from HTML elements
-    const user = userElement.value;
+    // const user = userElement.value;
+    const user = userId;
+    const postStatus = status
     const title = titleElement.value;
     const content = contentElement.value;
-    const postId = getPostId(user, title, content, data);
+    const postId = id//getPostId(user, title, content, data);
     post.style.display = 'none';
+    
     try {const response = await fetch('/moderation', {
         method: 'POST',
         headers: {
@@ -169,15 +204,18 @@ async function evaluatePost(type, element, data) {
         body: JSON.stringify({
             postId: postId,
             action: type,
+            status: postStatus,
           }),
       });
       if (!response.ok) {
         throw new Error(`Failed to verify post: ${response.statusText}`);
       }
+      window.reload()
       // Optionally, you can update the UI or perform additional actions after a successful verification
     } catch (error) {
       console.error('Error verifying post:', error);
     }
+    
   }
 
 function updateContentHeight(){

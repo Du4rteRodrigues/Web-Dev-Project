@@ -1,15 +1,40 @@
+
 document.addEventListener('DOMContentLoaded', function () {
   var openPopupBtn = document.getElementById('openPopupBtn');
   var closePopupBtn = document.getElementById('closePopupBtn');
   var logoutBtn = document.getElementById('logoutBtn');
   var management = document.getElementById('moderation-btn');
   var profileBtn = document.getElementById('profileBtn');
+  var currentUser = document.getElementById('current-user')
   var popup = document.getElementById('popup');
-  var postBtn = document.getElementById('postBtn')
   var userElement = document.querySelector('.user');
   var postBtnElement = document.getElementById('postBtn');
+  var aboutBtn = document.getElementById("about-us")
 
-  
+aboutBtn.addEventListener('click',function () {
+  window.location.href = '/about';
+})
+
+postBtnElement.addEventListener('click',function () {
+  if(currentUser.textContent == "Login"){
+    window.location.href = '/login';
+    return;
+  }
+  window.location.href = '/post';
+})
+
+management.addEventListener('click',function () {
+  window.location.href = '/moderation';
+})
+
+currentUser.addEventListener('click',function () {
+  if(currentUser.textContent == "Login"){
+    window.location.href = '/login';
+    return;
+  }
+  window.location.href = '/profile';
+})
+
   function aboutUs(){
     window.location.replace("../Templates/about.html")
   }
@@ -30,25 +55,14 @@ async function onLoad() {
      }
      const userData = await userResponse.json();
 
-     getUserCard()
+     getUserCard(userData)
      createPosts(postData, userData);
      updateContentHeight();
      return data;
   } catch (error) {
      console.error('Error fetching data:', error);
   }
-/*
-  try {
-    const userResponse = await fetch('/user-data-json');
-    if (!userResponse.ok) {
-       throw new Error(`Failed to fetch data: ${response.statusText}`);
-    }
-    const userData = await userResponse.json();
-    return userData;
- } catch (error) {
-    console.error('Error fetching data:', error);
- }
- */
+
  
 }
 
@@ -83,8 +97,12 @@ async function onLoad() {
     popup.style.display = 'none';
   });
 
-management.addEventListener('click',async function () {
+
+
+management.addEventListener('click',function () {
+  
   window.location.href = '/moderation';
+
   /*
   var storedUsername = sessionStorage.getItem('username');
   try {
@@ -123,7 +141,7 @@ management.addEventListener('click',async function () {
   */
 });
 
-function getUserCard(){
+function getUserCard(userData){
   var storedUsername = sessionStorage.getItem('username');
   const userCard = document.querySelector(".user")
   const currentUser = document.getElementById('current-user')
@@ -133,16 +151,21 @@ function getUserCard(){
   if (storedUsername) {
     currentUser.textContent= `${storedUsername}`
     userCard.style.display = 'flex'
-    modBtn.style.display = 'flex'
-    }else{
-    userCard.style.display = 'none'
-    return
-    }
-  }
+    const user = userData.users.find(user => user.user_name === storedUsername);
+    if(user.role == "admin"){modBtn.style.display = 'flex'}
 
-  postBtn.addEventListener('click',async function () {
-    window.location.href = '/post';
-})
+    /*
+    if (user) {
+      // Access the user ID using user.user_id
+      const userId = user.user;
+      alert(`User ID for ${storedUsername}: ${userId}`);
+    } else {
+      alert(`User "${storedUsername}" not found in userData.`);
+    }*/
+    
+  }
+}
+  
 
 function changeNumberSize(num){
   if(num.value == 0){
@@ -172,7 +195,6 @@ function createPosts(postData, userData){
       var content = document.createElement('textarea')
       var likes = document.createElement('input')
 
-
       var likeImg = document.createElement('img')
       var dislikeImg = document.createElement('img')
       var br = document.createElement("br")
@@ -198,7 +220,6 @@ function createPosts(postData, userData){
       user.className = 'post-user'
       user.id = `post-user-${i}`
       user.readOnly = true
-      //user.value= postData.posts[i].user_id
       const postUserId = postData.posts[i].user_id;
       const userDataForPost = userData.users.find(users => users.user_id === postUserId);
       user.value = userDataForPost.user_name;
@@ -228,15 +249,22 @@ function createPosts(postData, userData){
         likes.style.width = `110px`
       }
 
+      const id = postData.posts[i].post_id
+      //alert("nha: "+id)
+
       likeImg.src ='../Images/up.png'
       likeImg.id = `post-like-img-${i}`
       likeImg.className ='post-up'
-      likeImg.addEventListener("click", function() { changeLikes('up', this.parentNode.id);});
-      
+      likeImg.addEventListener("click", function() {
+         changeLikes('up', this.id, id)
+      })
+
       dislikeImg.src ='../Images/down.png'
       dislikeImg.id = `post-dislike-img-${i}`
       dislikeImg.className ='post-down'
-      dislikeImg.addEventListener("click", function() { changeLikes('down', this.id);});
+      dislikeImg.addEventListener("click", function() {
+         changeLikes('down', this.id, id);
+      })
 
       infoDiv.appendChild(user)
       infoDiv.appendChild(title)
@@ -253,12 +281,44 @@ function createPosts(postData, userData){
   }
 }
 
-function changeLikes(type, element){  
-  const btn = document.getElementById(element)
-  const post = document.getElementById(btn.parentNode.id)
-  const currentUser = document.getElementById('current-user')
+async function updateLikes(id, newLikes) {
+  const likeNum = newLikes.value  
+  const postId = id
+  try {const response = await fetch('/home', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+        postId: postId,
+        likes: likeNum,
+      }),
+  });
+  if (!response.ok) {
+    throw new Error(`Failed to verify post: ${response.statusText}`);
+  }
+  // Optionally, you can update the UI or perform additional actions after a successful verification
+} catch (error) {
+  console.error('Error verifying post:', error);
+}
+}
 
-  if(currentUser.textContent == ""){
+function getPostId(user, title, content, data) {
+  for (const postData of data.posts) {
+    if (postData.user_id == user && postData.post_title == title && postData.post_content == content) {
+      return postData.post_id; // Assuming there is a post_id in your data
+    }
+  }
+  return null; // Return null if no match is found
+}
+
+function changeLikes(type, element, id){  
+    const btn = document.getElementById(element)
+    const post = document.getElementById(btn.parentNode.id)
+    const currentUser = document.getElementById('current-user')
+    const postId = id
+
+  if(currentUser.textContent == "Login"){
     window.location.href = '/login';
     return;
   }
@@ -315,9 +375,8 @@ function changeLikes(type, element){
           likes.style.color = "red"
       }
       }
+      updateLikes(postId, likes)
 }
-          // Obtenha o username da sessionStorage
-        var username = sessionStorage.getItem('username');
 
 function updateContentHeight(){
   var allPosts = document.querySelectorAll('.post');

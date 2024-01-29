@@ -31,7 +31,6 @@ app.get('/home', async (req, res) => {
     });
 });
 
-
   pool.query('SELECT * FROM posts WHERE verified = true', (error, results) => {
       if (error) { throw error; }
       //console.log('Retrieved users: ', results.rowCount);
@@ -49,8 +48,7 @@ app.get('/home', async (req, res) => {
   res.sendFile(__dirname + '/public/Templates/home.html');
 });
 
-app.get('/profile', async (req, res) => {
-
+app.get('/profile', async (req, res) => {  
   pool.query('SELECT * FROM users', (error, results) => {
     if (error) { throw error; }
     //console.log('Retrieved users: ', results.rowCount);
@@ -66,7 +64,8 @@ app.get('/profile', async (req, res) => {
 });
 
 
-  pool.query('SELECT * FROM posts WHERE verified = true', (error, results) => {
+  pool.query('SELECT * FROM posts WHERE verified = true',
+               (error, results) => {
       if (error) { throw error; }
       //console.log('Retrieved users: ', results.rowCount);
       console.log('Retrieved posts: ', results.rows);
@@ -231,7 +230,7 @@ app.get("/about", (req, res) => {
 app.get("/moderation", (req, res) => {
   //deleteAllDataInJson('post-data.json')
 
-  pool.query('SELECT * FROM posts WHERE verified = false', (error, results) => {
+  pool.query('SELECT * FROM posts', (error, results) => {
       if (error) { throw error; }
       //console.log('Retrieved users: ', results.rowCount);
       console.log('Retrieved posts: ', results.rows);
@@ -251,28 +250,183 @@ app.get("/moderation", (req, res) => {
   res.sendFile(__dirname + '/public/Templates/moderation.html');
 });
 
+app.post("/home", (req, res) => {
+  const postId = req.body.postId;
+  const likes = req.body.likes;
+  pool.query(`UPDATE posts
+              SET post_likes = $1
+              WHERE post_id = $2`,
+  [likes, postId],
+  (error, results) => {
+        if (error) { throw error; }
+        console.log(`Post modified with ID: `, postId); 
+  });
+
+  pool.query('SELECT * FROM posts WHERE verified = true', (error, results) => {
+    if (error) { throw error; }
+    //console.log('Retrieved users: ', results.rowCount);
+    console.log('Retrieved posts: ', results.rows);
+
+    //fs.writeFile('data.json', JSON.stringify({ rowsCount: results.rowCount }), (writeError) => {
+      fs.writeFile('post-data.json', JSON.stringify({ posts: results.rows, postCount: results.rowCount}), (writeError) => {
+        if (writeError) {
+            console.error('Error writing to data.json:', writeError);
+            res.status(500).send('Internal Server Error');
+        }
+    });
+});
+});
+
 app.post("/moderation", (req, res) => {
   const postToVerify = req.body.postId;
   const type = req.body.action
+  const status = req.body.status
   if(type == "verify"){
-  pool.query(`UPDATE posts
-              SET verified = true
-              WHERE post_id = $1`,
-  [postToVerify],
-  (error, results) => {
-        if (error) { throw error; }
-        console.log(`Post modified with ID: `, results.insertId); 
-  });
+    if(!status){
+        pool.query(`UPDATE posts
+                    SET verified = true
+                    WHERE post_id = $1`,
+        [postToVerify],
+        (error, results) => {
+              if (error) { throw error; }
+              console.log(`Post added with ID: `, results.insertId); 
+        });
+    }else{  
+        pool.query(`UPDATE posts
+                    SET verified = false
+                    WHERE post_id = $1`,
+        [postToVerify],
+        (error, results) => {
+              if (error) { throw error; }
+              console.log(`Post removed with ID: `, results.insertId); 
+    });}
+
   }else{
     pool.query(`DELETE FROM posts
     WHERE post_id = $1`,
      [postToVerify],
     (error, results) => {
           if (error) { throw error; }
-          console.log(`User deleted with ID: `, results.insertId); });
+          console.log(`Post deleted with ID: `, results.insertId); });
   }
 });
 
+app.post("/profile", (req, res) => {
+  const postId = req.body.postId;
+  const type = req.body.action;
+  const title = req.body.title;
+  const content = req.body.content;
+  console.log("postId: "+postId)
+  console.log("type: " + type);
+
+  if (type == "edit") {
+    pool.query(
+      `UPDATE posts
+       SET post_title = $1,
+           post_content = $2
+       WHERE post_id = $3`,
+      [title, content, postId],
+      (error, results) => {
+        if (error) {
+          console.error('Error updating post:', error);
+          res.status(500).send('Internal Server Error');
+        } else {
+          console.log(`Post modified with ID: `, postId);
+          res.sendFile(__dirname + '/public/Templates/profile.html');
+        }
+      });
+    //updatePost(res, title, content, postId);
+    
+  } else {
+    pool.query(
+      `DELETE FROM posts
+       WHERE post_id = $1`,
+      [postId],
+      (error, results) => {
+        if (error) {
+          console.error('Error deleting post:', error);
+          res.status(500).send('Internal Server Error');
+        } else {
+          console.log(`Post deleted with ID: `, postId);
+          res.status(200).send('Post deleted successfully');
+        }
+      }
+    );
+    //deletePost(res, postId);
+  }
+  
+});
+
+function updatePost(res, title, content, postId) {
+  pool.query(
+    `UPDATE posts
+     SET post_title = $1,
+         post_content = $2
+     WHERE post_id = $3`,
+    [title, content, postId],
+    (error, results) => {
+      if (error) {
+        console.error('Error updating post:', error);
+        res.status(500).send('Internal Server Error');
+      } else {
+        console.log("title: " + title);
+        console.log("content: " + content);
+        console.log(`Post modified with ID: `, postId);
+        res.sendFile(__dirname + '/public/Templates/profile.html');
+      }
+    }
+  );
+}
+
+function deletePost(res, postId) {
+  pool.query(
+    `DELETE FROM posts
+     WHERE post_id = $1`,
+    [postId],
+    (error, results) => {
+      if (error) {
+        console.error('Error deleting post:', error);
+        res.status(500).send('Internal Server Error');
+      } else {
+        console.log(`Post deleted with ID: `, postId);
+        res.status(200).send('Post deleted successfully');
+      }
+    }
+  );
+}
+/*
+app.post("/profile", (req, res) => {
+  const postId = req.body.postId;
+  const type = req.body.action
+  const title = req.body.title
+  const content = req.body.content
+  console.log("type: "+type)
+  
+  if(type == "edit"){
+   pool.query(`UPDATE posts
+               SET post_title = $1,
+                   post_content = $2
+               WHERE post_id = $3`,
+
+  [title, content, postId],
+  (error, results) => {
+        if (error) { throw error; }
+        console.log("title: "+title)
+        console.log("content: "+content)
+        console.log(`Post modified with ID: `, results.insertId);
+        res.sendFile(__dirname + '/public/Templates/profile.html');
+  });
+  }else{
+    
+    pool.query(`DELETE FROM posts
+    WHERE post_id = $1`,
+     [postId],
+    (error, results) => {
+          if (error) { throw error; }
+          console.log(`Post deleted with ID: `, results.insertId); });
+  }
+});
+*/
  
 app.post("/login", async (req, res) => {
   const username = req.body.username;

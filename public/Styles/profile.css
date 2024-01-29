@@ -94,6 +94,24 @@
     border-right: none;
     color: black;
   }
+
+  .post-delete{
+    width: fit-content;
+    height: 30px;
+    background-color: red;
+    border-radius: 10px;
+    cursor: pointer;
+    user-select: none;
+  }
+
+  .post-edit{
+    width: fit-content;
+    height: 30px;
+    background-color: green;
+    border-radius: 10px;
+    cursor: pointer;
+    user-select: none;
+  }
   
   .search-bar input{
     width: 100%;

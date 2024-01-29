@@ -17,6 +17,7 @@ body, html {
 
 /*Container*/
 .container{
+  position: fixed;
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -375,7 +376,7 @@ section{
 .founders{
   text-align: center;
   border-radius: 10px;
-  background-color: grey;
+  background-color: lightgray;
   display: grid;
   grid-template-columns: repeat(3, 1fr); /* Três colunas */
   gap: 20px; /* Espaçamento entre colunas e linhas */
@@ -413,7 +414,7 @@ section{
 aside{
     grid-column: 3 / 4; /* Terceira coluna */
     background-color: #a6a6a6;
-    height: 100%;
+    height: 100vh;
 }
 
 .footer-container{
@@ -462,6 +463,7 @@ aside{
        }
 
        header{
+        position: fixed;
         border-right: none;
         display: none;
        }
