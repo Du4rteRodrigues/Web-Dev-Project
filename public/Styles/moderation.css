@@ -127,6 +127,25 @@ body, html {
   background-color: #a6a6a6;
 }
 
+.post-mod-div{
+  height: 45px;
+}
+
+.post-engagment{
+  -webkit-user-drag: none;
+  margin-top: 7px;
+  background: none;
+  border: none;
+  font-size: xx-large;
+  border-radius: 10px;
+  float: right;
+  resize: none;
+  text-align: center;
+  margin-right: 15px;
+  width:50px;
+  color: black;
+}
+
 .view-posts{
   grid-column: 2 / 3; /* Segunda coluna */
   border-right: 1px solid black;
@@ -199,10 +218,6 @@ body, html {
     box-sizing: border-box;
 }
 
-.post-moderation-div{
-    height: 55px;
-}
-
 .post-user{
     background:none;
     /* border: none; */
@@ -239,9 +254,10 @@ body, html {
  }
     
   .post-verify{
+    margin-top: 5px;
     width: fit-content;
     height: 30px;
-    background-color: green;
+    background-color: lightblue;
     border-radius: 10px;
     cursor: pointer;
     user-select: none;

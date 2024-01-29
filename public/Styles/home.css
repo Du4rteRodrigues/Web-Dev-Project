@@ -136,6 +136,14 @@ body, html {
   background-color: #a6a6a6;
 }
 
+#about-us{
+  font-size: 50px;
+  cursor: pointer;
+  width: 60px;
+  background-color: lightgray;
+  border-radius: 30px;
+}
+
 .view-posts{
   grid-column: 2 / 3; /* Segunda coluna */
   border-right: 1px solid black;
@@ -187,17 +195,26 @@ transition: margin-top 0.3s ease; /* Add smooth transition for better visual eff
     width:100%;
   }
 
+#current-user{
+  cursor: pointer;
+}
+
 #postBtn{
+  font-size: 45px;
+  cursor: pointer;
+  width: 60px;
+  border-radius: 30px;
+  cursor: pointer;
     display: flex;
     flex-wrap: wrap;
     background-color:#797D7B;
-    border-radius: 15px;
     margin-top: 75vh;
     border: black;
     max-width: 300px;
     align-items: center;
     justify-content: space-around;
     position: fixed;
+    
 }
 
 #postBtn.follow {
