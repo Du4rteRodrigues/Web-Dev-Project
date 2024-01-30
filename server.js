@@ -31,7 +31,8 @@ app.get('/home', async (req, res) => {
     });
 });
 
-  pool.query('SELECT * FROM posts WHERE verified = true', (error, results) => {
+  //pool.query('SELECT * FROM posts WHERE verified = true', (error, results) => {
+    pool.query('SELECT posts.* FROM posts JOIN users ON posts.user_id = users.user_id WHERE posts.verified = true AND users.active = true',(error, results) => {
       if (error) { throw error; }
       //console.log('Retrieved users: ', results.rowCount);
       console.log('Retrieved posts: ', results.rows);
@@ -277,7 +278,7 @@ app.post("/home", (req, res) => {
 });
 });
 
-app.post("/moderation", (req, res) => {
+app.post("/moderation-posts", (req, res) => {
   const postToVerify = req.body.postId;
   const type = req.body.action
   const status = req.body.status
@@ -304,6 +305,40 @@ app.post("/moderation", (req, res) => {
   }else{
     pool.query(`DELETE FROM posts
     WHERE post_id = $1`,
+     [postToVerify],
+    (error, results) => {
+          if (error) { throw error; }
+          console.log(`Post deleted with ID: `, results.insertId); });
+  }
+});
+
+app.post("/moderation-users", (req, res) => {
+  const postToVerify = req.body.userId;
+  const type = req.body.action
+  const status = req.body.status
+  if(type == "verify"){
+    if(!status){
+        pool.query(`UPDATE users
+                    SET active = true
+                    WHERE user_id = $1`,
+        [postToVerify],
+        (error, results) => {
+              if (error) { throw error; }
+              console.log(`User unbanned with ID: `, results.insertId); 
+        });
+    }else{  
+        pool.query(`UPDATE users
+                    SET active = false
+                    WHERE user_id = $1`,
+        [postToVerify],
+        (error, results) => {
+              if (error) { throw error; }
+              console.log(`User banned with ID: `, results.insertId); 
+    });}
+
+  }else{
+    pool.query(`DELETE FROM users
+    WHERE user_id = $1`,
      [postToVerify],
     (error, results) => {
           if (error) { throw error; }
