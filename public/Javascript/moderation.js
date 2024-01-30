@@ -5,15 +5,22 @@ document.addEventListener('DOMContentLoaded', function () {
     var profileBtn = document.getElementById('profileBtn');
     var popup = document.getElementById('popup');
   
-    // function post(){
-    //   window.location.replace("../Templates/poster.html")
-    // }
     
     function aboutUs(){
       window.location.replace("../Templates/about.html")
     }
   
   window.onload= onLoad
+
+  function addBreaks() {
+    const section = document.querySelector('section');
+    
+    // Add breaks (you can adjust the count as needed)
+    for (let i = 0; i < 3; i++) {
+      const br = document.createElement('br');
+      section.appendChild(br);
+    }
+  }
 
   async function onLoad() {
     try {
@@ -29,8 +36,10 @@ document.addEventListener('DOMContentLoaded', function () {
       }
       const userData = await userResponse.json();
  
+      createUsers(userData)
       createUnverifiedPosts(postData, userData);
        updateContentHeight();
+       addBreaks()
        return data;
     } catch (error) {
        console.error('Error fetching data:', error);
@@ -70,6 +79,74 @@ document.addEventListener('DOMContentLoaded', function () {
       alert('Outra opção realizada com sucesso!');
       popup.style.display = 'none';
     });
+
+    function createUsers(userData){
+      const num = userData.userCount
+      for(var i=0; i<num;i++){
+          var user = document.createElement('div');
+          var infoDiv = document.createElement('div')
+          //var contentDiv = document.createElement('div')
+          var moderationDiv = document.createElement('div')
+    
+          //var title = document.createElement('textarea');
+          var username = document.createElement('textarea')
+          //var content = document.createElement('textarea')
+          //var likes = document.createElement('input')
+          var verifyBtn = document.createElement('button')
+          var deleteBtn = document.createElement('button')
+          var br = document.createElement("br")
+    
+          user.className='post';
+          user.id = `post-${i}`
+    
+          infoDiv.id = `post-info-div-${i}`
+          infoDiv.className = 'post-info-div'
+        
+          moderationDiv.id =`post-mod-div-${i}`
+          moderationDiv.className = 'post-mod-div'
+          
+          username.className = 'post-user'
+          username.id = `post-user-${i}`
+          username.readOnly = true
+          username.value = userData.users[i].user_name
+          //17 chars
+      
+          const userId = userData.users[i].user_id
+          var status = userData.users[i].active
+
+          verifyBtn.id = `user-verify-${i}`
+          verifyBtn.className= 'post-verify'
+          verifyBtn.onclick = function() {
+              evaluateUser('verify', this.id, userId, status);
+            };
+
+            deleteBtn.id = `user-delete-${i}`
+            deleteBtn.className= 'post-deny'
+            deleteBtn.innerHTML = "Delete"
+            deleteBtn.onclick = function() {
+                
+                evaluateUser('delete', this.id, userId, status);
+              };
+  
+  
+          if(status == true){
+            user.style.backgroundColor = "#27b331"
+            verifyBtn.innerHTML = "Ban"
+            }else{
+              user.style.backgroundColor = "#e03d34"
+              verifyBtn.innerHTML = "Unban"
+            }
+            
+          
+          infoDiv.appendChild(username)
+          moderationDiv.appendChild(verifyBtn)
+          moderationDiv.appendChild(deleteBtn)
+          user.appendChild(infoDiv)
+          user.appendChild(moderationDiv)
+          document.getElementsByTagName('section')[0].appendChild(user);
+          document.getElementsByTagName('section')[0].appendChild(br);
+      }
+    }
   
   function createUnverifiedPosts(postData, userData){
     const num = postData.postCount
@@ -86,9 +163,6 @@ document.addEventListener('DOMContentLoaded', function () {
         var verifyBtn = document.createElement('button')
         var denyBtn = document.createElement('button')
         var br = document.createElement("br")
-
-        var userId = postData.posts[i].user_id
-        var status = postData.posts[i].verified
   
         post.className='post';
         post.id = `post-${i}`
@@ -129,16 +203,19 @@ document.addEventListener('DOMContentLoaded', function () {
         likes.type = 'number'
 
         const id = postData.posts[i].post_id
+        var userId = postData.posts[i].user_id
+        var status = postData.posts[i].verified
 
         verifyBtn.id = `post-verify-${i}`
         verifyBtn.className= 'post-verify'
         verifyBtn.onclick = function() {
             //evaluatePost('verify', this.id, postData, userId, status
-            evaluatePost('verify', this.id, id, userId, status);};
+            evaluatePost('verify', this.id, id, status);
+          };
 
         denyBtn.id = `post-verify-${i}`
         denyBtn.className= 'post-deny'
-        denyBtn.innerHTML = "Deny"
+        denyBtn.innerHTML = "Delete"
         denyBtn.onclick = function() {
             //evaluatePost('deny', this.id, postData, userId, status);
             evaluatePost('deny', this.id, id, userId, status);
@@ -178,25 +255,22 @@ function getPostId(user, title, content, data) {
     return null; // Return null if no match is found
   }
 
-async function evaluatePost(type, element, id, userId, status) { 
+async function evaluatePost(type, element, id, status) { 
     const btn = document.getElementById(element);
     const modDiv = document.getElementById(btn.parentNode.id);
     const post = document.getElementById(modDiv.parentNode.id);
 
     //const userElement = post.querySelector('.post-user');
-    const titleElement = post.querySelector('.post-title');
-    const contentElement = post.querySelector('.post-content');
 
     // Get title and content from HTML elements
     // const user = userElement.value;
-    const user = userId;
     const postStatus = status
-    const title = titleElement.value;
-    const content = contentElement.value;
     const postId = id//getPostId(user, title, content, data);
+    //alert(postStatus)
+    //alert(postId)
     post.style.display = 'none';
     
-    try {const response = await fetch('/moderation', {
+    try {const response = await fetch('/moderation-posts', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -215,8 +289,44 @@ async function evaluatePost(type, element, id, userId, status) {
     } catch (error) {
       console.error('Error verifying post:', error);
     }
-    
+   
   }
+
+  async function evaluateUser(type, element, id, status) { 
+    const btn = document.getElementById(element);
+    const modDiv = document.getElementById(btn.parentNode.id);
+    const user = document.getElementById(modDiv.parentNode.id);
+
+    //const userElement = post.querySelector('.post-user');
+    // Get title and content from HTML elements
+    // const user = userElement.value;
+    //const user = userId;
+    const userStatus = status
+    const userId = id//getPostId(user, title, content, data);
+    user.style.display = 'none';
+    
+    try {const response = await fetch('/moderation-users', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+            userId: userId,
+            action: type,
+            status: userStatus,
+          }),
+      });
+      if (!response.ok) {
+        throw new Error(`Failed to verify post: ${response.statusText}`);
+      }
+      alert("here")
+      // Optionally, you can update the UI or perform additional actions after a successful verification
+    } catch (error) {
+      console.error('Error verifying post:', error);
+    }
+    
+    
+}
 
 function updateContentHeight(){
     var allPosts = document.querySelectorAll('.post');
