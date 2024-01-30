@@ -153,6 +153,7 @@ body, html {
 }
 
 .create-post{
+  height: 100%;
   grid-column: 3 / 4; /* Terceira coluna */
   padding-top: 30px;
 }
@@ -164,7 +165,7 @@ body, html {
 
 
 .post{
-    background-color:dimgrey;
+  border: 1px solid dimgray;
     border-radius: 10px;
     width:100%;
   }

@@ -100,45 +100,7 @@ async function onLoad() {
 
 
 management.addEventListener('click',function () {
-  
   window.location.href = '/moderation';
-
-  /*
-  var storedUsername = sessionStorage.getItem('username');
-  try {
-    // Fetch the JSON file
-    const response = await fetch('/user-data-json');
-    if (!response.ok) {
-      throw new Error(`Failed to fetch JSON: ${response.statusText}`);
-    }
-
-    // Parse the JSON response
-    const data = await response.json();
-
-    // Check if the username exists in the JSON data
-    const user = data.users.find(user => user.user_name === storedUsername);
-
-    if (user) {
-      // Check if the user is verified
-      if (user.verified) {
-        alert("here")
-      } else {
-        console.log(`User "${storedUsername}" exists in the JSON but is not verified.`);
-      }
-    } else {
-      console.log(`User "${storedUsername}" not found in JSON.`);
-    }
-  } catch (error) {
-    console.error('Error:', error);
-  }
-  
-  const response = await fetch('/user-data-json');
-  if (!response.ok) {
-     throw new Error(`Failed to fetch data: ${response.statusText}`);
-  }
-  const data = await response.json();
-  const currentUser = document.getElementById('current-user')
-  */
 });
 
 function getUserCard(userData){
@@ -151,17 +113,10 @@ function getUserCard(userData){
   if (storedUsername) {
     currentUser.textContent= `${storedUsername}`
     userCard.style.display = 'flex'
+    if(storedUsername != "Login"){
     const user = userData.users.find(user => user.user_name === storedUsername);
     if(user.role == "admin"){modBtn.style.display = 'flex'}
-
-    /*
-    if (user) {
-      // Access the user ID using user.user_id
-      const userId = user.user;
-      alert(`User ID for ${storedUsername}: ${userId}`);
-    } else {
-      alert(`User "${storedUsername}" not found in userData.`);
-    }*/
+    }
     
   }
 }
@@ -277,7 +232,7 @@ function createPosts(postData, userData){
       post.appendChild(contentDiv)
       post.appendChild(engagmentDiv)
       document.getElementsByTagName('section')[0].appendChild(post);
-      document.getElementsByTagName('section')[0].appendChild(br);
+      //document.getElementsByTagName('section')[0].appendChild(br);
   }
 }
 

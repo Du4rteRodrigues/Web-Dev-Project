@@ -190,6 +190,7 @@ transition: margin-top 0.3s ease; /* Add smooth transition for better visual eff
 }
 
 .post{
+  border: 1px solid #000;
     background-color:dimgrey;
     border-radius: 10px;
     width:100%;

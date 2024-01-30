@@ -144,7 +144,7 @@ document.addEventListener('DOMContentLoaded', function () {
           user.appendChild(infoDiv)
           user.appendChild(moderationDiv)
           document.getElementsByTagName('section')[0].appendChild(user);
-          document.getElementsByTagName('section')[0].appendChild(br);
+          //document.getElementsByTagName('section')[0].appendChild(br);
       }
     }
   
@@ -239,7 +239,7 @@ document.addEventListener('DOMContentLoaded', function () {
         post.appendChild(contentDiv)
         post.appendChild(moderationDiv)
         document.getElementsByTagName('section')[0].appendChild(post);
-        document.getElementsByTagName('section')[0].appendChild(br);
+        //document.getElementsByTagName('section')[0].appendChild(br);
     }
   }
     
