@@ -200,6 +200,7 @@
   }
   
   .post{
+    border: 1px solid #000;
       background-color:dimgrey;
       border-radius: 10px;
       width:100%;
@@ -223,7 +224,7 @@
     transition: margin-top 0.3s ease; /* Add smooth transition for better visual effect */
     }
     
-   .post-content{
+   .post-name{
       background:none;
       /* border: none; */
       color: white;
@@ -237,6 +238,36 @@
       overflow: hidden;
       height: 69px;
   } 
+
+  .post-email{
+    background:none;
+    /* border: none; */
+    color: white;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    border-radius: 10px;
+    resize: none;
+    width: 95%;
+    font-size: x-large;
+    overflow: hidden;
+    height: 69px;
+} 
+
+.post-pass{
+  background:none;
+  /* border: none; */
+  color: white;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  border-radius: 10px;
+  resize: none;
+  width: 95%;
+  font-size: x-large;
+  overflow: hidden;
+  height: 69px;
+} 
   
   .post-content:focus {
     outline: none;

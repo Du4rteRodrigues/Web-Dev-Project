@@ -24,9 +24,10 @@ document.addEventListener('DOMContentLoaded', function () {
       }
       const userData = await userResponse.json();
 
-       createPosts(postData, userData);
+      createUserInfo(userData);
+      //createPosts(postData, userData);
        updateContentHeight();
-       return data;
+       //return data;
     } catch (error) {
        console.error('Error fetching data:', error);
     }
@@ -51,42 +52,6 @@ document.addEventListener('DOMContentLoaded', function () {
       
   management.addEventListener('click',async function () {
     window.location.href = '/moderation';
-    /*
-    var storedUsername = sessionStorage.getItem('username');
-    try {
-      // Fetch the JSON file
-      const response = await fetch('/user-data-json');
-      if (!response.ok) {
-        throw new Error(`Failed to fetch JSON: ${response.statusText}`);
-      }
-  
-      // Parse the JSON response
-      const data = await response.json();
-  
-      // Check if the username exists in the JSON data
-      const user = data.users.find(user => user.user_name === storedUsername);
-  
-      if (user) {
-        // Check if the user is verified
-        if (user.verified) {
-          alert("here")
-        } else {
-          console.log(`User "${storedUsername}" exists in the JSON but is not verified.`);
-        }
-      } else {
-        console.log(`User "${storedUsername}" not found in JSON.`);
-      }
-    } catch (error) {
-      console.error('Error:', error);
-    }
-    
-    const response = await fetch('/user-data-json');
-    if (!response.ok) {
-       throw new Error(`Failed to fetch data: ${response.statusText}`);
-    }
-    const data = await response.json();
-    const currentUser = document.getElementById('current-user')
-    */
   });
   
   function getUserCard(){
@@ -213,9 +178,115 @@ document.addEventListener('DOMContentLoaded', function () {
         post.appendChild(contentDiv)
         post.appendChild(engagmentDiv)
         document.getElementsByTagName('section')[0].appendChild(post);
-        document.getElementsByTagName('section')[0].appendChild(br);
+        //document.getElementsByTagName('section')[0].appendChild(br);
     }
   }
+
+  function createUserInfo(userData){
+    const storedUsername = sessionStorage.getItem('username');
+    const currentUser = userData.users.find(user => user.user_name === storedUsername);
+/*
+      const postUserId = postData.posts[i].user_id;
+      const userDataForPost = userData.users.find(users => users.user_id === postUserId);
+      const storedUsername = sessionStorage.getItem('username');
+
+      if (storedUsername != userDataForPost.user_name) {
+          // Skip to the next iteration if the usernames don't match
+          continue;
+      }
+      */
+
+        var user = document.createElement('div');
+        var nameDiv = document.createElement('div')
+        var emailDiv = document.createElement('div')
+        var passwordDiv = document.createElement('div')
+        var moderateDiv = document.createElement('div')
+  
+        var username = document.createElement('textarea');
+        var email = document.createElement('textarea')
+        var password = document.createElement('textarea')
+        var nameLabel = document.createElement('label')
+        var passLabel = document.createElement('label')
+        var emailLabel = document.createElement('label')
+        var saveBtn = document.createElement('button')
+        var deleteBtn = document.createElement('button')
+        //var likes = document.createElement('input')
+
+        var br = document.createElement("br")
+  
+        user.className='post';
+        user.id = `post-`
+  
+        nameDiv.id = `post-name-div`
+        nameDiv.className = 'post-name-div'
+
+        emailDiv.id = `post-mail-div`
+        emailDiv.className = 'post-mail-div'
+
+        passwordDiv.id = `post-pass-div`
+        passwordDiv.className = 'post-pass-div'
+  
+        moderateDiv.id =`post-eng-div`
+        moderateDiv.className = 'post-engagment-div'
+
+        nameLabel.innerHTML = "Username:"
+        nameLabel.id = ""
+        nameLabel.className = ""
+        
+        passLabel.innerHTML = "Password:"
+        passLabel.id = ""
+        passLabel.className = ""
+        
+        emailLabel.innerHTML = "Email:"
+        emailLabel.id = ""
+        emailLabel.className = ""
+    
+        username.className = 'post-name'
+        username.id = `post-name`
+        username.readOnly = false
+        username.value = currentUser.user_name
+        //80 chars
+
+        email.id = `post-email`
+        email.className = 'post-email'
+        email.readOnly = false
+        email.value = currentUser.user_email
+
+        password.id = `post-pass`
+        password.className = 'post-pass'
+        password.readOnly = false
+        password.value = sessionStorage.getItem('password')
+
+        const user_id = currentUser.user_id
+
+        deleteBtn.id = `post-delete`
+        deleteBtn.className= 'post-delete'
+        deleteBtn.innerHTML = "Delete"
+        deleteBtn.onclick = function() {
+          handleUser('delete',this.id, user_id,)};
+
+        saveBtn.id = `post-edit`
+        saveBtn.className= 'post-edit'
+        saveBtn.innerHTML = "Edit"
+        saveBtn.onclick = function() {
+          handleUser('edit',this.id, user_id,)};
+          
+        nameDiv.appendChild(nameLabel)
+        nameDiv.appendChild(username)
+        emailDiv.appendChild(emailLabel)
+        emailDiv.appendChild(email)
+        passwordDiv.appendChild(passLabel)
+        passwordDiv.appendChild(password)
+        moderateDiv.appendChild(saveBtn)
+        moderateDiv.appendChild(deleteBtn)
+  
+        user.appendChild(nameDiv)
+        user.appendChild(passwordDiv)
+        user.appendChild(emailDiv)
+        user.appendChild(moderateDiv)
+        document.getElementsByTagName('section')[0].appendChild(user);
+        //document.getElementsByTagName('section')[0].appendChild(br);
+    }
 
   function getPostId(user, title, content, data) {
     for (const postData of data.posts) {
@@ -279,7 +350,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     //const postId = getPostId(userId, title, content, postData);
     if(type== "delete"){post.style.display = 'none';}
-    try {const response = await fetch('/profile', {
+    try {const response = await fetch('/profile-post', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -298,6 +369,54 @@ document.addEventListener('DOMContentLoaded', function () {
     } catch (error) {
       console.error('Error verifying post:', error);
     }
+  }
+
+async function handleUser(type, element, user_id) {
+    const btn = document.getElementById(element);
+    const modDiv = document.getElementById(btn.parentNode.id);
+    const user = document.getElementById(modDiv.parentNode.id);
+
+    const nameElement = user.querySelector('.post-name');
+    const emailElement = user.querySelector('.post-email');
+    const passElement = user.querySelector('.post-pass');
+
+    const userId = user_id
+    const name = nameElement.value
+    const mail = emailElement.value
+    const password= passElement.value
+
+    if(type == "delete"){ 
+      sessionStorage.clear();
+      sessionStorage.setItem("username", "Login")
+    }else{
+    sessionStorage.setItem('username', name)
+    sessionStorage.setItem('password', password)
+    }
+
+    //const postId = getPostId(userId, title, content, postData);
+    //if(type== "delete"){post.style.display = 'none';}
+    
+    try {const response = await fetch('/profile-user', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+            userId: userId,
+            action: type,
+            name:name,
+            mail:mail,
+            password:password
+          })
+      });
+      if (!response.ok) {
+        throw new Error(`Failed to verify post: ${response.statusText}`);
+      }
+      // Optionally, you can update the UI or perform additional actions after a successful verification
+    } catch (error) {
+      console.error('Error verifying post:', error);
+    }
+    
   }
   
   function updateContentHeight(){

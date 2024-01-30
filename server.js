@@ -196,8 +196,6 @@ pool.query(`UPDATE users
 });
 */
 
-let userGlobal = "?";
-
 // We are using our packages here
 app.use(bodyParser.json()); // to support JSON-encoded bodies
 
@@ -313,7 +311,7 @@ app.post("/moderation-posts", (req, res) => {
 });
 
 app.post("/moderation-users", (req, res) => {
-  const postToVerify = req.body.userId;
+  const user_id = req.body.userId;
   const type = req.body.action
   const status = req.body.status
   if(type == "verify"){
@@ -321,7 +319,7 @@ app.post("/moderation-users", (req, res) => {
         pool.query(`UPDATE users
                     SET active = true
                     WHERE user_id = $1`,
-        [postToVerify],
+        [user_id],
         (error, results) => {
               if (error) { throw error; }
               console.log(`User unbanned with ID: `, results.insertId); 
@@ -330,23 +328,30 @@ app.post("/moderation-users", (req, res) => {
         pool.query(`UPDATE users
                     SET active = false
                     WHERE user_id = $1`,
-        [postToVerify],
+        [user_id],
         (error, results) => {
               if (error) { throw error; }
               console.log(`User banned with ID: `, results.insertId); 
     });}
 
   }else{
+    pool.query(`DELETE FROM posts
+    WHERE user_id = $1`,
+     [user_id],
+    (error, results) => {
+          if (error) { throw error; }
+          console.log(`Post deleted with ID: `, results.insertId); });
+  
     pool.query(`DELETE FROM users
     WHERE user_id = $1`,
-     [postToVerify],
+     [user_id],
     (error, results) => {
           if (error) { throw error; }
           console.log(`Post deleted with ID: `, results.insertId); });
   }
 });
 
-app.post("/profile", (req, res) => {
+app.post("/profile-post", (req, res) => {
   const postId = req.body.postId;
   const type = req.body.action;
   const title = req.body.title;
@@ -388,6 +393,54 @@ app.post("/profile", (req, res) => {
       }
     );
     //deletePost(res, postId);
+  }
+  
+});
+
+app.post("/profile-user", async (req, res) => {
+  const salt = await bcrypt.genSalt(10);
+
+  const userId = req.body.userId;
+  const type = req.body.action;
+  const name = req.body.name;
+  const mail = req.body.mail;
+  const password = req.body.password;
+
+  const hashedPassword = await bcrypt.hash(password, salt)
+
+  if (type == "edit") {
+    pool.query(
+      `UPDATE users
+       SET user_name = $1,
+           user_email = $2,
+           user_password_hash = $3
+       WHERE user_id = $4`,
+      [name, mail, hashedPassword, userId],
+      (error, results) => {
+        if (error) {
+          console.error('Error updating post:', error);
+          res.status(500).send('Internal Server Error');
+        } else {
+          console.log(`Post modified with ID: `, userId);
+          res.sendFile(__dirname + '/public/Templates/profile.html');
+        }
+      });
+    //updatePost(res, title, content, postId);
+    
+  } else {
+    pool.query(`DELETE FROM posts
+    WHERE user_id = $1`,
+     [userId],
+    (error, results) => {
+          if (error) { throw error; }
+          console.log(`Post deleted with ID: `, results.insertId); });
+  
+    pool.query(`DELETE FROM users
+    WHERE user_id = $1`,
+     [userId],
+    (error, results) => {
+          if (error) { throw error; }
+          console.log(`Post deleted with ID: `, results.insertId); });
   }
   
 });
