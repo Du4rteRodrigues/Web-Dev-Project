@@ -3,7 +3,7 @@
 }
 
 body{
-  background-color: #d9d9d9;
+  background-image: url('../Images/PiperBackground.png');
   font-family: Arial, Helvetica, sans-serif;
   min-height: 100vh; /* Garante que o conteúdo estenda a altura mínima da viewport */
   bottom: 0;
@@ -14,6 +14,9 @@ body, html {
   padding: 0;
 }
 
+#home{
+  height: 120px;
+}
 
 /*Container*/
 .container{
@@ -130,10 +133,13 @@ body, html {
 }
 
 .user-container{
-  grid-column: 1 / 2; /* Primeira coluna */
-  border-right: 1px solid black; 
+  grid-column: 1 / 2;
+  border-right: 1px solid black;
   padding-top: 30px;
-  background-color: #a6a6a6;
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* Centraliza horizontalmente */
+  justify-content: center; /* Centraliza verticalmente */
 }
 
 #about-us{
@@ -152,7 +158,10 @@ body, html {
 
 .create-post{
   grid-column: 3 / 4; /* Terceira coluna */
-  padding-top: 30px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center; /* Centraliza verticalmente */
 }
 
 
@@ -165,10 +174,10 @@ body, html {
   display: flex;
   flex-wrap: wrap;
   position: fixed;
-  background-color: rgb(46, 44, 44);
+  background-color:#797D7B;
   border-radius: 15px;
   border: black;
-  margin-top: 65vh;
+  margin-top: 70vh; /* Ajuste conforme necessário */
   max-width: 300px;
   align-items: center;
   justify-content: space-around;
@@ -189,6 +198,12 @@ transition: margin-top 0.3s ease; /* Add smooth transition for better visual eff
     text-align: center; /* Centralizar o texto no botão */
 }
 
+
+#current-user{
+  cursor: pointer;
+}
+
+
 .post{
   border: 1px solid #000;
     background-color:dimgrey;
@@ -196,20 +211,15 @@ transition: margin-top 0.3s ease; /* Add smooth transition for better visual eff
     width:100%;
   }
 
-#current-user{
-  cursor: pointer;
-}
-
 #postBtn{
   font-size: 45px;
-  cursor: pointer;
   width: 60px;
   border-radius: 30px;
   cursor: pointer;
     display: flex;
     flex-wrap: wrap;
     background-color:#797D7B;
-    margin-top: 75vh;
+    margin-top: 74vh;
     border: black;
     max-width: 300px;
     align-items: center;
@@ -391,13 +401,11 @@ transition: margin-top 0.3s ease; /* Add smooth transition for better visual eff
 
 section{
     grid-column: 2 / 3; /* Segunda coluna */
-    border-right: 1px solid #9AA0A6;/* border-right: 1px solid #9AA0A6; */
 }
 
 
 aside{
     grid-column: 3 / 4; /* Terceira coluna */
-    background-color: #a6a6a6;
     height: 100vh;
 }
 

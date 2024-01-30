@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="../Styles/home.css">
+
     <!-- <link rel="stylesheet" href="../Styles/popupLogout.css">
     <link rel="stylesheet" href="../Javascript/about.js">
     <link rel="stylesheet" href="../Javascript/logout.js">
@@ -16,7 +17,7 @@
     <header>
         <div class="container">
 
-            <a href="/home"><img src="../Images/logo.png" id="home" onclick="goHome()" alt="Logo" /></a>
+            <a href="/home"><img src="../Images/piperLogo.png" id="home" onclick="goHome()" alt="Logo" /></a>
 
             <div class="search-bar" id="search-bar">
                 <form action="">
@@ -37,21 +38,12 @@
     </header>
     <div class="content">
         <nav class="user-container">
-            <script src="../Javascript/home.js"></script>
-    
+            <script src="../Javascript/home.js"></script>   
             <div class="user">
                 <!-- <img src="../Images/licensed-image.jpeg" alt=""> -->
                 <h4 id = "current-user">Login</h4>
-            </div>
-    
-             <!-- Pop-up container -->
-             <div id="popup" class="popup">
-                <div class="popup-content">
-                <span class="close" id="closePopupBtn">&times;</span>
                 <button id="logoutBtn">Logout</button>
-                <button id="profileBtn">View Profile</button>
-                </div>
-            </div>    
+            </div> 
         </nav>
 
         <section class="view-posts">
@@ -61,6 +53,7 @@
         </section>
         <aside class="create-post">
             <span  id="postBtn" class="material-symbols-outlined">draw</span>
+            <div id="weather-info"></div>
         </aside>
     </div>
     <footer class="footer-container">
