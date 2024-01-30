@@ -117,7 +117,7 @@ body, html {
 .content{
   flex-direction: column;
   display: grid;
-  grid-template-columns: 1fr 2fr 1fr; /* Três colunas com larguras proporcionais */  
+  grid-template-columns: 3fr 1fr; /* Três colunas com larguras proporcionais */  
 }
 
 .user-container{
@@ -147,7 +147,7 @@ body, html {
 }
 
 .view-posts{
-  grid-column: 2 / 3; /* Segunda coluna */
+  grid-column: 2 / 3; /*Segunda coluna */
   border-right: 1px solid black;
   padding-top: 30px;
 }

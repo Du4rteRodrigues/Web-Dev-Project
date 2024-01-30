@@ -143,7 +143,7 @@ document.addEventListener('DOMContentLoaded', function () {
           moderationDiv.appendChild(deleteBtn)
           user.appendChild(infoDiv)
           user.appendChild(moderationDiv)
-          document.getElementsByTagName('section')[0].appendChild(user);
+          document.getElementsByTagName('aside')[0].appendChild(user);
           //document.getElementsByTagName('section')[0].appendChild(br);
       }
     }
@@ -238,7 +238,7 @@ document.addEventListener('DOMContentLoaded', function () {
         post.appendChild(infoDiv)
         post.appendChild(contentDiv)
         post.appendChild(moderationDiv)
-        document.getElementsByTagName('section')[0].appendChild(post);
+        document.getElementsByTagName('nav')[0].appendChild(post);
         //document.getElementsByTagName('section')[0].appendChild(br);
     }
   }
