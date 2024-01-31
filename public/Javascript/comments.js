@@ -10,14 +10,6 @@ document.addEventListener('DOMContentLoaded', function () {
     window.location.href = '/about';
   })
   
-  postBtnElement.addEventListener('click',function () {
-    if(currentUser.textContent == "Login"){
-      window.location.href = '/login';
-      return;
-    }
-    window.location.href = '/post';
-  })
-  
   management.addEventListener('click',function () {
     window.location.href = '/moderation';
   })
@@ -156,7 +148,7 @@ window.onload= onLoad
         post.appendChild(infoDiv)
         post.appendChild(contentDiv)
         post.appendChild(engagmentDiv)
-        document.getElementsByTagName('section')[0].appendChild(post);
+        document.getElementsByTagName('nav')[0].appendChild(post);
     }
   }
 
@@ -198,7 +190,7 @@ window.onload= onLoad
         
         user.appendChild(nameDiv)
         user.appendChild(moderateDiv)
-        document.getElementsByTagName('section')[0].appendChild(user);
+        document.getElementsByTagName('nav')[0].appendChild(user);
  }
 
  function createComments(userData, comData){
@@ -267,7 +259,7 @@ window.onload= onLoad
           
           user.appendChild(nameDiv)
           user.appendChild(moderateDiv)
-          document.getElementsByTagName('section')[0].appendChild(user);
+          document.getElementsByTagName('aside')[0].appendChild(user);
         }
    }
 
@@ -310,7 +302,7 @@ window.onload= onLoad
   const postId = post_id 
   const username = sessionStorage.getItem("username")
   const user = userData.users.find(user => user.user_name === username);
-  const content = comment.querySelector('.comment-content')
+  const content = comment.querySelector('.form-content')
   const contValue = content.value
   const userId = user.user_id
   comment.style.display = 'none'

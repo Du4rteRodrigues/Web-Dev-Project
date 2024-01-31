@@ -83,8 +83,8 @@
 }
 
 .comment-name{
-  background:none;
-  color: white;
+  background:white;
+  color: black;
   resize: none;
   border-radius: 10px;
   font-size: xx-large;
@@ -136,15 +136,14 @@
 .content{
   flex-direction: column;
   display: grid;
-  grid-template-columns: 1fr 2fr 1fr; /* Três colunas com larguras proporcionais */  
+  grid-template-columns: 3fr 1fr; /* Três colunas com larguras proporcionais */  
 }
 
 .user-container{
   grid-column: 1 / 2; 
+  width: 100%;
  border-right: 1px solid black;
  padding-top: 30px; 
- margin-top: 35%;
- margin-left: 25%;
  flex-direction: column;
  align-items: center;
  justify-content: space-around;
@@ -185,7 +184,7 @@
   background-color:#797D7B;
   border-radius: 15px;
   border: black;
-  margin-top: 70vh; /* Ajuste conforme necessário */
+  margin-top: 60vh; /* Ajuste conforme necessário */
   max-width: 300px;
   align-items: center;
   justify-content: space-around;
@@ -519,10 +518,6 @@ button{
 
 .use button{
     text-align: center; /* Centralizar o texto no botão */
-}
-
-section{
-    grid-column: 2 / 3; /* Segunda coluna */
 }
 
 
