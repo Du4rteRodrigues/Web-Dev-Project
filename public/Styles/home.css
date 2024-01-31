@@ -98,6 +98,20 @@ body, html {
   color: black;
 }
 
+.post-comments-img{
+  -webkit-user-drag: none;
+  margin-top: 7px;
+  margin-left: 2%;
+  background: none;
+  border: none;
+  font-size: xx-large;
+  border-radius: 10px;
+  float: left;
+  resize: none;
+  text-align: center;
+  cursor:pointer
+}
+
 .search-bar input{
   width: 100%;
     padding: 10px 12px;

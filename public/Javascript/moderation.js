@@ -268,7 +268,7 @@ async function evaluatePost(type, element, id, status) {
     const postId = id//getPostId(user, title, content, data);
     //alert(postStatus)
     //alert(postId)
-    post.style.display = 'none';
+    //post.style.display = 'none';
     
     try {const response = await fetch('/moderation-posts', {
         method: 'POST',
@@ -303,7 +303,7 @@ async function evaluatePost(type, element, id, status) {
     //const user = userId;
     const userStatus = status
     const userId = id//getPostId(user, title, content, data);
-    user.style.display = 'none';
+    //user.style.display = 'none';
     
     try {const response = await fetch('/moderation-users', {
         method: 'POST',

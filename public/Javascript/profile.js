@@ -25,7 +25,7 @@ document.addEventListener('DOMContentLoaded', function () {
       const userData = await userResponse.json();
 
       createUserInfo(userData);
-      //createPosts(postData, userData);
+      createPosts(postData, userData);
        updateContentHeight();
        //return data;
     } catch (error) {
