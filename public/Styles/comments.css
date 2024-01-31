@@ -69,6 +69,40 @@
     width: 100%;
   }
   
+.form-content{
+  background-color: white;
+  color: #000;
+  resize: none;
+  border-radius: 10px;
+  font-size: x-large;
+  float: left;
+  width: 64%;
+}
+
+.comment-name{
+  background:none;
+  color: white;
+  resize: none;
+  border-radius: 10px;
+  font-size: xx-large;
+  margin-top: 10px;
+  margin-left: 2%;
+  float: left;
+  width: 30%;
+  height: 35px;
+  overflow: hidden;
+}
+
+.cont{
+  background-color: white;
+  color: #000;
+  resize: none;
+  border-radius: 10px;
+  font-size: x-large;
+  float: left;
+  width: 64%;
+}
+
   .search-bar button{
     border-bottom-left-radius: 8px;
     border-top-left-radius: 8px;
@@ -239,7 +273,6 @@
     
    .post-content{
       background:none;
-      /* border: none; */
       color: white;
       display: block;
       margin-left: auto;
@@ -273,7 +306,6 @@
   
   .post-user{
       background:none;
-      /* border: none; */
       color: white;
       resize: none;
       border-radius: 10px;
@@ -292,7 +324,6 @@
     
     .post-title{ 
       background:none;
-      /* border: none; */
       color: white;
       resize: none;
       border-radius: 10px;

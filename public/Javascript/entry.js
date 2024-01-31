@@ -19,13 +19,10 @@ function aboutUs(){
 }
 
   document.addEventListener('DOMContentLoaded', function() {
-    // Adicione um evento ao formulário de signup
     document.querySelector('form').addEventListener('submit', function(event) {
-        // Obtenha o valor do campo de username
         var username = document.getElementById('username').value;
         var password = document.getElementById('password').value;
-
-        // Armazene o username na sessionStorage
+        
         sessionStorage.setItem('username', username);
         sessionStorage.setItem('password', password)
     });

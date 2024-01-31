@@ -120,7 +120,7 @@ body, html {
 .content{
   flex-direction: column;
   display: grid;
-  grid-template-columns: 1fr 2fr 1fr; /* Três colunas com larguras proporcionais */  
+  grid-template-columns: 3fr 1fr; /* Três colunas com larguras proporcionais */  
 }
 
 .user-container{
@@ -200,9 +200,8 @@ body, html {
   }
   
  .post-content{
-    background:none;
-    /* border: none; */
-    color: white;
+    background:white;
+    color: black;
     display: block;
     margin-left: auto;
     margin-right: auto;
@@ -230,9 +229,8 @@ body, html {
 }
 
 .post-user{
-    background:none;
-    /* border: none; */
-    color: white;
+    background:white;
+    color: black;
     resize: none;
     border-radius: 10px;
     font-size: xx-large;
@@ -244,14 +242,28 @@ body, html {
     overflow: hidden;
   }
 
+  .users{
+    background:white;
+    color: black;
+    resize: none;
+    border-radius: 10px;
+    font-size: xx-large;
+    margin-top: 10px;
+    margin-left: 2%;
+    float: left;
+    width: 50%;
+    height: 35px;
+    overflow: hidden;
+  }
+
+
   .post-user:focus {
     outline: none;
  }
   
   .post-title{ 
-    background:none;
-    /* border: none; */
-    color: white;
+    background:white;
+    color: black;
     resize: none;
     border-radius: 10px;
     font-size: x-large;

@@ -10,7 +10,6 @@ const pool = new Pool({
 
   async function getRowsCount() {
     try {
-        // Query the number of rows (Adjust the query based on your table structure)
         const result = await pool.query('SELECT COUNT(*) FROM posts');
         console.log("hehehe")
         const rowsCount = parseInt(result.rows[0].count);

@@ -3,11 +3,7 @@ document.addEventListener('DOMContentLoaded', function () {
     var userElement = document.querySelector('.user');
     var postBtnElement = document.getElementById('postBtn');
   
-    
-    function aboutUs(){
-      window.location.replace("../Templates/about.html")
-    }
-  
+      
   window.onload= onLoad
   
   async function onLoad() {
@@ -44,7 +40,6 @@ document.addEventListener('DOMContentLoaded', function () {
    }
   }
 
-  
     window.addEventListener('scroll', function() {
       userElement.classList.add('follow')
       postBtnElement .classList.add('follow')
@@ -53,39 +48,7 @@ document.addEventListener('DOMContentLoaded', function () {
   management.addEventListener('click',async function () {
     window.location.href = '/moderation';
   });
-  
-  function getUserCard(){
-    var storedUsername = sessionStorage.getItem('username');
-    const userCard = document.querySelector(".user")
-    const currentUser = document.getElementById('current-user')
-    const modBtn = document.getElementById('moderation-btn')
-  
-    // Checking if the username exists
-    if (storedUsername) {
-      currentUser.textContent= `@${storedUsername}`
-      userCard.style.display = 'flex'
-      modBtn.style.display = 'flex'
-      }else{
-      userCard.style.display = 'none'
-      return
-      }
-    }
-  
-  
-  function changeNumberSize(num){
-    if(num.value == 0){
-      num.style.width = '35px'
-    }else if (num.value/10 <= 5){
-      num.style.width = `55px`
-    }
-    else if (num.value/10 <= 10){
-      num.style.width = `75px`
-    }else if (num.value/10 >= 99){
-      num.style.width = `110px`
-    }
-    return num.style.width
-  }
-  
+      
   function createPosts(postData, userData){
     const num = postData.postCount
     for(var i=0; i<num;i++){
@@ -177,7 +140,7 @@ document.addEventListener('DOMContentLoaded', function () {
         post.appendChild(infoDiv)
         post.appendChild(contentDiv)
         post.appendChild(engagmentDiv)
-        document.getElementsByTagName('section')[0].appendChild(post);
+        document.getElementsByTagName('nav')[0].appendChild(post);
         //document.getElementsByTagName('section')[0].appendChild(br);
     }
   }
@@ -185,16 +148,6 @@ document.addEventListener('DOMContentLoaded', function () {
   function createUserInfo(userData){
     const storedUsername = sessionStorage.getItem('username');
     const currentUser = userData.users.find(user => user.user_name === storedUsername);
-/*
-      const postUserId = postData.posts[i].user_id;
-      const userDataForPost = userData.users.find(users => users.user_id === postUserId);
-      const storedUsername = sessionStorage.getItem('username');
-
-      if (storedUsername != userDataForPost.user_name) {
-          // Skip to the next iteration if the usernames don't match
-          continue;
-      }
-      */
 
         var user = document.createElement('div');
         var nameDiv = document.createElement('div')
@@ -210,7 +163,6 @@ document.addEventListener('DOMContentLoaded', function () {
         var emailLabel = document.createElement('label')
         var saveBtn = document.createElement('button')
         var deleteBtn = document.createElement('button')
-        //var likes = document.createElement('input')
 
         var br = document.createElement("br")
   
@@ -284,71 +236,20 @@ document.addEventListener('DOMContentLoaded', function () {
         user.appendChild(passwordDiv)
         user.appendChild(emailDiv)
         user.appendChild(moderateDiv)
-        document.getElementsByTagName('section')[0].appendChild(user);
-        //document.getElementsByTagName('section')[0].appendChild(br);
+        document.getElementsByTagName('aside')[0].appendChild(user);
     }
-
-  function getPostId(user, title, content, data) {
-    for (const postData of data.posts) {
-      if (postData.user_id == user && postData.post_title == title && postData.post_content == content) {
-        return postData.post_id; // Assuming there is a post_id in your data
-      }
-    }
-    return null; // Return null if no match is found
-  }
-
-  /*
-  async function deletePost(element, postData, user, type) { 
-    const btn = document.getElementById(element);
-    const modDiv = document.getElementById(btn.parentNode.id);
-    const post = document.getElementById(modDiv.parentNode.id);
-
-    const titleElement = post.querySelector('.post-title');
-    const contentElement = post.querySelector('.post-content');
-
-    // Get title and content from HTML elements
-    const title = titleElement.value;
-    const content = contentElement.value;
-    const postId = getPostId(user, title, content, postData);
-    post.style.display = 'none';
-    try {const response = await fetch('/profile', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          type:type,
-            postId: postId,
-          }),
-      });
-      if (!response.ok) {
-        throw new Error(`Failed to verify post: ${response.statusText}`);
-      }
-      // Optionally, you can update the UI or perform additional actions after a successful verification
-    } catch (error) {
-      console.error('Error verifying post:', error);
-    }
-  }
-  */
 
   async function handlePost(type, element, postData, post_id) {
     const btn = document.getElementById(element);
     const modDiv = document.getElementById(btn.parentNode.id);
     const post = document.getElementById(modDiv.parentNode.id);
 
-    //const userElement = post.querySelector('.post-user');
     const titleElement = post.querySelector('.post-title');
     const contentElement = post.querySelector('.post-content');
 
-    // Get title and content from HTML elements
-    //const storedUsername = sessionStorage.getItem('username');
-
-    //const user = userData.users.find(user => user.user_name === storedUsername);
-    //const userId = user.user_id
     const title = titleElement.value;
     const content = contentElement.value;
 
-    //const postId = getPostId(userId, title, content, postData);
     if(type== "delete"){post.style.display = 'none';}
     try {const response = await fetch('/profile-post', {
         method: 'POST',
@@ -365,7 +266,6 @@ document.addEventListener('DOMContentLoaded', function () {
       if (!response.ok) {
         throw new Error(`Failed to verify post: ${response.statusText}`);
       }
-      // Optionally, you can update the UI or perform additional actions after a successful verification
     } catch (error) {
       console.error('Error verifying post:', error);
     }
@@ -392,9 +292,6 @@ async function handleUser(type, element, user_id) {
     sessionStorage.setItem('username', name)
     sessionStorage.setItem('password', password)
     }
-
-    //const postId = getPostId(userId, title, content, postData);
-    //if(type== "delete"){post.style.display = 'none';}
     
     try {const response = await fetch('/profile-user', {
         method: 'POST',
@@ -412,7 +309,6 @@ async function handleUser(type, element, user_id) {
       if (!response.ok) {
         throw new Error(`Failed to verify post: ${response.statusText}`);
       }
-      // Optionally, you can update the UI or perform additional actions after a successful verification
     } catch (error) {
       console.error('Error verifying post:', error);
     }
@@ -427,7 +323,6 @@ async function handleUser(type, element, user_id) {
   });
   }
   
-  // Example: Log the text content of each element
   function updateSize(elements) {
       elements.forEach(function(element) {
         element.style.height = element.scrollHeight+ 'px'
