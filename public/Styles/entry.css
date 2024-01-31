@@ -49,7 +49,36 @@ section {
     align-items: center;  
 }
 
+#username{
+    border-radius: 10px;
+}
+
+#password{
+    border-radius: 10px;
+}
+
+button{
+    border-radius: 10px;
+}
+
+#loginBtn{
+background-color: lightblue;
+}
+
+#email{
+    border-radius: 10px;
+}
+
+#signupBtn{
+    background-color: lightgreen;
+    }
+
 h2 {
+    width: 80%;
+    padding-top: 50px;
+    padding-bottom: 100px;
+    background-color: #797D7B;
+    border-radius: 10px;
     color: white;
     text-align: center;
 }

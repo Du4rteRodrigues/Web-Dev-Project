@@ -18,13 +18,17 @@
     </header>
     <section class= "entry-section">
         <h2>Login</h>
-            <form action="http://localhost:8888/login" method="post">
-                <input type="text" name="username" id="username" placeholder="Username" required>
+            <form action="http://localhost:8888/login" method="post" id = "login-form">
+                <div>
+                    <input type="text" name="username" id="username" placeholder="Username" required>
+                </div>
+                <div>
                 <input type="password" name="password" id="password" placeholder="Senha" required>
-                <button id="loginBtn">Login</button>
+                </div>
                 </div>
                 <div class="nav-links">
-                    <button class="btn" onclick="signup('signup')">New Account</button>
+                    <button id="loginBtn">Login</button>
+                    <button id="signupBtn" class="btn" onclick="signup('signup')">New Account</button>
                 </div>
             </form>
         </form>

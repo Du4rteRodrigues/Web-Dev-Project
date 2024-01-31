@@ -18,6 +18,12 @@ body, html {
   height: 120px;
 }
 
+h2{
+  width: 100%;
+  border-radius: 10px;
+  background-color: #797D7B;
+}
+
 
 /*Container*/
 .container{
@@ -61,6 +67,21 @@ body, html {
   flex-direction: column;
   display: grid;
   grid-template-columns: 1fr 2fr 1fr; /* Três colunas com larguras proporcionais */  
+}
+
+.user{
+  color: white;
+  display: flex;
+  flex-wrap: wrap;
+  position: fixed;
+  background-color:#797D7B;
+  border-radius: 15px;
+  border: black;
+  margin-top: 80vh; /* Ajuste conforme necessário */
+  margin-left: 5%;
+  max-width: 300px;
+  align-items: center;
+  justify-content: space-around;
 }
 
 .user-container{
@@ -122,19 +143,6 @@ a{
 }
 
 /* ########################## */
-
-.user{
-  color: white;
-  flex-wrap: wrap;
-  position: fixed;
-  background-color: rgb(46, 44, 44);
-  border-radius: 15px;
-  border: black;
-  margin-top: 65vh;
-  max-width: 300px;
-  align-items: center;
-  justify-content: space-around;
-}
 
 .user.follow {
 position: fixed;

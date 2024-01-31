@@ -242,9 +242,8 @@ transition: margin-top 0.3s ease; /* Add smooth transition for better visual eff
   }
   
  .post-content{
-    background:none;
-    /* border: none; */
-    color: white;
+    background:white;
+    color: black;
     display: block;
     margin-left: auto;
     margin-right: auto;
@@ -307,25 +306,19 @@ transition: margin-top 0.3s ease; /* Add smooth transition for better visual eff
     width: 64%;
   }
 
+button{
+  border-radius: 10px;
+}
+
+#logoutBtn{
+  background-color: red;
+  color: white;
+}
   
   #postBtn.follow {
     position: fixed;
     transition: margin-top 0.3s ease; /* Add smooth transition for better visual effect */
     }
-    
-   .post-content{
-      background:none;
-      color: white;
-      display: block;
-      margin-left: auto;
-      margin-right: auto;
-      border-radius: 10px;
-      resize: none;
-      width: 95%;
-      font-size: x-large;
-      overflow: hidden;
-      height: 69px;
-  } 
   
   .post-content:focus {
 
@@ -388,27 +381,14 @@ transition: margin-top 0.3s ease; /* Add smooth transition for better visual eff
     width:40px;
     color: black;
   }
-  .post-user{
-      background:none;
-      color: white;
-      resize: none;
-      border-radius: 10px;
-      font-size: xx-large;
-      margin-top: 10px;
-      margin-left: 2%;
-      float: left;
-      width: 30%;
-      height: 35px;
-      overflow: hidden;
-    }
   
     .post-user:focus {
       outline: none;
    }
     
     .post-title{ 
-      background:none;
-      color: white;
+      background:white;
+      color: black;
       resize: none;
       border-radius: 10px;
       font-size: x-large;

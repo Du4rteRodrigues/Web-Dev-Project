@@ -1,1 +1,1 @@
-{"users":[{"user_id":2,"user_name":"normal","user_email":"normal@gmail.com","user_password_hash":"$2b$10$nVq//dQZwWXkEER8NUyd3OXdxuNIpaCTprz3NCD/.T9azFs0sqs9C","active":true,"role":"normal"},{"user_id":1,"user_name":"admin","user_email":"admin@gmail.com","user_password_hash":"$2a$10$H6FwULcDzayIgXu6JTU/6eKvcy2ofm7ISLnvwdE7bcjElR6VP.CgK","active":true,"role":"admin"}],"userCount":2}
+{"users":[],"userCount":0}

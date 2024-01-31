@@ -55,6 +55,7 @@ body, html {
 }
 
 #moderation-btn{
+  float: right;
   display: none;
   cursor: pointer;
 }
@@ -70,6 +71,10 @@ body, html {
   height: 30px;
   outline: 0;
   width: 100%;
+}
+
+button{
+  border-radius: 10px;
 }
 
 .search-bar button{
@@ -248,8 +253,8 @@ transition: margin-top 0.3s ease; /* Add smooth transition for better visual eff
   }
   
  .post-content{
-    background:none;
-    color: white;
+    background:white;
+    color: black;
     display: block;
     margin-left: auto;
     margin-right: auto;
@@ -281,8 +286,8 @@ transition: margin-top 0.3s ease; /* Add smooth transition for better visual eff
 }
 
 .post-user{
-    background:none;
-    color: white;
+    background:white;
+    color: black;
     resize: none;
     border-radius: 10px;
     font-size: xx-large;
@@ -298,9 +303,14 @@ transition: margin-top 0.3s ease; /* Add smooth transition for better visual eff
     outline: none;
  }
   
+ #logoutBtn{
+  background-color: red;
+  color: white;
+}
+
   .post-title{ 
-    background:none;
-    color: white;
+    background:white;
+    color: black;
     resize: none;
     border-radius: 10px;
     font-size: x-large;

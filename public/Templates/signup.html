@@ -21,11 +21,19 @@
     <section class = "entry-section">
         <h2>Signup</h>  
             <form action="http://localhost:8888/signup" method="post">
+                <div>
                 <input type="text" name="username" id="username" placeholder="Username" required>
+                </div>
+                <div>
                 <input type="password" name="password" id="password" placeholder="Senha" required>
+                </div>
+                <div>
                 <input type="email" name="email" id="email" placeholder="Email" required>
-                <button type="submit">Signup</button>
-                <button class="btn" onclick="login('login')">Login</button>
+                </div>
+                <div>
+                <button id = "signupBtn" type="submit">Signup</button>
+                <button id = "loginBtn"class="btn" onclick="login('login')">Login</button>
+                </div>
             </form>
         </form>
     </section>

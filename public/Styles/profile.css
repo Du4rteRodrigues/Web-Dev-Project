@@ -229,8 +229,8 @@
     }
     
    .post-name{
-      background:none;
-      color: white;
+      background:white;
+      color: black;
       display: block;
       margin-left: auto;
       margin-right: auto;
@@ -243,8 +243,8 @@
   } 
 
   .post-content{
-    background:none;
-    color: white;
+    background:white;
+    color: black;
     display: block;
     margin-left: auto;
     margin-right: auto;
@@ -256,9 +256,13 @@
     height: 69px;
   }
 
+.label{
+  font-size: large;
+}
+
   .post-email{
-    background:none;
-    color: white;
+    background:white;
+    color: black;
     display: block;
     margin-left: auto;
     margin-right: auto;
@@ -271,8 +275,8 @@
 } 
 
 .post-pass{
-  background:none;
-  color: white;
+  background:white;
+  color: black;
   display: block;
   margin-left: auto;
   margin-right: auto;
@@ -322,15 +326,15 @@
    }
     
     .post-title{ 
-      background:none;
-      color: white;
+      background:white;
+      color: black;
       resize: none;
       border-radius: 10px;
       font-size: x-large;
       margin-top: 5px;
-      margin-right: 2%;
+      margin-right: 5%;
       float: right;
-      width: 64%;
+      width: 90%;
     }
     .post-title:focus {
       outline: none;

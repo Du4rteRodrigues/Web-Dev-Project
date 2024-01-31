@@ -15,6 +15,7 @@ aboutBtn.addEventListener('click',function () {
 })
 
 logoutBtn.addEventListener('click',function () {
+  sessionStorage.setItem("username", "Login")
   window.location.href = '/login';
 })
 
@@ -86,7 +87,6 @@ function getUserCard(userData){
     const user = userData.users.find(user => user.user_name === storedUsername);
     if(user.role == "admin"){modBtn.style.display = 'flex'}
     }
-    
   }
 }
   
@@ -339,24 +339,5 @@ function updateSize(elements) {
 
 });
 
-async function getWeather() {
-  try {
-      const apiKey = '00e37a36f3be204d34c344b97edeaf11';
-      const apiUrl = `https://api.openweathermap.org/data/2.5/weather?q=Lisbon&appid=${apiKey}&units=metric`;
-
-      const response = await fetch(apiUrl);
-      const data = await response.json();
-      console.log(data);
-
-      // Atualiza o elemento HTML com as informações do tempo
-      const weatherInfoElement = document.getElementById('weather-info');
-      weatherInfoElement.innerHTML =
-          `<p>Cidade: ${data.name}</p>
-          <p>Temperatura: ${data.main.temp}°C</p>
-          <p>Condição: ${data.weather[0].description}</p>`;
-  } catch (error) {
-      console.error('Erro ao obter dados do clima:', error);
-  }
-}
 
 

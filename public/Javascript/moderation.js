@@ -1,12 +1,9 @@
-document.addEventListener('DOMContentLoaded', function () {
-    var logoutBtn = document.getElementById('logoutBtn');
-    var profileBtn = document.getElementById('profileBtn');
-    var popup = document.getElementById('popup');
-  
-    
-    function aboutUs(){
-      window.location.replace("../Templates/about.html")
-    }
+document.addEventListener('DOMContentLoaded', function () {    
+  const about = document.getElementById("about-us")
+
+  about.addEventListener('click',function () {
+    window.location.href = '/about';
+  })
   
   window.onload= onLoad
 

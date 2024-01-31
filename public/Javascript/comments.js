@@ -187,6 +187,7 @@ window.onload= onLoad
         saveBtn.id = `post-edit`
         saveBtn.className= 'post-edit'
         saveBtn.innerHTML = "Comment"
+        saveBtn.style.backgroundColor = "lightblue"
         saveBtn.onclick = function() {
           saveComment(this.id, postId, userData)
         };
@@ -208,8 +209,6 @@ window.onload= onLoad
   
           var user = document.createElement('div');
           var nameDiv = document.createElement('div')
-          var emailDiv = document.createElement('div')
-          var passwordDiv = document.createElement('div')
           var moderateDiv = document.createElement('div')
     
           var editBtn = document.createElement('button')
@@ -217,7 +216,6 @@ window.onload= onLoad
           var username = document.createElement('textarea');
           var content = document.createElement('textarea');
   
-          var br = document.createElement("br")
     
           user.className='post';
           user.id = `post-${i}`
@@ -233,6 +231,7 @@ window.onload= onLoad
           editBtn.id = `post-edit-${i}`
           editBtn.className= 'post-edit'
           editBtn.innerHTML = "Edit"
+          editBtn.style.backgroundColor = "green"
           editBtn.onclick = function() {
             handleComment('edit',this.id, comId)
           };
@@ -240,6 +239,7 @@ window.onload= onLoad
           deleteBtn.id = `post-edit-${i}`
           deleteBtn.className= 'post-edit'
           deleteBtn.innerHTML = "Delete"
+          deleteBtn.style.backgroundColor = "red"
           deleteBtn.onclick = function() {
             handleComment('delete',this.id, comId)
           };

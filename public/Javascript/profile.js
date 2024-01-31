@@ -183,15 +183,15 @@ document.addEventListener('DOMContentLoaded', function () {
 
         nameLabel.innerHTML = "Username:"
         nameLabel.id = ""
-        nameLabel.className = ""
+        nameLabel.className = "label"
         
         passLabel.innerHTML = "Password:"
         passLabel.id = ""
-        passLabel.className = ""
+        passLabel.className = "label"
         
         emailLabel.innerHTML = "Email:"
         emailLabel.id = ""
-        emailLabel.className = ""
+        emailLabel.className = "label"
     
         username.className = 'post-name'
         username.id = `post-name`
