@@ -207,7 +207,6 @@ transition: margin-top 0.3s ease; /* Add smooth transition for better visual eff
   
  .post-content{
     background:none;
-    /* border: none; */
     color: white;
     display: block;
     margin-left: auto;
@@ -241,7 +240,6 @@ transition: margin-top 0.3s ease; /* Add smooth transition for better visual eff
 
 .post-user{
     background:none;
-    /* border: none; */
     color: white;
     resize: none;
     border-radius: 10px;
@@ -260,7 +258,6 @@ transition: margin-top 0.3s ease; /* Add smooth transition for better visual eff
   
   .post-title{ 
     background:none;
-    /* border: none; */
     color: white;
     resize: none;
     border-radius: 10px;

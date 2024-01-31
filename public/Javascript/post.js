@@ -2,18 +2,11 @@ document.addEventListener('DOMContentLoaded', function () {
     var userElement = document.querySelector('.user');
     var postBtnElement = document.getElementById('postBtn');
   
-    
-    function aboutUs(){
-      window.location.replace("../Templates/about.html")
-    }
-  
   window.onload= onLoad
   
   function onLoad() {
     getUserCard()
   }
-  
-  
     window.addEventListener('scroll', function() {
       userElement.classList.add('follow')
       postBtnElement .classList.add('follow')
@@ -26,7 +19,6 @@ document.addEventListener('DOMContentLoaded', function () {
   
     hiddenUser.value = storedUsername
     currentUser.textContent= `${storedUsername}`
-    //userCard.style.display = 'block'
 }
   
 });

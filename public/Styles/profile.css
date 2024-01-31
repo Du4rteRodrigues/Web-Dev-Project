@@ -155,15 +155,8 @@
   .content{
     flex-direction: column;
     display: grid;
-    grid-template-columns: 1fr 2fr 1fr; /* Três colunas com larguras proporcionais */  
+    grid-template-columns: 3fr 1fr; /* Três colunas com larguras proporcionais */  
   }
-  
-  /* .user-container{
-    grid-column: 1 / 2;
-    border-right: 1px solid black; 
-    padding-top: 30px;
-    background-color: #a6a6a6;
-  } */
   
   .view-posts{
     grid-column: 2 / 3; /* Segunda coluna */
@@ -237,7 +230,6 @@
     
    .post-name{
       background:none;
-      /* border: none; */
       color: white;
       display: block;
       margin-left: auto;
@@ -252,7 +244,6 @@
 
   .post-content{
     background:none;
-    /* border: none; */
     color: white;
     display: block;
     margin-left: auto;
@@ -267,7 +258,6 @@
 
   .post-email{
     background:none;
-    /* border: none; */
     color: white;
     display: block;
     margin-left: auto;
@@ -282,7 +272,6 @@
 
 .post-pass{
   background:none;
-  /* border: none; */
   color: white;
   display: block;
   margin-left: auto;
@@ -316,7 +305,6 @@
   
   .post-user{
       background:none;
-      /* border: none; */
       color: white;
       resize: none;
       border-radius: 10px;
@@ -335,7 +323,6 @@
     
     .post-title{ 
       background:none;
-      /* border: none; */
       color: white;
       resize: none;
       border-radius: 10px;

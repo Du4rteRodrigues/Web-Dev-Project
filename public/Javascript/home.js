@@ -9,10 +9,13 @@ document.addEventListener('DOMContentLoaded', function () {
   var userElement = document.querySelector('.user');
   var postBtnElement = document.getElementById('postBtn');
   var aboutBtn = document.getElementById("about-us")
-  //var commentBtn = document.querySelector('.post-comments-img')
 
 aboutBtn.addEventListener('click',function () {
   window.location.href = '/about';
+})
+
+logoutBtn.addEventListener('click',function () {
+  window.location.href = '/login';
 })
 
 postBtnElement.addEventListener('click',function () {
@@ -35,14 +38,7 @@ currentUser.addEventListener('click',function () {
   window.location.href = '/profile';
 })
 
-
-
-window.onload= onLoad
-
-// commentBtn.addEventListener('click',function () {
-//   window.location.href = '/comments';
-// })
-
+window.onload = onLoad
 async function onLoad() {
   try {
      const postResponse = await fetch('/post-data-json');
@@ -68,20 +64,10 @@ async function onLoad() {
  
 }
 
-
   window.addEventListener('scroll', function() {
     userElement.classList.add('follow')
     postBtnElement .classList.add('follow')
   });
-
-  // Ação de logout
-  logoutBtn.addEventListener('click', function () {
-    // Adicione aqui a lógica de logout
-    alert('Logout realizado com sucesso!');
-    window.location.href = "/public/Templates/login.html"
-  });
-
-
 
 management.addEventListener('click',function () {
   window.location.href = '/moderation';
@@ -93,7 +79,6 @@ function getUserCard(userData){
   const currentUser = document.getElementById('current-user')
   const modBtn = document.getElementById('moderation-btn')
 
-  // Checking if the username exists
   if (storedUsername) {
     currentUser.textContent= `${storedUsername}`
     userCard.style.display = 'flex'
@@ -105,7 +90,6 @@ function getUserCard(userData){
   }
 }
   
-
 function changeNumberSize(num){
   if(num.value == 0){
     num.style.width = '35px'
@@ -137,7 +121,6 @@ function createPosts(postData, userData){
       var likeImg = document.createElement('img')
       var dislikeImg = document.createElement('img')
       var commentsImg = document.createElement('img')
-      var br = document.createElement("br")
 
       post.className='post';
       post.id = `post-${i}`
@@ -155,7 +138,6 @@ function createPosts(postData, userData){
       title.id = `post-title-${i}`
       title.readOnly = true
       title.value = postData.posts[i].post_title
-      //80 chars
 
       user.className = 'post-user'
       user.id = `post-user-${i}`
@@ -164,7 +146,6 @@ function createPosts(postData, userData){
       const userDataForPost = userData.users.find(users => users.user_id === postUserId);
       user.value = userDataForPost.user_name;
 
-      //17 chars
 
       content.id = `post-content-${i}`
       content.className = 'post-content'
@@ -190,7 +171,6 @@ function createPosts(postData, userData){
       }
 
       const id = postData.posts[i].post_id
-      //alert("nha: "+id)
 
       likeImg.src ='../Images/up.png'
       likeImg.id = `post-like-img-${i}`
@@ -226,7 +206,6 @@ function createPosts(postData, userData){
       post.appendChild(contentDiv)
       post.appendChild(engagmentDiv)
       document.getElementsByTagName('section')[0].appendChild(post);
-      //document.getElementsByTagName('section')[0].appendChild(br);
   }
 }
 
@@ -257,111 +236,6 @@ async function getComments(id){
 }
 }
 
-function createForm(){
-  /*
-        const postUserId = postData.posts[i].user_id;
-        const userDataForPost = userData.users.find(users => users.user_id === postUserId);
-        const storedUsername = sessionStorage.getItem('username');
-  
-        if (storedUsername != userDataForPost.user_name) {
-            // Skip to the next iteration if the usernames don't match
-            continue;
-        }
-        */
-  
-          var user = document.createElement('div');
-          var nameDiv = document.createElement('div')
-          var emailDiv = document.createElement('div')
-          var passwordDiv = document.createElement('div')
-          var moderateDiv = document.createElement('div')
-    
-          var username = document.createElement('textarea');
-          var email = document.createElement('textarea')
-          var password = document.createElement('textarea')
-          var nameLabel = document.createElement('label')
-          var passLabel = document.createElement('label')
-          var emailLabel = document.createElement('label')
-          var saveBtn = document.createElement('button')
-          var deleteBtn = document.createElement('button')
-          //var likes = document.createElement('input')
-  
-          var br = document.createElement("br")
-    
-          user.className='post';
-          user.id = `post-`
-    
-          nameDiv.id = `post-name-div`
-          nameDiv.className = 'post-name-div'
-  
-          emailDiv.id = `post-mail-div`
-          emailDiv.className = 'post-mail-div'
-  
-          passwordDiv.id = `post-pass-div`
-          passwordDiv.className = 'post-pass-div'
-    
-          moderateDiv.id =`post-eng-div`
-          moderateDiv.className = 'post-engagment-div'
-  
-          nameLabel.innerHTML = "Username:"
-          nameLabel.id = ""
-          nameLabel.className = ""
-          
-          passLabel.innerHTML = "Password:"
-          passLabel.id = ""
-          passLabel.className = ""
-          
-          emailLabel.innerHTML = "Email:"
-          emailLabel.id = ""
-          emailLabel.className = ""
-      
-          username.className = 'post-name'
-          username.id = `post-name`
-          username.readOnly = false
-          username.value = ""
-          //80 chars
-  
-          email.id = `post-email`
-          email.className = 'post-email'
-          email.readOnly = false
-          email.value = ""
-  
-          password.id = `post-pass`
-          password.className = 'post-pass'
-          password.readOnly = false
-          password.value = ""
-  /*
-          const user_id = currentUusernamesesser.user_id
-  
-          deleteBtn.id = `post-delete`
-          deleteBtn.className= 'post-delete'
-          deleteBtn.innerHTML = "Delete"
-          deleteBtn.onclick = function() {
-            handleUser('delete',this.id, user_id,)};
-  
-          saveBtn.id = `post-edit`
-          saveBtn.className= 'post-edit'
-          saveBtn.innerHTML = "Edit"
-          saveBtn.onclick = function() {
-            handleUser('edit',this.id, user_id,)};
-          */
-            
-          nameDiv.appendChild(nameLabel)
-          nameDiv.appendChild(username)
-          emailDiv.appendChild(emailLabel)
-          emailDiv.appendChild(email)
-          passwordDiv.appendChild(passLabel)
-          passwordDiv.appendChild(password)
-          moderateDiv.appendChild(saveBtn)
-          moderateDiv.appendChild(deleteBtn)
-    
-          user.appendChild(nameDiv)
-          user.appendChild(passwordDiv)
-          user.appendChild(emailDiv)
-          user.appendChild(moderateDiv)
-          document.getElementsByTagName('section')[0].appendChild(user);
-          //document.getElementsByTagName('section')[0].appendChild(br);
-}
-
 async function updateLikes(id, newLikes) {
   const likeNum = newLikes.value  
   const postId = id
@@ -378,19 +252,9 @@ async function updateLikes(id, newLikes) {
   if (!response.ok) {
     throw new Error(`Failed to verify post: ${response.statusText}`);
   }
-  // Optionally, you can update the UI or perform additional actions after a successful verification
 } catch (error) {
   console.error('Error verifying post:', error);
 }
-}
-
-function getPostId(user, title, content, data) {
-  for (const postData of data.posts) {
-    if (postData.user_id == user && postData.post_title == title && postData.post_content == content) {
-      return postData.post_id; // Assuming there is a post_id in your data
-    }
-  }
-  return null; // Return null if no match is found
 }
 
 function changeLikes(type, element, id){  
@@ -467,7 +331,6 @@ function updateContentHeight(){
 });
 }
 
-// Example: Log the text content of each element
 function updateSize(elements) {
     elements.forEach(function(element) {
       element.style.height = element.scrollHeight+ 'px'
@@ -475,7 +338,6 @@ function updateSize(elements) {
 }
 
 });
-
 
 async function getWeather() {
   try {
@@ -496,11 +358,5 @@ async function getWeather() {
       console.error('Erro ao obter dados do clima:', error);
   }
 }
-
-// Chame a função para obter dados do clima quando a página for carregada
-window.onload = function () {
-  getWeather();
-  onLoad();
-};
 
 
