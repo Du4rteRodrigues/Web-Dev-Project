@@ -1,12 +1,11 @@
+function aboutUs(){
+  window.location.replace("../Templates/about.html")
+}
 
 document.addEventListener('DOMContentLoaded', function () {
-  var openPopupBtn = document.getElementById('openPopupBtn');
-  var closePopupBtn = document.getElementById('closePopupBtn');
   var logoutBtn = document.getElementById('logoutBtn');
   var management = document.getElementById('moderation-btn');
-  var profileBtn = document.getElementById('profileBtn');
   var currentUser = document.getElementById('current-user')
-  var popup = document.getElementById('popup');
   var userElement = document.querySelector('.user');
   var postBtnElement = document.getElementById('postBtn');
   var aboutBtn = document.getElementById("about-us")
@@ -35,9 +34,7 @@ currentUser.addEventListener('click',function () {
   window.location.href = '/profile';
 })
 
-  function aboutUs(){
-    window.location.replace("../Templates/about.html")
-  }
+
 
 window.onload= onLoad
 
@@ -72,29 +69,11 @@ async function onLoad() {
     postBtnElement .classList.add('follow')
   });
 
-  // Abrir o pop-up
-  openPopupBtn.addEventListener('click', function () {
-    popup.style.display = 'block';
-  });
-
-  // Fechar o pop-up
-  closePopupBtn.addEventListener('click', function () {
-    popup.style.display = 'none';
-  });
-
   // Ação de logout
   logoutBtn.addEventListener('click', function () {
     // Adicione aqui a lógica de logout
     alert('Logout realizado com sucesso!');
     window.location.href = "/public/Templates/login.html"
-    popup.style.display = 'none';
-  });
-
-  // Outra ação
-  profileBtn.addEventListener('click', function () {
-    // Adicione aqui a lógica para a outra ação
-    alert('Outra opção realizada com sucesso!');
-    popup.style.display = 'none';
   });
 
 
@@ -349,4 +328,32 @@ function updateSize(elements) {
 }
 
 });
+
+
+async function getWeather() {
+  try {
+      const apiKey = '00e37a36f3be204d34c344b97edeaf11';
+      const apiUrl = `https://api.openweathermap.org/data/2.5/weather?q=Lisbon&appid=${apiKey}&units=metric`;
+
+      const response = await fetch(apiUrl);
+      const data = await response.json();
+      console.log(data);
+
+      // Atualiza o elemento HTML com as informações do tempo
+      const weatherInfoElement = document.getElementById('weather-info');
+      weatherInfoElement.innerHTML =
+          `<p>Cidade: ${data.name}</p>
+          <p>Temperatura: ${data.main.temp}°C</p>
+          <p>Condição: ${data.weather[0].description}</p>`;
+  } catch (error) {
+      console.error('Erro ao obter dados do clima:', error);
+  }
+}
+
+// Chame a função para obter dados do clima quando a página for carregada
+window.onload = function () {
+  getWeather();
+  onLoad();
+};
+
 

@@ -13,6 +13,11 @@ section{
     border-right: 1px solid #9AA0A6;
 } 
 
+
+#home{
+  height: 120px;
+}
+
 #dropMenu{
     font-size: xx-large;
     margin-top: 10px;
@@ -378,6 +383,13 @@ button:hover{
       font-size: large;
   }
 
+  #about-us{
+    font-size: 50px;
+    cursor: pointer;
+    width: 60px;
+    background-color: lightgray;
+    border-radius: 30px;
+  }
 .about-section{
     padding: 20px;
     border: hidden;

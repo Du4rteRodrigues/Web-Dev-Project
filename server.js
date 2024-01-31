@@ -4,7 +4,7 @@ const bodyParser = require('body-parser');
 const cors = require("cors");
 const {pool} = require('./database')
 const fs = require('fs');  // Include the fs module
-const bcrypt = require('bcrypt')
+const bcrypt = require('bcryptjs');
 const app = express()
 const path = require('path');
 

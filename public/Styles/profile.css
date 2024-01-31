@@ -3,7 +3,7 @@
   }
   
   body{
-    background-color: #d9d9d9;
+    background-image: url('../Images/PiperBackground.png');
     font-family: Arial, Helvetica, sans-serif;
     min-height: 100vh; /* Garante que o conteúdo estenda a altura mínima da viewport */
     bottom: 0;
@@ -14,6 +14,9 @@
     padding: 0;
   }
   
+  #home{
+    height: 120px;
+  }
   
   /*Container*/
   .container{
@@ -54,6 +57,14 @@
   #moderation-btn{
     display: none;
     cursor: pointer;
+  }
+
+  #about-us{
+    font-size: 50px;
+    cursor: pointer;
+    width: 60px;
+    background-color: lightgray;
+    border-radius: 30px;
   }
   
   #settings-btn{
@@ -422,16 +433,17 @@
   
   section{
       grid-column: 2 / 3; /* Segunda coluna */
-      border-right: 1px solid #9AA0A6;/* border-right: 1px solid #9AA0A6; */
+
   }
   
   
   aside{
       grid-column: 3 / 4; /* Terceira coluna */
-      background-color: #a6a6a6;
       height: 100vh;
   }
   
+
+
   .footer-container{
     position: fixed;
     align-items: center;

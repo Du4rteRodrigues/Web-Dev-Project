@@ -3,13 +3,21 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">~
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="../Styles/entry.css">
     <link rel="stylesheet" href="../Javascript/about.js">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
     <script src="../Javascript/entry.js"></script>
     <title>Entry</title>
 </head>
 <body>
+    <header>
+        <div class="container">
+            <a href="/home"><img src="../Images/piperLogo.png" id="home" onclick="goHome()" alt="Logo" /></a>
+
+            <!-- Add other header content if needed -->
+        </div>
+    </header>
     <section class = "entry-section">
         <h2>Recover</h>
             <form action="http://localhost:8888/recover" method="post">
@@ -17,18 +25,9 @@
                 <button type="submit">Recover</button>
             </form>
     </section>
-    <header class="header-container">
-        <div class="header-content">
-            <ul>
-                <button onclick="signup()" href="#">Signup</button>
-                <button onclick="login()" href="#">Login</button>
-            </ul>
-        </div>
-    </header>
-    <hr>
     <footer class="footer-container">
         <div class="footer-content">
-            <h1 onclick="aboutUs()">About Us</h1> 
+            <span id = "about-us"class="material-symbols-outlined">groups</span> 
         </div>
     </footer>
 </body>
