@@ -94,23 +94,19 @@
     border-right: none;
     color: black;
   }
-
-  .post-delete{
-    width: fit-content;
-    height: 30px;
-    background-color: red;
+  
+  .post-comments-img{
+    -webkit-user-drag: none;
+    margin-top: 7px;
+    margin-left: 2%;
+    background: none;
+    border: none;
+    font-size: xx-large;
     border-radius: 10px;
-    cursor: pointer;
-    user-select: none;
-  }
-
-  .post-edit{
-    width: fit-content;
-    height: 30px;
-    background-color: green;
-    border-radius: 10px;
-    cursor: pointer;
-    user-select: none;
+    float: left;
+    resize: none;
+    text-align: center;
+    cursor:pointer
   }
   
   .search-bar input{
@@ -147,12 +143,20 @@
     grid-template-columns: 1fr 2fr 1fr; /* Três colunas com larguras proporcionais */  
   }
   
-  /* .user-container{
-    grid-column: 1 / 2;
+  .user-container{
+    grid-column: 1 / 2; /* Primeira coluna */
     border-right: 1px solid black; 
     padding-top: 30px;
     background-color: #a6a6a6;
-  } */
+  }
+  
+  #about-us{
+    font-size: 50px;
+    cursor: pointer;
+    width: 60px;
+    background-color: lightgray;
+    border-radius: 30px;
+  }
   
   .view-posts{
     grid-column: 2 / 3; /* Segunda coluna */
@@ -206,17 +210,26 @@
       width:100%;
     }
   
+  #current-user{
+    cursor: pointer;
+  }
+  
   #postBtn{
+    font-size: 45px;
+    cursor: pointer;
+    width: 60px;
+    border-radius: 30px;
+    cursor: pointer;
       display: flex;
       flex-wrap: wrap;
       background-color:#797D7B;
-      border-radius: 15px;
       margin-top: 75vh;
       border: black;
       max-width: 300px;
       align-items: center;
       justify-content: space-around;
       position: fixed;
+      
   }
   
   #postBtn.follow {
@@ -224,7 +237,7 @@
     transition: margin-top 0.3s ease; /* Add smooth transition for better visual effect */
     }
     
-   .post-name{
+   .post-content{
       background:none;
       /* border: none; */
       color: white;
@@ -238,51 +251,6 @@
       overflow: hidden;
       height: 69px;
   } 
-
-  .post-content{
-    background:none;
-    /* border: none; */
-    color: white;
-    display: block;
-    margin-left: auto;
-    margin-right: auto;
-    border-radius: 10px;
-    resize: none;
-    width: 95%;
-    font-size: x-large;
-    overflow: hidden;
-    height: 69px;
-  }
-
-  .post-email{
-    background:none;
-    /* border: none; */
-    color: white;
-    display: block;
-    margin-left: auto;
-    margin-right: auto;
-    border-radius: 10px;
-    resize: none;
-    width: 95%;
-    font-size: x-large;
-    overflow: hidden;
-    height: 69px;
-} 
-
-.post-pass{
-  background:none;
-  /* border: none; */
-  color: white;
-  display: block;
-  margin-left: auto;
-  margin-right: auto;
-  border-radius: 10px;
-  resize: none;
-  width: 95%;
-  font-size: x-large;
-  overflow: hidden;
-  height: 69px;
-} 
   
   .post-content:focus {
     outline: none;

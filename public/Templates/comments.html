@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../Styles/comments.css">
+    <!-- <link rel="stylesheet" href="../Styles/popupLogout.css">
+    <link rel="stylesheet" href="../Javascript/about.js">
+    <link rel="stylesheet" href="../Javascript/logout.js">
+    <link rel="stylesheet" href="../Javascript/post.js"> -->
+    <script  src="../Javascript/comments.js"></script>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
+    <title>dick</title>
+</head>
+<body>
+    <header>
+        <div class="container">
+
+            <a href="/home"><img src="../Images/logo.png" id="home" onclick="goHome()" alt="Logo" /></a>
+
+            <div class="search-bar" id="search-bar">
+                <form action="">
+                    <button type="submit">
+                        <i class="fa fa-search material-symbols-outlined">search</i>
+                    </button>
+                    <input type="text" placeholder="Search ...">
+                </form>
+            </div>
+
+            <ul>
+                <!-- <li><a href="#Notifications" class="material-symbols-outlined">notifications</a></li> -->
+                <li><a id = "moderation-btn">manage</a></li>
+                <li><a id = "settings-btn" class="material-symbols-outlined" >settings</a></li>
+            </ul>
+
+        </div>
+    </header>
+    <div class="content">
+        <nav class="user-container">
+            <!-- <script src="../Javascript/home.js"></script> -->
+    
+            <div class="user">
+                <!-- <img src="../Images/licensed-image.jpeg" alt=""> -->
+                <h4 id = "current-user">Login</h4>
+            </div>
+    
+             <!-- Pop-up container -->
+             <div id="popup" class="popup">
+                <div class="popup-content">
+                <span class="close" id="closePopupBtn">&times;</span>
+                <button id="logoutBtn">Logout</button>
+                <button id="profileBtn">View Profile</button>
+                </div>
+            </div>    
+        </nav>
+
+        <section class="view-posts">
+            <br>
+            <br>
+            <br>
+        </section>
+        <aside class="create-post">
+            <span  id="postBtn" class="material-symbols-outlined">draw</span>
+        </aside>
+    </div>
+    <footer class="footer-container">
+        <div class="footer-content">
+            <span id = "about-us"class="material-symbols-outlined">groups</span> 
+        </div>
+    </footer>
+</body>
+</html>

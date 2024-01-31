@@ -10,6 +10,7 @@ document.addEventListener('DOMContentLoaded', function () {
   var userElement = document.querySelector('.user');
   var postBtnElement = document.getElementById('postBtn');
   var aboutBtn = document.getElementById("about-us")
+  //var commentBtn = document.querySelector('.post-comments-img')
 
 aboutBtn.addEventListener('click',function () {
   window.location.href = '/about';
@@ -41,6 +42,10 @@ currentUser.addEventListener('click',function () {
 
 window.onload= onLoad
 
+// commentBtn.addEventListener('click',function () {
+//   window.location.href = '/comments';
+// })
+
 async function onLoad() {
   try {
      const postResponse = await fetch('/post-data-json');
@@ -58,7 +63,7 @@ async function onLoad() {
      getUserCard(userData)
      createPosts(postData, userData);
      updateContentHeight();
-     return data;
+    return data;
   } catch (error) {
      console.error('Error fetching data:', error);
   }
@@ -152,6 +157,7 @@ function createPosts(postData, userData){
 
       var likeImg = document.createElement('img')
       var dislikeImg = document.createElement('img')
+      var commentsImg = document.createElement('img')
       var br = document.createElement("br")
 
       post.className='post';
@@ -221,12 +227,21 @@ function createPosts(postData, userData){
          changeLikes('down', this.id, id);
       })
 
+      commentsImg.src ='../Images/comments.png'
+      commentsImg.id = `post-comments-img-${i}`
+      commentsImg.className ='post-comments-img'
+       commentsImg.addEventListener("click", function() {
+          getComments(id);
+        }
+         );
+
       infoDiv.appendChild(user)
       infoDiv.appendChild(title)
       contentDiv.appendChild(content)
       engagmentDiv.appendChild(likes)
       engagmentDiv.appendChild(dislikeImg)
       engagmentDiv.appendChild(likeImg)
+      engagmentDiv.appendChild(commentsImg)
 
       post.appendChild(infoDiv)
       post.appendChild(contentDiv)
@@ -234,6 +249,138 @@ function createPosts(postData, userData){
       document.getElementsByTagName('section')[0].appendChild(post);
       //document.getElementsByTagName('section')[0].appendChild(br);
   }
+}
+
+async function getComments(id){
+  const currentUser = document.getElementById('current-user')
+  if(currentUser.textContent == "Login"){
+    window.location.href = '/login';
+    return;
+  }
+  const postId = id
+  
+  try {const response = await fetch('/comments', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+        postId: postId,
+      }),
+  });
+  window.location.href = '/comments';
+  if (!response.ok) {
+    throw new Error(`Failed to verify post: ${response.statusText}`);
+  }
+  // Optionally, you can update the UI or perform additional actions after a successful verification
+} catch (error) {
+  console.error('Error verifying post:', error);
+}
+}
+
+function createForm(){
+  /*
+        const postUserId = postData.posts[i].user_id;
+        const userDataForPost = userData.users.find(users => users.user_id === postUserId);
+        const storedUsername = sessionStorage.getItem('username');
+  
+        if (storedUsername != userDataForPost.user_name) {
+            // Skip to the next iteration if the usernames don't match
+            continue;
+        }
+        */
+  
+          var user = document.createElement('div');
+          var nameDiv = document.createElement('div')
+          var emailDiv = document.createElement('div')
+          var passwordDiv = document.createElement('div')
+          var moderateDiv = document.createElement('div')
+    
+          var username = document.createElement('textarea');
+          var email = document.createElement('textarea')
+          var password = document.createElement('textarea')
+          var nameLabel = document.createElement('label')
+          var passLabel = document.createElement('label')
+          var emailLabel = document.createElement('label')
+          var saveBtn = document.createElement('button')
+          var deleteBtn = document.createElement('button')
+          //var likes = document.createElement('input')
+  
+          var br = document.createElement("br")
+    
+          user.className='post';
+          user.id = `post-`
+    
+          nameDiv.id = `post-name-div`
+          nameDiv.className = 'post-name-div'
+  
+          emailDiv.id = `post-mail-div`
+          emailDiv.className = 'post-mail-div'
+  
+          passwordDiv.id = `post-pass-div`
+          passwordDiv.className = 'post-pass-div'
+    
+          moderateDiv.id =`post-eng-div`
+          moderateDiv.className = 'post-engagment-div'
+  
+          nameLabel.innerHTML = "Username:"
+          nameLabel.id = ""
+          nameLabel.className = ""
+          
+          passLabel.innerHTML = "Password:"
+          passLabel.id = ""
+          passLabel.className = ""
+          
+          emailLabel.innerHTML = "Email:"
+          emailLabel.id = ""
+          emailLabel.className = ""
+      
+          username.className = 'post-name'
+          username.id = `post-name`
+          username.readOnly = false
+          username.value = ""
+          //80 chars
+  
+          email.id = `post-email`
+          email.className = 'post-email'
+          email.readOnly = false
+          email.value = ""
+  
+          password.id = `post-pass`
+          password.className = 'post-pass'
+          password.readOnly = false
+          password.value = ""
+  /*
+          const user_id = currentUusernamesesser.user_id
+  
+          deleteBtn.id = `post-delete`
+          deleteBtn.className= 'post-delete'
+          deleteBtn.innerHTML = "Delete"
+          deleteBtn.onclick = function() {
+            handleUser('delete',this.id, user_id,)};
+  
+          saveBtn.id = `post-edit`
+          saveBtn.className= 'post-edit'
+          saveBtn.innerHTML = "Edit"
+          saveBtn.onclick = function() {
+            handleUser('edit',this.id, user_id,)};
+          */
+            
+          nameDiv.appendChild(nameLabel)
+          nameDiv.appendChild(username)
+          emailDiv.appendChild(emailLabel)
+          emailDiv.appendChild(email)
+          passwordDiv.appendChild(passLabel)
+          passwordDiv.appendChild(password)
+          moderateDiv.appendChild(saveBtn)
+          moderateDiv.appendChild(deleteBtn)
+    
+          user.appendChild(nameDiv)
+          user.appendChild(passwordDiv)
+          user.appendChild(emailDiv)
+          user.appendChild(moderateDiv)
+          document.getElementsByTagName('section')[0].appendChild(user);
+          //document.getElementsByTagName('section')[0].appendChild(br);
 }
 
 async function updateLikes(id, newLikes) {

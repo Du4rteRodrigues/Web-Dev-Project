@@ -49,6 +49,126 @@ app.get('/home', async (req, res) => {
   res.sendFile(__dirname + '/public/Templates/home.html');
 });
 
+app.get('/comments', async (req, res) => {
+
+  pool.query('SELECT * FROM users', (error, results) => {
+    if (error) { throw error; }
+    //console.log('Retrieved users: ', results.rowCount);
+    console.log('Retrieved users: ', results.rows);
+
+    //fs.writeFile('data.json', JSON.stringify({ rowsCount: results.rowCount }), (writeError) => {
+      fs.writeFile('user-data.json', JSON.stringify({ users: results.rows, userCount: results.rowCount}), (writeError) => {
+        if (writeError) {
+            console.error('Error writing to data.json:', writeError);
+            res.status(500).send('Internal Server Error');
+        }
+    });
+    /*
+    pool.query('SELECT * FROM comments', (error, results) => {
+      if (error) { throw error; }
+      //console.log('Retrieved users: ', results.rowCount);
+      console.log('Retrieved comments: ', results.rows);
+});
+*/
+})
+
+  //pool.query('SELECT * FROM posts WHERE verified = true', (error, results) => {
+    /*
+    pool.query(`SELECT * FROM posts 
+                WHERE post_id = $1`,
+    [postId],
+    (error, results) => {
+      if (error) { throw error; }
+      //console.log('Retrieved users: ', results.rowCount);
+      console.log('Retrieved posts: ', results.rows);
+
+      //fs.writeFile('data.json', JSON.stringify({ rowsCount: results.rowCount }), (writeError) => {
+        fs.writeFile('post-data.json', JSON.stringify({ posts: results.rows, postCount: results.rowCount}), (writeError) => {
+          if (writeError) {
+              console.error('Error writing to data.json:', writeError);
+              res.status(500).send('Internal Server Error');
+          }
+      });
+  });
+  */
+  res.sendFile(__dirname + '/public/Templates/comments.html');
+});
+
+app.post('/comments', async (req, res) => {
+
+  const postId = req.body.postId;
+
+  pool.query('SELECT * FROM users', (error, results) => {
+    if (error) { throw error; }
+    //console.log('Retrieved users: ', results.rowCount);
+    console.log('Retrieved users: ', results.rows);
+
+    //fs.writeFile('data.json', JSON.stringify({ rowsCount: results.rowCount }), (writeError) => {
+      fs.writeFile('user-data.json', JSON.stringify({ users: results.rows, userCount: results.rowCount}), (writeError) => {
+        if (writeError) {
+            console.error('Error writing to data.json:', writeError);
+            res.status(500).send('Internal Server Error');
+        }
+    });
+});
+
+  //pool.query('SELECT * FROM posts WHERE verified = true', (error, results) => {
+    pool.query(`SELECT * FROM posts 
+                WHERE post_id = $1`,
+    [postId],
+    (error, results) => {
+      if (error) { throw error; }
+      //console.log('Retrieved users: ', results.rowCount);
+      console.log('Retrieved posts: ', results.rows);
+
+      //fs.writeFile('data.json', JSON.stringify({ rowsCount: results.rowCount }), (writeError) => {
+        fs.writeFile('post-data.json', JSON.stringify({ posts: results.rows, postCount: results.rowCount}), (writeError) => {
+          if (writeError) {
+              console.error('Error writing to data.json:', writeError);
+              res.status(500).send('Internal Server Error');
+          }
+      });
+  });
+
+      pool.query(`SELECT * FROM comments
+                WHERE post_id = $1`,
+    [postId],
+    (error, results) => {
+      if (error) { throw error; }
+      //console.log('Retrieved users: ', results.rowCount);
+      console.log('Retrieved comments: ', results.rows);
+
+      //fs.writeFile('data.json', JSON.stringify({ rowsCount: results.rowCount }), (writeError) => {
+        fs.writeFile('comment-data.json', JSON.stringify({ comments: results.rows, comCount: results.rowCount}), (writeError) => {
+          if (writeError) {
+              console.error('Error writing to data.json:', writeError);
+              res.status(500).send('Internal Server Error');
+          }
+      });
+  });
+  res.redirect('/comments');
+});
+
+app.post('/save-comment', async (req, res) => {
+  const postId = req.body.postId;
+  const userId = req.body.userId;
+  const contValue = req.body.comContent;
+
+  pool.query(`INSERT INTO comments (post_id, user_id, comment_content) 
+              VALUES ($1, $2, $3) RETURNING *`,
+              [postId, userId, contValue],
+              (error, results) => {
+              if (error) { throw error;}
+              fs.writeFile('comment-data.json', JSON.stringify({ comments: results.rows, comCount: results.rowCount}), (writeError) => {
+                if (writeError) {
+                    console.error('Error writing to data.json:', writeError);
+                    res.status(500).send('Internal Server Error');
+                }
+            });
+                  console.log('comment saved'); 
+});
+});
+
 app.get('/profile', async (req, res) => {  
   pool.query('SELECT * FROM users', (error, results) => {
     if (error) { throw error; }
@@ -112,34 +232,19 @@ app.get('/post-data-json', (req, res) => {
   });
 });
 
-function deleteAllDataInJson(filePath) {
-  // Read the current content of the JSON file
+app.get('/comment-data-json', (req, res) => {
+  const filePath = path.join(__dirname, 'comment-data.json');
+  
   fs.readFile(filePath, 'utf8', (readError, data) => {
-    if (readError) {
-      console.error('Error reading file:', readError);
-    } else {
-      try {
-        // Parse the JSON data
-        const jsonData = JSON.parse(data);
-
-        // Modify the JSON data as needed
-        // In this case, setting an empty object
-        const newData = {};
-
-        // Write the modified data back to the file
-        fs.writeFile(filePath, JSON.stringify(newData), 'utf8', (writeError) => {
-          if (writeError) {
-            console.error('Error writing to file:', writeError);
-          } else {
-            console.log('Data in the file has been deleted.');
-          }
-        });
-      } catch (parseError) {
-        console.error('Error parsing JSON:', parseError);
-      }
-    }
+     if (readError) {
+        console.error('Error reading data.json:', readError);
+        res.status(500).send('Internal Server Error');
+     } else {
+        res.setHeader('Content-Type', 'application/json');
+        res.send(data);
+     }
   });
-}
+});
 
 //create
 /*
@@ -444,77 +549,6 @@ app.post("/profile-user", async (req, res) => {
   }
   
 });
-
-function updatePost(res, title, content, postId) {
-  pool.query(
-    `UPDATE posts
-     SET post_title = $1,
-         post_content = $2
-     WHERE post_id = $3`,
-    [title, content, postId],
-    (error, results) => {
-      if (error) {
-        console.error('Error updating post:', error);
-        res.status(500).send('Internal Server Error');
-      } else {
-        console.log("title: " + title);
-        console.log("content: " + content);
-        console.log(`Post modified with ID: `, postId);
-        res.sendFile(__dirname + '/public/Templates/profile.html');
-      }
-    }
-  );
-}
-
-function deletePost(res, postId) {
-  pool.query(
-    `DELETE FROM posts
-     WHERE post_id = $1`,
-    [postId],
-    (error, results) => {
-      if (error) {
-        console.error('Error deleting post:', error);
-        res.status(500).send('Internal Server Error');
-      } else {
-        console.log(`Post deleted with ID: `, postId);
-        res.status(200).send('Post deleted successfully');
-      }
-    }
-  );
-}
-/*
-app.post("/profile", (req, res) => {
-  const postId = req.body.postId;
-  const type = req.body.action
-  const title = req.body.title
-  const content = req.body.content
-  console.log("type: "+type)
-  
-  if(type == "edit"){
-   pool.query(`UPDATE posts
-               SET post_title = $1,
-                   post_content = $2
-               WHERE post_id = $3`,
-
-  [title, content, postId],
-  (error, results) => {
-        if (error) { throw error; }
-        console.log("title: "+title)
-        console.log("content: "+content)
-        console.log(`Post modified with ID: `, results.insertId);
-        res.sendFile(__dirname + '/public/Templates/profile.html');
-  });
-  }else{
-    
-    pool.query(`DELETE FROM posts
-    WHERE post_id = $1`,
-     [postId],
-    (error, results) => {
-          if (error) { throw error; }
-          console.log(`Post deleted with ID: `, results.insertId); });
-  }
-});
-*/
  
 app.post("/login", async (req, res) => {
   const username = req.body.username;
